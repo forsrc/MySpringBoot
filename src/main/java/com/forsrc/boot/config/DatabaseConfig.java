@@ -5,22 +5,27 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
 
 
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowire;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -80,15 +85,6 @@ public class DatabaseConfig {
         if (mappingResources != null) {
             //entityManagerFactory.setMappingResources(DatabaseConfig.class.getResource(mappingResources).toString());
         }
-        System.out.println("*************************************");
-        System.out.println();
-
-        System.out.println(DatabaseConfig.class.getResource("/"));
-        System.out.println(DatabaseConfig.class.getResource(mappingResources));
-
-        System.out.println();
-        System.out.println("*************************************");
-
         entityManagerFactory.setJpaProperties(properties);
         return entityManagerFactory;
     }
@@ -120,8 +116,26 @@ public class DatabaseConfig {
      return sessionFactoryBean;
      }
      */
-    @Bean
+    /*
+    @Bean(name = "jpaTransactionManager", autowire = Autowire.BY_NAME)
     public JpaTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager =
+                new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(
+                entityManagerFactory.getObject());
+        return transactionManager;
+    }
+
+
+    @Bean(name = "txManager02", autowire = Autowire.BY_NAME)
+    @Qualifier(value = "txManager02")
+    public PlatformTransactionManager txManager01() {
+        return new DataSourceTransactionManager(dataSource);
+    }
+    */
+    @Bean(name = "txManager01", autowire = Autowire.BY_NAME)
+    @Qualifier(value = "txManager01")
+    public PlatformTransactionManager txManager02() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(

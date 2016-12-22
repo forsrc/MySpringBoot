@@ -5,11 +5,10 @@ import com.forsrc.boot.web.user.dao.UserDao;
 
 import com.forsrc.pojo.User;
 
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
-@Transactional
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
 
     @Override

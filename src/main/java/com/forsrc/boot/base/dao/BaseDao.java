@@ -7,7 +7,9 @@ package com.forsrc.boot.base.dao;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BaseDao<E, PK extends Serializable> {
 
     public static final int SIZE_MAX = 100;
@@ -19,7 +21,7 @@ public interface BaseDao<E, PK extends Serializable> {
     public E get(long id);
 
     public List<E> get(int start, int size);
-    
+
     public <T> List<T> get(Class<T> cls, int start, int size);
 
     public List<E> get(String hql, Map<String, Object> params, int start, int size);
