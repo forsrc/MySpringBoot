@@ -1,19 +1,10 @@
 package com.forsrc.boot.config;
 
-import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-
-
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowire;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -117,8 +108,9 @@ public class DatabaseConfig {
      }
      */
     /*
-    @Bean(name = "jpaTransactionManager", autowire = Autowire.BY_NAME)
-    public JpaTransactionManager transactionManager() {
+    @Bean(name = "jpaTransactionManager")
+    //@Qualifier("jpaTransactionManager")
+    public JpaTransactionManager jpaTransactionManager() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(
@@ -126,16 +118,15 @@ public class DatabaseConfig {
         return transactionManager;
     }
 
-
-    @Bean(name = "txManager02", autowire = Autowire.BY_NAME)
-    @Qualifier(value = "txManager02")
-    public PlatformTransactionManager txManager01() {
+    @Bean(name = "txManager02")
+    //@Qualifier(value = "txManager02")
+    public PlatformTransactionManager txManager02() {
         return new DataSourceTransactionManager(dataSource);
     }
     */
-    @Bean(name = "txManager01", autowire = Autowire.BY_NAME)
+    @Bean(name = "txManager01")
     @Qualifier(value = "txManager01")
-    public PlatformTransactionManager txManager02() {
+    public PlatformTransactionManager txManager01() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(

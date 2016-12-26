@@ -14,7 +14,7 @@ import javax.persistence.Query;
 public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao<E, PK> {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
     public void save(E e) {

@@ -87,8 +87,18 @@
         FROM com.forsrc.pojo.User u WHERE u.username = :username
 
         <query-param name="username" type="java.lang.String"/>
+       
     </query>
 
+    <query name="hql_user_get" read-only="true">
+
+        SELECT
+            '******' AS password, u.id, u.username, u.status, u.isAdmin, u.email, u.image, u.createOn, u.updateOn, u.version
+        FROM
+            com.forsrc.pojo.User u
+        WHERE
+            1 = 1
+    </query>
 
     <database-object>
         <create>

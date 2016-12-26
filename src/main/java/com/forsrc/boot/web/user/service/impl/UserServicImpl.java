@@ -35,6 +35,7 @@ public class UserServicImpl implements UserService {
 
     @Override
     public List<User> get(int start, int size) {
+        //return userDao.get("select '******' as password, user.id, user.username, user.email from com.forsrc.pojo.User user", null, start, size);
         return userDao.get(start, size);
     }
 

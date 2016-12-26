@@ -23,79 +23,81 @@ public class UserController {
 
     @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
-    String get() {
+    public List<User> get() throws Exception{
         try {
             List<User> list = userService.get(0, 10);
-            return list.toString();
+            return list;
         } catch (Exception e) {
-            return MessageFormat.format("Exception --> {0} : {1}", new Date().toString(), e.getMessage());
+            throw new Exception(MessageFormat.format("Exception --> {0} : {1}", new Date().toString(), e.getMessage()));
         }
     }
 
     @RequestMapping(value = "/add", method = {RequestMethod.GET})
     @ResponseBody
-    public String add(String username, String password, String email) {
+    public User add(String username, String password, String email) {
         try {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
             userService.save(user);
+            user.setPassword("******");
+            return user;
         } catch (Exception ex) {
-            return "Error creating the user: " + ex.toString();
+            throw ex;
         }
-        return "User succesfully created!";
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.PUT})
     @ResponseBody
-    public String save(String username, String password, String email) {
+    public User save(String username, String password, String email) {
         try {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
             userService.save(user);
+            return user;
         } catch (Exception ex) {
-            return "Error creating the user: " + ex.toString();
+            throw ex;
         }
-        return "User succesfully created!";
+
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
     @ResponseBody
-    public String delete(@PathVariable("id") Long id) {
+    public User delete(@PathVariable("id") Long id) {
         System.out.println(MessageFormat.format("delete({0}) --> {1}", id, new Date().toString()));
         try {
             User user = new User(id);
             userService.delete(user);
+            return user;
         } catch (Exception ex) {
-            return "Error deleting the user: " + ex.toString();
+            throw ex;
         }
-        return "User succesfully deleted!";
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     @ResponseBody
-    public String get(@PathVariable("id") Long id) {
+    public User get(@PathVariable("id") Long id) {
         System.out.println(MessageFormat.format("get({0}) --> {1}", id, new Date().toString()));
         User user = userService.get(id);
 
-        return user == null ? "" : user.toString();
+        return user;
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     @ResponseBody
-    public String update(@PathVariable("id") Long id, String username, String email) {
+    public User update(@PathVariable("id") Long id, String username, String email) {
         System.out.println(MessageFormat.format("update({0}) --> {1}", id, new Date().toString()));
         try {
             User user = userService.get(id);
             user.setEmail(email);
             user.setUsername(username);
             userService.update(user);
+            return user;
         } catch (Exception ex) {
-            return "Error updating the user: " + ex.toString();
+            throw ex;
         }
-        return "User succesfully updated!";
     }
 }
