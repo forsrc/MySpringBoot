@@ -5,6 +5,7 @@ import com.forsrc.boot.web.user.dao.UserPrivacyDao;
 import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.User;
 import com.forsrc.pojo.UserPrivacy;
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,15 @@ public class UserServicImpl implements UserService {
 
     @Override
     public void save(User user, char [] password) {
+        System.out.println(MessageFormat.format("---> has {0} users.", userDao.count()));
         userDao.save(user);
         UserPrivacy userPrivacy = new UserPrivacy();
         userPrivacy.setUserId(user.getId());
         userPrivacy.setPassword(password.toString());
+        userPrivacy.setUsername(user.getUsername());
         userPrivacyDao.save(userPrivacy);
+        System.out.println(MessageFormat.format("---> has {0} users.", userDao.count()));
+        //throw new RuntimeException("Test Transactional");
     }
 
     @Override

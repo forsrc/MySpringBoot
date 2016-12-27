@@ -28,9 +28,12 @@
         </property>
         
         <property name="userId" type="java.lang.Long" update="false">
-            <column name="user_id" not-null="true"/>
+            <column name="user_id" not-null="true" unique="true"/>
         </property>
 
+        <property name="username" type="java.lang.String" update="false">
+            <column name="username" not-null="true" unique="true" length="30" index="index_user_privacy_username"/>
+        </property>
     </class>
     <sql-query name="sql_user_privacy_update_password">
         <![CDATA[

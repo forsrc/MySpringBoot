@@ -32,5 +32,13 @@ public interface BaseDao<E, PK extends Serializable> {
 
     public <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start, int size);
 
+    public int executeUpdateNamedQuery(String namedQuery, Map<String, Object> params);
+
+    public int executeUpdate(String hql, Map<String, Object> params);
+
+    public long count();
+
+    public <T> long count(Class<T> cls);
+
     public Class<E> getEntityClass();
 }

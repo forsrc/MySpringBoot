@@ -21,6 +21,7 @@ public class UserPrivacy implements java.io.Serializable {
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long userId;
+    private String username;
     //@Temporal(javax.persistence.TemporalType.DATE)
     private Date createOn;
     //@Temporal(javax.persistence.TemporalType.DATE)
@@ -33,6 +34,12 @@ public class UserPrivacy implements java.io.Serializable {
      * default constructor
      */
     public UserPrivacy() {
+    }
+
+    public UserPrivacy(Long userId, String username, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
     }
 
     /**
@@ -61,6 +68,24 @@ public class UserPrivacy implements java.io.Serializable {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets username.
+     *
+     * @param username the username
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
