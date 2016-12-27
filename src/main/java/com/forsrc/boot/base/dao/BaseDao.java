@@ -18,7 +18,7 @@ public interface BaseDao<E, PK extends Serializable> {
 
     public void delete(E e);
 
-    public E get(long id);
+    public E get(PK pk);
 
     public List<E> get(int start, int size);
 
@@ -27,6 +27,10 @@ public interface BaseDao<E, PK extends Serializable> {
     public List<E> get(String hql, Map<String, Object> params, int start, int size);
 
     public void update(E e);
+
+    public <T> List<T> createNamedQuery(String namedQuery, Map<String, Object> params, int start, int size);
+
+    public <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start, int size);
 
     public Class<E> getEntityClass();
 }

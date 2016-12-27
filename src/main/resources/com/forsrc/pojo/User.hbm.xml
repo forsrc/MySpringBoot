@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.forsrc.pojo">
-    <class name="User" table="my_ejb_user" lazy="false" dynamic-update="true" dynamic-insert="true" select-before-update="true">
+    <class name="User" table="t_user" lazy="false" dynamic-update="true" dynamic-insert="true" select-before-update="true">
         <id name="id" type="java.lang.Long">
             <column name="id"/>
             <generator class="increment"/>
@@ -23,9 +23,9 @@
             <column name="username" not-null="true" unique="true" length="30" index="index_user_username"/>
         </property>
 
-        <property name="password" type="java.lang.String" update="false">
+        <!--<property name="password" type="java.lang.String" update="false">
             <column name="password" not-null="true" default="'EdbQzHVPKsmmwIOtmJOHJg=='" length="30"/>
-        </property>
+        </property>-->
 
         <property name="createOn" type="java.util.Date" update="false" insert="false" generated="insert" access="field">
             <column name="create_on" default="CURRENT_TIMESTAMP" not-null="true"/>
@@ -48,7 +48,7 @@
         </property>
 
     </class>
-    <sql-query name="sql_user_insert_admin">
+    <sql-query name="sql_user_insert_admin_">
         <![CDATA[
              INSERT INTO
                             my_study_user
@@ -66,8 +66,42 @@
 
          ]]>
     </sql-query>
+    
+    <sql-query name="sql_user_insert_admin">
+        <![CDATA[
+             INSERT INTO
+                            my_study_user
+                            (id, username, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (1, 'admin', 'forsrc@163.com', 1, 1, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+             INSERT INTO
+                            my_study_user
+                            (id, username, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (2, 'forsrc', 'forsrc-@163.com', 1, 0, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+         ]]>
+    </sql-query>
 
     <sql-query name="sql_user_findByUsername" read-only="true">
+        <![CDATA[
+             SELECT
+                    u.id, u.username, u.status, u.is_admin, u.email, u.image, u.create_on, u.update_on, u.version
+             FROM
+                    my_study_user u
+             WHERE
+                    u.username = :username
+
+
+         ]]>
+        <query-param name="username" type="java.lang.String"/>
+        <return alias="u" class="com.forsrc.pojo.User"/>
+    </sql-query>
+    
+    <sql-query name="sql_user_findByUsername_" read-only="true">
         <![CDATA[
              SELECT
                     u.id, u.username, u.password, u.status, u.is_admin, u.email, u.image, u.create_on, u.update_on, u.version
@@ -90,10 +124,18 @@
        
     </query>
 
-    <query name="hql_user_get" read-only="true">
+    <query name="hql_user_get_" read-only="true">
 
         SELECT
-            '******' AS password, u.id, u.username, u.status, u.isAdmin, u.email, u.image, u.createOn, u.updateOn, u.version
+            u.id, u.username, u.status, u.isAdmin, u.email, u.image, u.createOn, u.updateOn, u.version
+        FROM
+            com.forsrc.pojo.User u
+        WHERE
+            1 = 1
+    </query>
+    
+    <query name="hql_user_get" read-only="true">
+
         FROM
             com.forsrc.pojo.User u
         WHERE

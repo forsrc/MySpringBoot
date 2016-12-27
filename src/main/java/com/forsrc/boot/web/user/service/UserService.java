@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public interface UserService {
 
-    @Transactional(transactionManager = "txManager01", propagation = Propagation.REQUIRED, readOnly = false)
+    @Transactional(transactionManager = "txManager01", value = "txManager01", propagation = Propagation.REQUIRED, readOnly = false)
     public void save(User user);
+
+    @Transactional(transactionManager = "txManager01", value = "txManager01", propagation = Propagation.REQUIRED, readOnly = false)
+    public void save(User user, char[] password);
 
     @Transactional(transactionManager = "txManager01", propagation = Propagation.REQUIRED, readOnly = false)
     public void delete(User user);

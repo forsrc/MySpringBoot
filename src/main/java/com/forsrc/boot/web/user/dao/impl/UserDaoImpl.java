@@ -5,6 +5,7 @@ import com.forsrc.boot.web.user.dao.UserDao;
 
 import com.forsrc.pojo.User;
 import java.util.List;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
 
     @Override
     public List<User> get(int start, int size) {
-        //String hql = entityManager.createStoredProcedureQuery("hql_user_get").toString();
-        //System.out.println(hql);
-        String hql = "SELECT '******' AS password, u.id, u.username, u.status, u.isAdmin, u.email, u.image, u.createOn, u.updateOn, u.version FROM com.forsrc.pojo.User u WHERE 1 = 1";
-        return get(hql, null, start, size);
+        //Query query = entityManager.createNamedQuery("hql_user_get");
+        //query.setFirstResult(start);
+        //query.setMaxResults(size);
+        //String hql = "SELECT '******' AS password, u.id, u.username, u.status, u.isAdmin, u.email, u.image, u.createOn, u.updateOn, u.version FROM com.forsrc.pojo.User u WHERE 1 = 1";
+        //return (List<User>)query.getResultList();
         //return super.get(start, size);
+        return createNamedQuery("hql_user_get", null, start, size);
     }
 }

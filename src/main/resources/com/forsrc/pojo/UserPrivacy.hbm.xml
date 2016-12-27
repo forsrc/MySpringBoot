@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.forsrc.pojo">
+    <class name="UserPrivacy" table="t_user_privacy" lazy="false" dynamic-update="true" dynamic-insert="true" select-before-update="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id"/>
+            <generator class="increment"/>
+        </id>
+
+
+        <version name="version" column="version" type="integer"></version>
+
+        <!--
+        <timestamp name="updateOn" column="update_on" generated="always"></timestamp>
+        -->
+        <property name="updateOn" type="java.util.Date">
+            <column name="update_on" default="CURRENT_TIMESTAMP" not-null="true"/>
+        </property>
+
+        <property name="password" type="java.lang.String" update="false">
+            <column name="password" not-null="true" default="'EdbQzHVPKsmmwIOtmJOHJg=='" length="30"/>
+        </property>
+
+        <property name="createOn" type="java.util.Date" update="false" insert="false" generated="insert" access="field">
+            <column name="create_on" default="CURRENT_TIMESTAMP" not-null="true"/>
+        </property>
+        
+        <property name="userId" type="java.lang.Long" update="false">
+            <column name="user_id" not-null="true"/>
+        </property>
+
+    </class>
+    <sql-query name="sql_user_privacy_update_password">
+        <![CDATA[
+            UPDATE t_user_privacy SET password = :password WHERE user_id = :id  
+         ]]>
+    </sql-query>
+
+    <database-object>
+        <create>
+        </create>
+        <drop></drop>
+    </database-object>
+</hibernate-mapping>

@@ -26,6 +26,7 @@ public class UserController {
     public List<User> get() throws Exception{
         try {
             List<User> list = userService.get(0, 10);
+            //System.out.println("---> " + ((Object[])(list.get(0)))[0]);
             return list;
         } catch (Exception e) {
             throw new Exception(MessageFormat.format("Exception --> {0} : {1}", new Date().toString(), e.getMessage()));
@@ -38,10 +39,8 @@ public class UserController {
         try {
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);
             user.setEmail(email);
-            userService.save(user);
-            user.setPassword("******");
+            userService.save(user, password.toCharArray());
             return user;
         } catch (Exception ex) {
             throw ex;
@@ -50,11 +49,10 @@ public class UserController {
 
     @RequestMapping(value = "/", method = {RequestMethod.PUT})
     @ResponseBody
-    public User save(String username, String password, String email) {
+    public User save(String username, String email) {
         try {
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);
             user.setEmail(email);
             userService.save(user);
             return user;

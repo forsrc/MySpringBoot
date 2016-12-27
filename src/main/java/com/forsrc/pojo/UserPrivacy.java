@@ -10,32 +10,29 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
- * The type User.
+ * The type UserPrivacy.
  */
 //@Entity
-//@Table(name = "user")
-public class User implements java.io.Serializable {
+//@Table(name = "user_privacy")
+public class UserPrivacy implements java.io.Serializable {
 
     // Fields
     //@Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long userId;
     //@Temporal(javax.persistence.TemporalType.DATE)
     private Date createOn;
     //@Temporal(javax.persistence.TemporalType.DATE)
     private Date updateOn;
-    private String username;
-    private String email;
-    private int status; // 0: delete; 1: OK; 2: NG
-    private Boolean isAdmin;
-    private String image;
+    private String password;
     private int version;
 
     // Constructors
     /**
      * default constructor
      */
-    public User() {
+    public UserPrivacy() {
     }
 
     /**
@@ -43,7 +40,7 @@ public class User implements java.io.Serializable {
      *
      * @param id the id
      */
-    public User(Long id) {
+    public UserPrivacy(Long id) {
         this.id = id;
     }
 
@@ -67,48 +64,21 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets username.
+     * Gets password.
      *
-     * @return the username
+     * @return the password
      */
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
     /**
-     * Sets username.
+     * Sets password.
      *
-     * @param username the username
+     * @param password the password
      */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Gets status.
-     *
-     * @return the status
-     */
-    public Integer getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets status.
-     *
-     * @param status the status
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /**
-     * Is admin boolean.
-     *
-     * @return the boolean
-     */
-    public Boolean isAdmin() {
-        return isAdmin;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -127,69 +97,6 @@ public class User implements java.io.Serializable {
      */
     public void setUpdateOn(Date updateOn) {
         this.updateOn = updateOn;
-    }
-
-    /**
-     * Sets admin.
-     *
-     * @param admin the admin
-     */
-    public void setAdmin(Boolean admin) {
-        this.isAdmin = admin;
-    }
-
-    /**
-     * Gets is admin.
-     *
-     * @return the is admin
-     */
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    /**
-     * Sets is admin.
-     *
-     * @param admin the admin
-     */
-    public void setIsAdmin(Boolean admin) {
-        this.isAdmin = admin;
-    }
-
-    /**
-     * Gets email.
-     *
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets email.
-     *
-     * @param email the email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Gets image.
-     *
-     * @return the image
-     */
-    public String getImage() {
-        return image;
-    }
-
-    /**
-     * Sets image.
-     *
-     * @param image the image
-     */
-    public void setImage(String image) {
-        this.image = image;
     }
 
     /**
@@ -230,8 +137,14 @@ public class User implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return MessageFormat.format("'{'\"id\" : \"{0}\", \"email\" : \"{1}\"'}'", id, email);
+        return MessageFormat.format("'{'\"id\" : \"{0}\", \"password\" : \"{1}\"'}'", id, password);
     }
 
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
