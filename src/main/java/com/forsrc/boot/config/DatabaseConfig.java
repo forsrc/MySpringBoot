@@ -124,8 +124,8 @@ public class DatabaseConfig {
         return new DataSourceTransactionManager(dataSource);
     }
     */
-    @Bean(name = "txManager01")
-    @Qualifier(value = "txManager01")
+    @Bean(name = "transactionManager")
+    @Qualifier(value = "transactionManager")
     public PlatformTransactionManager txManager01() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();

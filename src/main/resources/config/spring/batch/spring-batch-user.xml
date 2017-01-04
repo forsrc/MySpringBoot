@@ -42,7 +42,7 @@
         </batch:step>
     </batch:job>
  
-    <bean id="userSimpleJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
         <property name="jobRepository" ref="jobRepository" />
     </bean>
     
@@ -50,6 +50,35 @@
         <property name="transactionManager" ref="transactionManager" />
     </bean>
     
-    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+<!--    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />-->
+
+    <bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+        <property name="jobRegistry" ref="jobRegistry" />
+    </bean>
     
+    <bean id="jobRegistry"  class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+                <property name="jobDetail" ref="jobDetail" />
+                <property name="cronExpression" value="0 0/5 * * * ?" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.forsrc.boot.batch.user.UserQuartzJobBean" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="userJob" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+                <entry key="param1" value="value1" />
+                <entry key="param2" value="value2" />
+            </map>
+        </property>
+    </bean>
+  
 </beans>
