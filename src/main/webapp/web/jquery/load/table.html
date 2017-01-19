@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Table</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <table id="table-user" class="table-user" data-url="./user.jsonp">
+            <thead>
+            <th>No.</th>
+            <th>id</th>
+            <th>email</th>
+            <th>username</th>
+            <th>updateOn</th>
+        </thead>
+        <tbody class="table-data-tbody">
+            <tr>
+                <td>{0}</td>
+                <td>{1}</td>
+                <td>{2}</td>
+                <td>{3}</td>
+                <td>{4}</td>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+<script type="text/javascript">
+    (function() {
+        //alert($("#table-user"));
+        $(".table-user").each(function(i, item) {
+            tableUser(item);
+        });
+
+    })();
+    function tableUser(table) {
+        var $table = $(table);
+        if ($table.data("done")) {
+            return;
+        }
+        var user = $table.attr("data-url");
+        $.getJSON("./user.jsonp", function(data) {
+            var tbody = $(".table-data-tbody", $table);
+            var html = tbody.html();
+            var h = "";
+            $.each(data, function(i, item) {
+                //alert(item.id);
+                h += html.formatStr([i + 1, item.id, item.email, item.username, item.updateOn]);
+            });
+            tbody.html(h);
+
+        });
+        $table.data("done", true);
+    }
+</script>
+</html>
