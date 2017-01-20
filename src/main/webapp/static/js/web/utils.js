@@ -29,7 +29,7 @@ function calculateByte(sTargetStr) {
  * @param args {Array}
  * @returns {string}
  */
-String.prototype.formatStr = function (args) {
+String.prototype.formatStr = function(args) {
     var str = this;
     var regex = "";
     if (this.formatStrRegExp) {
@@ -39,7 +39,7 @@ String.prototype.formatStr = function (args) {
         regex = this.formatStrRegExp;
     }
 
-    return str.replace(regex, function (item) {
+    return str.replace(regex, function(item) {
         var intVal = Number(item.substring(1, item.length - 1));
         var replace = "";
         if (intVal >= 0) {
@@ -61,7 +61,7 @@ String.prototype.formatStr = function (args) {
  * @param json {JSON}
  * @returns {String}
  */
-String.prototype.formatFromJson = function (json) {
+String.prototype.formatFromJson = function(json) {
     var str = this;
     var jsonObj = json;
     if (typeof jsonObj === "string") {
@@ -83,7 +83,7 @@ String.prototype.formatFromJson = function (json) {
         regex = this.formatFromJsonRegExp;
     }
     try {
-        str = str.replace(regex, function (match, item) {
+        str = str.replace(regex, function(match, item) {
             return jsonObj[item] !== undefined ? jsonObj[item] : match;
         });
 
@@ -98,7 +98,7 @@ String.prototype.formatFromJson = function (json) {
  * @param length {Number}
  * @returns {String}
  */
-String.prototype.zeropadding = function (length) {
+String.prototype.zeropadding = function(length) {
     var __this = this;
     var __length = length - __this.length;
     var __str = __this;
@@ -134,19 +134,19 @@ function form2json(formId) {
  var InterfaceA = new Interface('InterfaceA', ['methodA', 'methodB']);
  var A = function(){};
  A.prototype = {
-        methodA : function(){...},
-        methodB : function(){...}
-    }
+ methodA : function(){...},
+ methodB : function(){...}
+ }
  var a = new A();
  Interface.ensureImplements(a, [InterfaceA, InterfaceB]);
  * @param name {String} the interface's name;
  * @param methods {String[]} the interface method's names;
  * @constructor
  */
-var Interface = function (name, methods) {
+var Interface = function(name, methods) {
     if (arguments.length !== 2) {
         throw new Error("Interface constructor called with " + arguments.length +
-            "arguments, but expected exactly 2.");
+                "arguments, but expected exactly 2.");
     }
     this.name = name;
     this.methods = [];
@@ -155,7 +155,7 @@ var Interface = function (name, methods) {
     for (; i < len; i++) {
         if (typeof methods[i] !== 'string') {
             throw new Error("Interface constructor expects method names to be "
-                + "passed in as a string.");
+                    + "passed in as a string.");
         }
         this.methods.push(methods[i]);
     }
@@ -168,15 +168,15 @@ var Interface = function (name, methods) {
      * @param object {Interface} the instance of the Interface;
      * @param interfaceClass {Interface} the Interface;
      */
-    Interface.prototype.checkMethods = function (object, interfaceClass) {
+    Interface.prototype.checkMethods = function(object, interfaceClass) {
         var j = 0;
         var methodsLen = interfaceClass.methods.length;
         for (; j < methodsLen; j++) {
             var method = interfaceClass.methods[j];
             if (!object[method] || typeof object[method] !== 'function') {
                 throw new Error("Function Interface.ensureImplements: object "
-                    + "does not implement the '" + interfaceClass.name
-                    + "' interface. Method '" + method + "' was not found.");
+                        + "does not implement the '" + interfaceClass.name
+                        + "' interface. Method '" + method + "' was not found.");
             }
         }
     };
@@ -186,10 +186,10 @@ var Interface = function (name, methods) {
      * @param object {Interface} the instance of the Interface;
      * @param interfaces {Interface[]} the interface classes;
      */
-    Interface.prototype.checkImplements = function (object, interfaces) {
+    Interface.prototype.checkImplements = function(object, interfaces) {
         if (arguments.length < 2) {
             throw new Error("Function Interface.ensureImplements called with " +
-                arguments.length + "arguments, but expected at least 2.");
+                    arguments.length + "arguments, but expected at least 2.");
         }
         var i = 0;
         var len = interfaces.length;
@@ -201,11 +201,11 @@ var Interface = function (name, methods) {
      * checkMethods(a, InterfaceA)
      * @param object {Interface} the instance of the Interface;
      */
-    Interface.prototype.check = function (object) {
+    Interface.prototype.check = function(object) {
         var __interface = this;
         if (__interface.constructor !== Interface) {
             throw new Error("Function Interface.ensureImplements expects arguments"
-                + " two and above to be instances of Interface.");
+                    + " two and above to be instances of Interface.");
         }
         __interface.checkMethods(object, __interface);
     };
@@ -216,8 +216,8 @@ var Interface = function (name, methods) {
  * @param object {Interface} the instance of the Interface;
  * @param interfaces {Interface[]} the interface classes;
  */
-Interface.ensureImplements = function (object, interfaces) {
-    iterator(interfaces, function (i, v) {
+Interface.ensureImplements = function(object, interfaces) {
+    iterator(interfaces, function(i, v) {
         v.check(object);
     });
 };
@@ -241,7 +241,7 @@ function iterator(arrays, callback) {
  *
  * @param callback {Function}  : callback({Number}, {Object}){}
  */
-Array.prototype.iterator = function (callback) {
+Array.prototype.iterator = function(callback) {
     if (typeof callback !== "function") {
         throw new Error("Function callback in iterator() is not a function.");
     }
@@ -249,10 +249,10 @@ Array.prototype.iterator = function (callback) {
     iterator(arrays, callback);
 };
 
-Array.prototype.contains = function (obj) {
+Array.prototype.contains = function(obj) {
     var __this = this;
     var __return = false;
-    iterator(__this, function (i, v) {
+    iterator(__this, function(i, v) {
         if (v === obj) {
             return __return = true;
         }
@@ -260,18 +260,18 @@ Array.prototype.contains = function (obj) {
     return __return;
 };
 
-Array.prototype.add = function (obj) {
+Array.prototype.add = function(obj) {
     this.push(obj);
 };
 
-Array.prototype.remove = function (obj) {
+Array.prototype.remove = function(obj) {
     var index = this.indexOf(obj);
     if (index >= 0) {
         this.splice(index, 1);
     }
 };
 
-var Map = function () {
+var Map = function() {
     this.map = [];
     if (Map.__inited) {
         return this;
@@ -282,7 +282,7 @@ var Map = function () {
      * @param value {Object}
      * @returns {Map}
      */
-    Map.prototype.put = function (key, value) {
+    Map.prototype.put = function(key, value) {
         this.map.push({key: key, value: value});
         return this;
     };
@@ -291,10 +291,10 @@ var Map = function () {
      * @param key {Object}
      * @returns {number} -1: none;
      */
-    Map.prototype.indexOf = function (key) {
+    Map.prototype.indexOf = function(key) {
         var __map = this.map;
         var __return = -1;
-        iterator(__map, function (i, v) {
+        iterator(__map, function(i, v) {
             if (v.key === key) {
                 return __return = i;
             }
@@ -306,7 +306,7 @@ var Map = function () {
      * @param key {Object}
      * @returns {Map}
      */
-    Map.prototype.remove = function (key) {
+    Map.prototype.remove = function(key) {
         var __this = this;
         var index = __this.indexOf(key);
         if (index >= 0) {
@@ -319,7 +319,7 @@ var Map = function () {
      * @param key {Object}
      * @returns {Object} null: none;
      */
-    Map.prototype.get = function (key) {
+    Map.prototype.get = function(key) {
         var __this = this;
         var index = __this.indexOf(key);
         if (index >= 0) {
@@ -331,12 +331,12 @@ var Map = function () {
      *
      * @returns {Map}
      */
-    Map.prototype.clear = function () {
+    Map.prototype.clear = function() {
         //this.map.splice(0, this.map.length);
         this.map = [];
         return this;
     };
-    Map.prototype.size = function () {
+    Map.prototype.size = function() {
         return this.map.length;
     };
     Map.__inited = true;
@@ -346,28 +346,28 @@ var Map = function () {
  * @param format {String} def: "yyyy-MM-dd HH:mm:ss.SSS"
  * @returns {String}
  */
-Date.prototype.format = function (format) {
+Date.prototype.format = function(format) {
     if (!Date.prototype.formatStr) {
         Date.prototype.formatStr = "yyyy-MM-dd HH:mm:ss.SSS";
     }
     var __date = this;
     var __format = format ? format : Date.prototype.formatStr;
     return (__format + "")
-        .replace("yyyy", __date.getFullYear() + "")
-        .replace("MM", (__date.getMonth() + 1 + "").zeropadding(2))
-        .replace("dd", (__date.getDate() + "").zeropadding(2))
-        .replace("HH", (__date.getHours() + "").zeropadding(2))
-        .replace("mm", (__date.getMinutes() + "").zeropadding(2))
-        .replace("ss", (__date.getSeconds() + "").zeropadding(2))
-        .replace("SSS", (__date.getMilliseconds() + "").zeropadding(3))
-        ;
+            .replace("yyyy", __date.getFullYear() + "")
+            .replace("MM", (__date.getMonth() + 1 + "").zeropadding(2))
+            .replace("dd", (__date.getDate() + "").zeropadding(2))
+            .replace("HH", (__date.getHours() + "").zeropadding(2))
+            .replace("mm", (__date.getMinutes() + "").zeropadding(2))
+            .replace("ss", (__date.getSeconds() + "").zeropadding(2))
+            .replace("SSS", (__date.getMilliseconds() + "").zeropadding(3))
+            ;
 };
 /**
  *
  * @param format {String} def: "yyyy-MM-dd HH:mm:ss.SSS"
  * @returns {Date}
  */
-String.prototype.toDate = function (format) {
+String.prototype.toDate = function(format) {
     if (!Date.prototype.formatStr) {
         Date.prototype.formatStr = "yyyy-MM-dd HH:mm:ss.SSS";
     }
@@ -384,23 +384,24 @@ String.prototype.toDate = function (format) {
     return __date;
 };
 
-var LOGGING = (function () {
+var LOGGING = (function() {
     var _instance;
 
     function constructor() {
         return {
             enable: true,
-            log: function (msg) {
-                if (this.enable) console.log(new Date() + " --> " + msg);
+            log: function(msg) {
+                if (this.enable)
+                    console.log(new Date() + " --> " + msg);
             },
-            setEnable: function (enable) {
+            setEnable: function(enable) {
                 this.enable = enable;
             }
         }
     }
 
     return {
-        getInstance: function () {
+        getInstance: function() {
             if (!_instance) {
                 _instance = new constructor();
             }
@@ -409,3 +410,70 @@ var LOGGING = (function () {
 
     }
 })();
+
+
+var Ajax = {
+    config: {
+        "Content-type": "application/x-www-form-urlencoded"
+    },
+    setup: function(config) {
+        for (var key in config) {
+            this.config[key] = config[key];
+        }
+        return this;
+    },
+    init: function(xmlHttpRequest) {
+        for (var key in this.config) {
+            xmlHttpRequest.setRequestHeader(key, this.config[key]);
+        }
+        return this;
+    },
+    get: function(url, onSuccess, onError) {
+        var obj = new XMLHttpRequest();
+        obj.open('GET', url, true);
+        this.init(obj);
+        obj.onreadystatechange = function() {
+            if (obj.readyState === 4 && obj.status === 200 || obj.status === 304) {
+                onSuccess.call(this, obj.responseText);
+            } else {
+                if (onError) {
+                    onError.call(this, obj);
+                }
+            }
+        };
+        obj.send(null);
+        return this;
+    },
+    post: function(url, data, onSuccess, onError) {
+        var obj = new XMLHttpRequest();
+        obj.open("POST", url, true);
+        this.init(obj);
+        obj.onreadystatechange = function() {
+            if (obj.readyState === 4 && (obj.status === 200 || obj.status === 304)) {
+                onSuccess.call(this, obj.responseText);
+            } else {
+                if (onError) {
+                    onError.call(this, obj);
+                }
+            }
+        };
+        obj.send(data);
+        return this;
+    },
+    getJson: function(url, onSuccess, onError) {
+        this.setup({"Content-type": "text/json"});
+        this.get(url, function(data) {
+            var jsonObj = null;
+            try {
+                jsonObj = JSON.parse(data);
+            } catch (e) {
+                jsonObj = data;
+            }
+            onSuccess.call(this, jsonObj);
+        }, onError);
+        return this;
+    },
+    onError: function(xmlHttpRequest, fn) {
+        fn.call(this, xmlHttpRequest);
+    }
+};

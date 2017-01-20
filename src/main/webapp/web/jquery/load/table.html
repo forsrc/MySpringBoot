@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <table id="table-user" class="table-load" data-url="./user.jsonp">
+        <table class="table-load" data-url="./user.jsonp">
             <thead>
             <th>No.</th>
             <th>id</th>
@@ -13,7 +13,7 @@
             <th>username</th>
             <th>updateOn</th>
         </thead>
-        <tbody class="table-data-tbody">
+        <tbody class="table-load-tbody">
             <tr tid ="{_table_id}" tindex="{_table_index}" trindex="{_tr_index}">
                 <td>{_tr_number}</td>
                 <td>{id}</td>
@@ -27,24 +27,33 @@
     </table>
 
     <script type="text/javascript">
+        "use strict";
         (function() {
             //alert($("#table-user"));
-            $(".table-load").each(function(i, table) {
-                tableLoad(i, table);
-            });
-
+            //tableLoad();
+            tableLoadJs();
         })();
-        function tableLoad(i, table) {
+
+        function tableLoad() {
+            $(".table-load").each(function(i, table) {
+                tableLoadData(i, table);
+            });
+        }
+        function tableLoadData(i, table) {
             var $table = $(table);
             if ($table.data("table-load-done")) {
                 return;
             }
+            var tableId = $table.attr("id");
+            if(!tableId){
+                tableId = "table-load-" + i;
+                $table.attr("id", tableId);
+            }
             $table.data("table-load-index", i);
             var url = $table.attr("data-url");
-            var tableId = $table.attr("id");
+            var tbody = $(".table-load-tbody", $table);
+            var html = tbody.html();
             $.getJSON(url, function(data) {
-                var tbody = $(".table-data-tbody", $table);
-                var html = tbody.html();
                 var h = "";
                 $.each(data, function(index, json) {
                     json["_table_id"] = tableId;
@@ -56,6 +65,62 @@
                 tbody.html(h);
             });
             $table.data("table-load-done", true);
+        }
+
+
+        function tableLoadJs() {
+            var tables = document.getElementsByTagName("table");
+            var len = tables.length;
+            var i = 0;
+            for (i = 0; i < len; i++) {
+                var table = tables[i];
+                var className = table.className;
+                if ("table-load" === className) {
+                    tableLoadJsData(i, table);
+                }
+            }
+        }
+        function tableLoadJsData(i, table) {
+            if (table.getAttribute("table-load-done")) {
+                return;
+            }
+            var tBodies = table.tBodies;
+            var len = tBodies.length;
+            var tbody = null;
+            var i = 0;
+            for (i = 0; i < len; i++) {
+                var tb = tBodies[i];
+                var className = tb.className;
+                if ("table-load-tbody" === className) {
+                    tbody = tb;
+                }
+            }
+            if (tbody === null) {
+                return;
+            }
+            var tableId = table.getAttribute("id");
+            if(!tableId){
+                tableId = "table-load-" + i;
+                table.setAttribute("id", tableId);
+            }
+            var url = table.getAttribute("data-url");
+            var html = tbody.innerHTML;
+            Ajax.getJson(url, function(data) {
+                var h = "";
+                var len = data.length;
+                var index = 0;
+                for (index = 0; index < len; index++) {
+                    var json = data[index];
+                    json["_table_id"] = tableId;
+                    json["_table_index"] = i;
+                    json["_tr_index"] = index;
+                    json["_tr_number"] = index + 1;
+                    h += html.formatFromJson(json);
+                }
+                tbody.innerHTML = h;
+            });
+
+            table.setAttribute("table-load-done", true);
         }
     </script>
 </body>
