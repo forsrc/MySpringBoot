@@ -83,19 +83,9 @@ String.prototype.formatFromJson = function (json) {
         regex = this.formatFromJsonRegExp;
     }
     try {
-        /*$.each(json, function (key, value) {
-         //alert(key + " -> " + value);
-         str = str.replace(regex, function (match, item) {
-         return jsonObj[item] !== undefined ? jsonObj[item] : match;
-         });
-         });*/
-
-        for (var i = 0; i < json.length; i++) {
-            str = str.replace(regex, function (match, item) {
-                return jsonObj[item] !== undefined ? jsonObj[item] : match;
-            });
-        }
-
+        str = str.replace(regex, function (match, item) {
+            return jsonObj[item] !== undefined ? jsonObj[item] : match;
+        });
 
     } catch (e) {
         //console.error(e);
@@ -419,4 +409,3 @@ var LOGGING = (function () {
 
     }
 })();
-

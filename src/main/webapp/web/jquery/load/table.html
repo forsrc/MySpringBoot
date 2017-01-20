@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <table id="table-user" class="table-user" data-url="./user.jsonp">
+        <table id="table-user" class="table-load" data-url="./user.jsonp">
             <thead>
             <th>No.</th>
             <th>id</th>
@@ -14,45 +14,50 @@
             <th>updateOn</th>
         </thead>
         <tbody class="table-data-tbody">
-            <tr>
-                <td>{0}</td>
-                <td>{1}</td>
-                <td>{2}</td>
-                <td>{3}</td>
-                <td>{4}</td>
+            <tr tid ="{_table_id}" tindex="{_table_index}" trindex="{_tr_index}">
+                <td>{_tr_number}</td>
+                <td>{id}</td>
+                <td>{email}</td>
+                <td>{username}</td>
+                <td>{updateOn}</td>
             </tr>
             <tr>
             </tr>
         </tbody>
     </table>
+
+    <script type="text/javascript">
+        (function() {
+            //alert($("#table-user"));
+            $(".table-load").each(function(i, table) {
+                tableLoad(i, table);
+            });
+
+        })();
+        function tableLoad(i, table) {
+            var $table = $(table);
+            if ($table.data("table-load-done")) {
+                return;
+            }
+            $table.data("table-load-index", i);
+            var url = $table.attr("data-url");
+            var tableId = $table.attr("id");
+            $.getJSON(url, function(data) {
+                var tbody = $(".table-data-tbody", $table);
+                var html = tbody.html();
+                var h = "";
+                $.each(data, function(index, json) {
+                    json["_table_id"] = tableId;
+                    json["_table_index"] = i;
+                    json["_tr_index"] = index;
+                    json["_tr_number"] = index + 1;
+                    h += html.formatFromJson(json);
+                });
+                tbody.html(h);
+            });
+            $table.data("table-load-done", true);
+        }
+    </script>
 </body>
 
-<script type="text/javascript">
-    (function() {
-        //alert($("#table-user"));
-        $(".table-user").each(function(i, item) {
-            tableUser(item);
-        });
-
-    })();
-    function tableUser(table) {
-        var $table = $(table);
-        if ($table.data("done")) {
-            return;
-        }
-        var user = $table.attr("data-url");
-        $.getJSON("./user.jsonp", function(data) {
-            var tbody = $(".table-data-tbody", $table);
-            var html = tbody.html();
-            var h = "";
-            $.each(data, function(i, item) {
-                //alert(item.id);
-                h += html.formatStr([i + 1, item.id, item.email, item.username, item.updateOn]);
-            });
-            tbody.html(h);
-
-        });
-        $table.data("done", true);
-    }
-</script>
 </html>
