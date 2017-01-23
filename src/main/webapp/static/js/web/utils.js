@@ -422,6 +422,19 @@ var Ajax = {
         }
         return this;
     },
+    getXMLHttpRequest: function() {
+        var xmlHttpRequest = null;
+        try {
+            xmlHttpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e1) {
+            try {
+                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e2) {
+                xmlHttpRequest = new XMLHttpRequest();
+            }
+        }
+        return xmlHttpRequest;
+    },
     init: function(xmlHttpRequest) {
         for (var key in this.config) {
             xmlHttpRequest.setRequestHeader(key, this.config[key]);
@@ -429,40 +442,52 @@ var Ajax = {
         return this;
     },
     get: function(url, onSuccess, onError) {
-        var obj = new XMLHttpRequest();
-        obj.open('GET', url, true);
-        this.init(obj);
-        obj.onreadystatechange = function() {
-            if (obj.readyState === 4 && obj.status === 200 || obj.status === 304) {
-                onSuccess.call(this, obj.responseText);
+        var xmlHttpRequest = this.getXMLHttpRequest();
+        xmlHttpRequest.open('GET', url, true);
+        this.init(xmlHttpRequest);
+        xmlHttpRequest.onreadystatechange = function() {
+            if (xmlHttpRequest.readyState === 4
+                    && xmlHttpRequest.status === 200
+                    || xmlHttpRequest.status === 304) {
+                onSuccess.call(this, xmlHttpRequest.responseText);
             } else {
                 if (onError) {
-                    onError.call(this, obj);
+                    onError.call(this, xmlHttpRequest);
                 }
             }
         };
-        obj.send(null);
+        xmlHttpRequest.send(null);
         return this;
     },
     post: function(url, data, onSuccess, onError) {
-        var obj = new XMLHttpRequest();
-        obj.open("POST", url, true);
-        this.init(obj);
-        obj.onreadystatechange = function() {
-            if (obj.readyState === 4 && (obj.status === 200 || obj.status === 304)) {
-                onSuccess.call(this, obj.responseText);
+        var xmlHttpRequest = this.getXMLHttpRequest();
+        xmlHttpRequest.open("POST", url, true);
+        this.init(xmlHttpRequest);
+        xmlHttpRequest.onreadystatechange = function() {
+            if (xmlHttpRequest.readyState === 4
+                    && (xmlHttpRequest.status === 200 || xmlHttpRequest.status === 304)) {
+                onSuccess.call(this, xmlHttpRequest.responseText);
             } else {
                 if (onError) {
-                    onError.call(this, obj);
+                    onError.call(this, xmlHttpRequest);
                 }
             }
         };
-        obj.send(data);
+        var dataStr = "";
+        if (typeof data === 'object') {
+            for (var key in data) {
+                dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
+            }
+            if(dataStr){
+                dataStr = dataStr.substr(0, dataStr.length - 1);
+            }
+        }
+        xmlHttpRequest.send(dataStr ? dataStr : data);
         return this;
     },
     getJson: function(url, onSuccess, onError) {
         this.setup({"Content-type": "text/json"});
-        this.get(url, function(data) {
+        this.post(url, '{id:"1 x"}', function(data) {
             var jsonObj = null;
             try {
                 jsonObj = JSON.parse(data);
