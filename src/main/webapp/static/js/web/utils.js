@@ -24,7 +24,7 @@ function calculateByte(sTargetStr) {
 }
 
 /**
- * var str = "This {0} is test. {1}";
+ * var str = "This {0} is test. {1} {-1}";
  * str = str.formatStr(["func", "ok"]);
  * @param args {Array}
  * @returns {string}
@@ -35,23 +35,21 @@ String.prototype.formatStr = function(args) {
     if (this.formatStrRegExp) {
         regex = this.formatStrRegExp;
     } else {
-        String.prototype.formatStrRegExp = /{-?[0-9]+}/g;
+        String.prototype.formatStrRegExp = /{(-?[0-9]+)}/g;
         regex = this.formatStrRegExp;
     }
 
-    return str.replace(regex, function(item) {
-        var intVal = Number(item.substring(1, item.length - 1));
+    return str.replace(regex, function(match, number) {
+        var intVal = Number(number);
         var replace = "";
         if (intVal >= 0) {
             replace = args[intVal];
-        } else if (intVal === -1) {
-            replace = "{";
-        } else if (intVal === -2) {
-            replace = "}";
-        } else {
-            replace = "";
+            return replace;
         }
-        return replace !== undefined ? replace : item;
+        if(intVal < 0 && args.length + intVal >= 0){
+            replace = args[args.length + intVal];
+        }
+        return replace || match;
     });
 };
 
