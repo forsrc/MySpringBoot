@@ -441,31 +441,29 @@ var Ajax = {
         }
         return this;
     },
+    isSuccess: function(xmlHttpRequest) {
+        try {
+            return !xmlHttpRequest.status && location.protocol === "file:"
+                    || (xmlHttpRequest.status >= 200 && xmlHttpRequest.status < 300)
+                    || xmlHttpRequest.status === 304
+                    || navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined";
+        } catch (e) {
+            return false;
+        }
+    },
     get: function(url, onSuccess, onError) {
-        var xmlHttpRequest = this.getXMLHttpRequest();
-        xmlHttpRequest.open('GET', url, true);
-        this.init(xmlHttpRequest);
-        xmlHttpRequest.onreadystatechange = function() {
-            if (xmlHttpRequest.readyState === 4
-                    && xmlHttpRequest.status === 200
-                    || xmlHttpRequest.status === 304) {
-                onSuccess.call(this, xmlHttpRequest.responseText);
-            } else {
-                if (onError) {
-                    onError.call(this, xmlHttpRequest);
-                }
-            }
-        };
-        xmlHttpRequest.send(null);
-        return this;
+        return this.ajax(url, "GET", null, onSuccess, onError);
     },
     post: function(url, data, onSuccess, onError) {
+        return this.ajax(url, "POST", data, onSuccess, onError);
+    },
+    ajax: function(url, type, data, onSuccess, onError) {
+        var _this = this;
         var xmlHttpRequest = this.getXMLHttpRequest();
-        xmlHttpRequest.open("POST", url, true);
-        this.init(xmlHttpRequest);
+        xmlHttpRequest.open(type, url, true);
+        _this.init(xmlHttpRequest);
         xmlHttpRequest.onreadystatechange = function() {
-            if (xmlHttpRequest.readyState === 4
-                    && (xmlHttpRequest.status === 200 || xmlHttpRequest.status === 304)) {
+            if (_this.isSuccess(xmlHttpRequest)) {
                 onSuccess.call(this, xmlHttpRequest.responseText);
             } else {
                 if (onError) {
@@ -473,12 +471,23 @@ var Ajax = {
                 }
             }
         };
+        if (type === "GET" || type === "DELETE") {
+            if (type === "DELETE") {
+                url += "&_method" + "DELETE";
+            }
+            xmlHttpRequest.send(null);
+            return this;
+        }
+        var typeJson = {"PUT": "PUT", "PATCH": "PATCH"};
         var dataStr = "";
-        if (typeof data === 'object') {
+        if (data && typeof data === 'object') {
+            if (type !== "POST") {
+                data["_method"] = typeJson[type];
+            }
             for (var key in data) {
                 dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
             }
-            if(dataStr){
+            if (dataStr) {
                 dataStr = dataStr.substr(0, dataStr.length - 1);
             }
         }
@@ -487,7 +496,7 @@ var Ajax = {
     },
     getJson: function(url, onSuccess, onError) {
         this.setup({"Content-type": "text/json"});
-        this.post(url, '{id:"1 x"}', function(data) {
+        this.get(url, function(data) {
             var jsonObj = null;
             try {
                 jsonObj = JSON.parse(data);
