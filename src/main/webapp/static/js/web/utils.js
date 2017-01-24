@@ -533,6 +533,11 @@ var AJAX = AJAX || (function() {
     };
 })();
 
+/**
+ 
+ 
+ */
+
 
 var TABLELOAD = TABLELOAD || (function() {
     var _instance;
@@ -581,24 +586,57 @@ var TABLELOAD = TABLELOAD || (function() {
                 var url = table.getAttribute("data-url");
                 var html = tbody.innerHTML;
                 var jsonkey = table.getAttribute("data-jsonkey");
-                AJAX.getInstance().getJson(url, function(jsonData) {
-                    if (!jsonData) {
-                        return;
+
+                ajax({
+                    type: "GET",
+                    url: url,
+                    data: {"name": "table-load"},
+                    timeout: 5000,
+                    onSuccess: function(jsonData) {
+                        if (!jsonData) {
+                            return;
+                        }
+                        var data = jsonkey ? jsonData[jsonkey] : jsonData;
+                        var h = "";
+                        var len = data.length;
+                        var index = 0;
+                        for (index = 0; index < len; index++) {
+                            var json = data[index];
+                            json["_table_id"] = tableId;
+                            json["_table_index"] = i;
+                            json["_tr_index"] = index;
+                            json["_tr_number"] = index + 1;
+                            h += html.formatFromJson(json);
+                        }
+                        tbody.innerHTML = h;
+                    },
+                    onComplete: function() {
+
+                    },
+                    onError: function() {
+
                     }
-                    var data = jsonkey ? jsonData[jsonkey] : jsonData;
-                    var h = "";
-                    var len = data.length;
-                    var index = 0;
-                    for (index = 0; index < len; index++) {
-                        var json = data[index];
-                        json["_table_id"] = tableId;
-                        json["_table_index"] = i;
-                        json["_tr_index"] = index;
-                        json["_tr_number"] = index + 1;
-                        h += html.formatFromJson(json);
-                    }
-                    tbody.innerHTML = h;
                 });
+
+                /*
+                 AJAX.getInstance().getJson(url, function(jsonData) {
+                 if (!jsonData) {
+                 return;
+                 }
+                 var data = jsonkey ? jsonData[jsonkey] : jsonData;
+                 var h = "";
+                 var len = data.length;
+                 var index = 0;
+                 for (index = 0; index < len; index++) {
+                 var json = data[index];
+                 json["_table_id"] = tableId;
+                 json["_table_index"] = i;
+                 json["_tr_index"] = index;
+                 json["_tr_number"] = index + 1;
+                 h += html.formatFromJson(json);
+                 }
+                 tbody.innerHTML = h;
+                 });*/
             }
         };
     }
