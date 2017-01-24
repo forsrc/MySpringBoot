@@ -478,17 +478,16 @@ var AJAX = AJAX || (function() {
                         return;
                     }
                     if (_this.isSuccess(xmlHttpRequest)) {
-                        onSuccess.call(this, xmlHttpRequest.responseText);
+                        var contentType = xmlHttpRequest.getResponseHeader("content-type");
+                        var isXml = !type && contentType && contentType.indexOf("xml") >= 0;
+                        var data = type === "xml" || isXml ? xmlHttpRequest.responseXML : xmlHttpRequest.responseText;
+                        onSuccess.call(this, data);
                     } else {
                         if (onError) {
                             onError.call(this, xmlHttpRequest);
                         }
                     }
                 };
-                if (type === "GET" || type === "DELETE") {
-                    xmlHttpRequest.send(null);
-                    return this;
-                }
                 var dataStr = "";
                 if (data && typeof data === 'object') {
                     data["_method"] = _this.typeJson[type];
