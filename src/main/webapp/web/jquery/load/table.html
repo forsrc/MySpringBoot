@@ -25,14 +25,37 @@
             </tr>
         </tbody>
     </table>
-
+    <hr/>
+    <table class="table-load" data-url="./user.jsonp" data-jsonkey="">
+            <thead>
+            <th>No.</th>
+            <th>id</th>
+            <th>email</th>
+            <th>username</th>
+            <th>updateOn</th>
+        </thead>
+        <tbody class="table-load-tbody">
+            <tr tid ="{_table_id}" tindex="{_table_index}" trindex="{_tr_index}">
+                <td>{_tr_number}</td>
+                <td>{id}</td>
+                <td>{email}</td>
+                <td>{username}</td>
+                <td>{updateOn}</td>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <hr/>
     <script type="text/javascript">
         "use strict";
 
         ;(function() {
             //alert($("#table-user"));
             //tableLoad();
-            tableLoadJs();
+            //tableLoadJs();
+            TABLELOAD.getInstance().tableLoadJs("table-load");
         })();
 
         function tableLoad() {
@@ -70,64 +93,6 @@
             });
         }
 
-        function tableLoadJs() {
-            var tables = document.getElementsByTagName("table");
-            var len = tables.length;
-            var i = 0;
-            for (i = 0; i < len; i++) {
-                var table = tables[i];
-                var className = table.className;
-                if ("table-load" === className) {
-                    tableLoadJsData(i, table);
-                }
-            }
-        }
-        function tableLoadJsData(i, table) {
-            if (table.getAttribute("table-load-done")) {
-                return;
-            }
-            table.setAttribute("table-load-done", true);
-            var tBodies = table.tBodies;
-            var len = tBodies.length;
-            var tbody = null;
-            var j = 0;
-            for (j = 0; j < len; j++) {
-                var tb = tBodies[j];
-                var className = tb.className;
-                if ("table-load-tbody" === className) {
-                    tbody = tb;
-                }
-            }
-            if (tbody === null) {
-                return;
-            }
-            var tableId = table.getAttribute("id");
-            if(!tableId){
-                tableId = "table-load-" + i;
-                table.setAttribute("id", tableId);
-            }
-            var url = table.getAttribute("data-url");
-            var html = tbody.innerHTML;
-            var jsonkey = table.getAttribute("data-jsonkey");
-            Ajax.getJson(url, function(jsonData) {
-                if(!jsonData){
-                    return;
-                }
-                var data = jsonkey ? jsonData[jsonkey] : jsonData;
-                var h = "";
-                var len = data.length;
-                var index = 0;
-                for (index = 0; index < len; index++) {
-                    var json = data[index];
-                    json["_table_id"] = tableId;
-                    json["_table_index"] = i;
-                    json["_tr_index"] = index;
-                    json["_tr_number"] = index + 1;
-                    h += html.formatFromJson(json);
-                }
-                tbody.innerHTML = h;
-            });
-        }
     </script>
 </body>
 

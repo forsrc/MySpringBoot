@@ -395,7 +395,7 @@ var LOGGING = (function() {
             setEnable: function(enable) {
                 this.enable = enable;
             }
-        }
+        };
     }
 
     return {
@@ -406,115 +406,212 @@ var LOGGING = (function() {
             return _instance;
         }
 
-    }
+    };
 })();
 
 
-var Ajax = Ajax || {
-    config: {
-        "Content-type": "application/x-www-form-urlencoded"
-    },
-    typeJson: {"GET": "GET", "POST": "POST", "PUT": "PUT", "PATCH": "PATCH", "DELETE": "DELETE"}
-    ,
-    setup: function(config) {
-        for (var key in config) {
-            this.config[key] = config[key];
-        }
-        return this;
-    },
-    getXMLHttpRequest: function() {
-        var xmlHttpRequest = null;
-        try {
-            xmlHttpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e1) {
-            try {
-                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e2) {
-                xmlHttpRequest = new XMLHttpRequest();
-            }
-        }
-        return xmlHttpRequest;
-    },
-    init: function(xmlHttpRequest) {
-        for (var key in this.config) {
-            xmlHttpRequest.setRequestHeader(key, this.config[key]);
-        }
-        return this;
-    },
-    isSuccess: function(xmlHttpRequest) {
-        try {
-            return (!xmlHttpRequest.status && location.protocol === "file:")
-                    || (xmlHttpRequest.status >= 200 && xmlHttpRequest.status < 300)
-                    || xmlHttpRequest.status === 304
-                    || (navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined");
-        } catch (e) {
-            return false;
-        }
-    },
-    get: function(url, onSuccess, onError) {
-        return this.ajax(url, "GET", null, onSuccess, onError);
-    },
-    post: function(url, data, onSuccess, onError) {
-        return this.ajax(url, "POST", data, onSuccess, onError);
-    },
-    ajax: function(url, type, data, onSuccess, onError) {
-        var _this = this;
-        var xmlHttpRequest = this.getXMLHttpRequest();
-        if (type === "GET" || type === "DELETE") {
-            url += ((url.indexOf("?") > 0) ? "&" : "?") + "_method" + _this.typeJson[type];
-        }
-        xmlHttpRequest.open(type, url, true);
-        _this.init(xmlHttpRequest);
-        var isTimeout = false;
-        setTimeout(function() {
-            isTimeout = true;
-        }, 3 * 1000);
-        xmlHttpRequest.onreadystatechange = function() {
-            if (xmlHttpRequest.readyState !== 4 && !isTimeout) {
-                return;
-            }
-            if (_this.isSuccess(xmlHttpRequest)) {
-                onSuccess.call(this, xmlHttpRequest.responseText);
-            } else {
-                if (onError) {
-                    onError.call(this, xmlHttpRequest);
+
+var AJAX = AJAX || (function() {
+    var _instance;
+    function constructor() {
+        return {
+            config: {
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            typeJson: {"GET": "GET", "POST": "POST", "PUT": "PUT", "PATCH": "PATCH", "DELETE": "DELETE"}
+            ,
+            setup: function(config) {
+                for (var key in config) {
+                    this.config[key] = config[key];
                 }
+                return this;
+            },
+            getXMLHttpRequest: function() {
+                var xmlHttpRequest = null;
+                try {
+                    xmlHttpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e1) {
+                    try {
+                        xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (e2) {
+                        xmlHttpRequest = new XMLHttpRequest();
+                    }
+                }
+                return xmlHttpRequest;
+            },
+            init: function(xmlHttpRequest) {
+                for (var key in this.config) {
+                    xmlHttpRequest.setRequestHeader(key, this.config[key]);
+                }
+                return this;
+            },
+            isSuccess: function(xmlHttpRequest) {
+                try {
+                    return (!xmlHttpRequest.status && location.protocol === "file:")
+                            || (xmlHttpRequest.status >= 200 && xmlHttpRequest.status < 300)
+                            || xmlHttpRequest.status === 304
+                            || (navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined");
+                } catch (e) {
+                    return false;
+                }
+            },
+            get: function(url, onSuccess, onError) {
+                return this.ajax(url, "GET", null, onSuccess, onError);
+            },
+            post: function(url, data, onSuccess, onError) {
+                return this.ajax(url, "POST", data, onSuccess, onError);
+            },
+            ajax: function(url, type, data, onSuccess, onError) {
+                var _this = this;
+                var xmlHttpRequest = this.getXMLHttpRequest();
+                if (type === "GET" || type === "DELETE") {
+                    url += ((url.indexOf("?") > 0) ? "&" : "?") + "_method" + _this.typeJson[type];
+                }
+                xmlHttpRequest.open(type, url, true);
+                _this.init(xmlHttpRequest);
+                var isTimeout = false;
+                setTimeout(function() {
+                    isTimeout = true;
+                }, 3 * 1000);
+                xmlHttpRequest.onreadystatechange = function() {
+                    if (xmlHttpRequest.readyState !== 4 && !isTimeout) {
+                        return;
+                    }
+                    if (_this.isSuccess(xmlHttpRequest)) {
+                        onSuccess.call(this, xmlHttpRequest.responseText);
+                    } else {
+                        if (onError) {
+                            onError.call(this, xmlHttpRequest);
+                        }
+                    }
+                };
+                if (type === "GET" || type === "DELETE") {
+                    xmlHttpRequest.send(null);
+                    return this;
+                }
+                var dataStr = "";
+                if (data && typeof data === 'object') {
+                    data["_method"] = _this.typeJson[type];
+                    for (var key in data) {
+                        dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
+                    }
+                    if (dataStr) {
+                        dataStr = dataStr.substr(0, dataStr.length - 1);
+                    }
+                }
+                xmlHttpRequest.send(dataStr ? dataStr : data);
+                return this;
+            },
+            getJson: function(url, onSuccess, onError) {
+                this.setup({"Content-type": "text/json"});
+                var callback = function(data) {
+                    if (!data) {
+                        return;
+                    }
+                    var jsonObj = null;
+                    try {
+                        jsonObj = JSON.parse(data);
+                    } catch (e) {
+                        jsonObj = data;
+                    }
+                    onSuccess.call(this, jsonObj);
+                };
+                return  this.get(url, callback, onError);
+            },
+            onError: function(xmlHttpRequest, fn) {
+                fn.call(this, xmlHttpRequest);
             }
         };
-        if (type === "GET" || type === "DELETE") {
-            xmlHttpRequest.send(null);
-            return this;
-        }
-        var dataStr = "";
-        if (data && typeof data === 'object') {
-            data["_method"] = _this.typeJson[type];
-            for (var key in data) {
-                dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
-            }
-            if (dataStr) {
-                dataStr = dataStr.substr(0, dataStr.length - 1);
-            }
-        }
-        xmlHttpRequest.send(dataStr ? dataStr : data);
-        return this;
-    },
-    getJson: function(url, onSuccess, onError) {
-        this.setup({"Content-type": "text/json"});
-        var callback = function(data) {
-            if (!data) {
-                return;
-            }
-            var jsonObj = null;
-            try {
-                jsonObj = JSON.parse(data);
-            } catch (e) {
-                jsonObj = data;
-            }
-            onSuccess.call(this, jsonObj);
-        };
-        return  this.get(url, callback, onError);
-    },
-    onError: function(xmlHttpRequest, fn) {
-        fn.call(this, xmlHttpRequest);
     }
-};
+
+    return {
+        getInstance: function() {
+            if (!_instance) {
+                _instance = new constructor();
+            }
+            return _instance;
+        }
+    };
+})();
+
+
+var TABLELOAD = TABLELOAD || (function() {
+    var _instance;
+
+    function constructor() {
+        return {
+            tableLoadJs: function(cls) {
+                var tables = document.getElementsByTagName("table");
+                var len = tables.length;
+                var i = 0;
+                if (!cls) {
+                    cls = "table-load";
+                }
+                for (i = 0; i < len; i++) {
+                    var table = tables[i];
+                    var className = table.className;
+                    if (cls === className) {
+                        this.tableLoadJsData(i, table);
+                    }
+                }
+            },
+            tableLoadJsData: function(i, table) {
+                if (table.getAttribute("table-load-done")) {
+                    return;
+                }
+                table.setAttribute("table-load-done", true);
+                var tBodies = table.tBodies;
+                var len = tBodies.length;
+                var tbody = null;
+                var j = 0;
+                for (j = 0; j < len; j++) {
+                    var tb = tBodies[j];
+                    var className = tb.className;
+                    if ("table-load-tbody" === className) {
+                        tbody = tb;
+                    }
+                }
+                if (tbody === null) {
+                    return;
+                }
+                var tableId = table.getAttribute("id");
+                if (!tableId) {
+                    tableId = "table-load-" + i;
+                    table.setAttribute("id", tableId);
+                }
+                var url = table.getAttribute("data-url");
+                var html = tbody.innerHTML;
+                var jsonkey = table.getAttribute("data-jsonkey");
+                AJAX.getInstance().getJson(url, function(jsonData) {
+                    if (!jsonData) {
+                        return;
+                    }
+                    var data = jsonkey ? jsonData[jsonkey] : jsonData;
+                    var h = "";
+                    var len = data.length;
+                    var index = 0;
+                    for (index = 0; index < len; index++) {
+                        var json = data[index];
+                        json["_table_id"] = tableId;
+                        json["_table_index"] = i;
+                        json["_tr_index"] = index;
+                        json["_tr_number"] = index + 1;
+                        h += html.formatFromJson(json);
+                    }
+                    tbody.innerHTML = h;
+                });
+            }
+        };
+    }
+
+    return {
+        getInstance: function() {
+            if (!_instance) {
+                _instance = new constructor();
+            }
+            return _instance;
+        }
+
+    };
+})();
+
