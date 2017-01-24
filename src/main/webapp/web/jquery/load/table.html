@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <table class="table-load" data-url="./user.jsonp">
+        <table class="table-load" data-url="./users.jsonp" data-jsonkey="return">
             <thead>
             <th>No.</th>
             <th>id</th>
@@ -28,7 +28,8 @@
 
     <script type="text/javascript">
         "use strict";
-        (function() {
+
+        ;(function() {
             //alert($("#table-user"));
             //tableLoad();
             tableLoadJs();
@@ -41,9 +42,10 @@
         }
         function tableLoadData(i, table) {
             var $table = $(table);
-            if ($table.data("table-load-done")) {
+            if ($table.attr("table-load-done")) {
                 return;
             }
+            $table.attr("table-load-done", true);
             var tableId = $table.attr("id");
             if(!tableId){
                 tableId = "table-load-" + i;
@@ -53,7 +55,9 @@
             var url = $table.attr("data-url");
             var tbody = $(".table-load-tbody", $table);
             var html = tbody.html();
-            $.getJSON(url, function(data) {
+            var jsonkey = $table.attr("data-jsonkey");
+            $.getJSON(url, function(jsonData) {
+                var data = jsonkey ? jsonData[jsonkey] : jsonData;
                 var h = "";
                 $.each(data, function(index, json) {
                     json["_table_id"] = tableId;
@@ -64,9 +68,7 @@
                 });
                 tbody.html(h);
             });
-            $table.data("table-load-done", true);
         }
-
 
         function tableLoadJs() {
             var tables = document.getElementsByTagName("table");
@@ -84,12 +86,13 @@
             if (table.getAttribute("table-load-done")) {
                 return;
             }
+            table.setAttribute("table-load-done", true);
             var tBodies = table.tBodies;
             var len = tBodies.length;
             var tbody = null;
-            var i = 0;
-            for (i = 0; i < len; i++) {
-                var tb = tBodies[i];
+            var j = 0;
+            for (j = 0; j < len; j++) {
+                var tb = tBodies[j];
                 var className = tb.className;
                 if ("table-load-tbody" === className) {
                     tbody = tb;
@@ -105,7 +108,12 @@
             }
             var url = table.getAttribute("data-url");
             var html = tbody.innerHTML;
-            Ajax.getJson(url, function(data) {
+            var jsonkey = table.getAttribute("data-jsonkey");
+            Ajax.getJson(url, function(jsonData) {
+                if(!jsonData){
+                    return;
+                }
+                var data = jsonkey ? jsonData[jsonkey] : jsonData;
                 var h = "";
                 var len = data.length;
                 var index = 0;
@@ -119,8 +127,6 @@
                 }
                 tbody.innerHTML = h;
             });
-
-            table.setAttribute("table-load-done", true);
         }
     </script>
 </body>

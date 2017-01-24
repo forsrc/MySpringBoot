@@ -46,7 +46,7 @@ String.prototype.formatStr = function(args) {
             replace = args[intVal];
             return replace || match;
         }
-        if(intVal < 0 && args.length + intVal >= 0 && args.length + intVal < args.length){
+        if (intVal < 0 && args.length + intVal >= 0 && args.length + intVal < args.length) {
             replace = args[args.length + intVal];
         }
         return replace || match;
@@ -410,10 +410,12 @@ var LOGGING = (function() {
 })();
 
 
-var Ajax = {
+var Ajax = Ajax || {
     config: {
         "Content-type": "application/x-www-form-urlencoded"
     },
+    typeJson: {"GET": "GET", "POST": "POST", "PUT": "PUT", "PATCH": "PATCH", "DELETE": "DELETE"}
+    ,
     setup: function(config) {
         for (var key in config) {
             this.config[key] = config[key];
@@ -441,10 +443,10 @@ var Ajax = {
     },
     isSuccess: function(xmlHttpRequest) {
         try {
-            return !xmlHttpRequest.status && location.protocol === "file:"
+            return (!xmlHttpRequest.status && location.protocol === "file:")
                     || (xmlHttpRequest.status >= 200 && xmlHttpRequest.status < 300)
                     || xmlHttpRequest.status === 304
-                    || navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined";
+                    || (navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined");
         } catch (e) {
             return false;
         }
@@ -458,9 +460,19 @@ var Ajax = {
     ajax: function(url, type, data, onSuccess, onError) {
         var _this = this;
         var xmlHttpRequest = this.getXMLHttpRequest();
+        if (type === "GET" || type === "DELETE") {
+            url += ((url.indexOf("?") > 0) ? "&" : "?") + "_method" + _this.typeJson[type];
+        }
         xmlHttpRequest.open(type, url, true);
         _this.init(xmlHttpRequest);
+        var isTimeout = false;
+        setTimeout(function() {
+            isTimeout = true;
+        }, 3 * 1000);
         xmlHttpRequest.onreadystatechange = function() {
+            if (xmlHttpRequest.readyState !== 4 && !isTimeout) {
+                return;
+            }
             if (_this.isSuccess(xmlHttpRequest)) {
                 onSuccess.call(this, xmlHttpRequest.responseText);
             } else {
@@ -470,18 +482,12 @@ var Ajax = {
             }
         };
         if (type === "GET" || type === "DELETE") {
-            if (type === "DELETE") {
-                url += "&_method" + "DELETE";
-            }
             xmlHttpRequest.send(null);
             return this;
         }
-        var typeJson = {"PUT": "PUT", "PATCH": "PATCH"};
         var dataStr = "";
         if (data && typeof data === 'object') {
-            if (type !== "POST") {
-                data["_method"] = typeJson[type];
-            }
+            data["_method"] = _this.typeJson[type];
             for (var key in data) {
                 dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
             }
@@ -494,7 +500,10 @@ var Ajax = {
     },
     getJson: function(url, onSuccess, onError) {
         this.setup({"Content-type": "text/json"});
-        this.get(url, function(data) {
+        var callback = function(data) {
+            if (!data) {
+                return;
+            }
             var jsonObj = null;
             try {
                 jsonObj = JSON.parse(data);
@@ -502,8 +511,8 @@ var Ajax = {
                 jsonObj = data;
             }
             onSuccess.call(this, jsonObj);
-        }, onError);
-        return this;
+        };
+        return  this.get(url, callback, onError);
     },
     onError: function(xmlHttpRequest, fn) {
         fn.call(this, xmlHttpRequest);
