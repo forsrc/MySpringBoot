@@ -409,137 +409,13 @@ var LOGGING = (function() {
     };
 })();
 
-
-
-var AJAX = AJAX || (function() {
-    var _instance;
-    function constructor() {
-        return {
-            config: {
-                "Content-type": "application/x-www-form-urlencoded"
-            },
-            typeJson: {"GET": "GET", "POST": "POST", "PUT": "PUT", "PATCH": "PATCH", "DELETE": "DELETE"}
-            ,
-            setup: function(config) {
-                for (var key in config) {
-                    this.config[key] = config[key];
-                }
-                return this;
-            },
-            getXMLHttpRequest: function() {
-                var xmlHttpRequest = null;
-                try {
-                    xmlHttpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e1) {
-                    try {
-                        xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e2) {
-                        xmlHttpRequest = new XMLHttpRequest();
-                    }
-                }
-                return xmlHttpRequest;
-            },
-            init: function(xmlHttpRequest) {
-                for (var key in this.config) {
-                    xmlHttpRequest.setRequestHeader(key, this.config[key]);
-                }
-                return this;
-            },
-            isSuccess: function(xmlHttpRequest) {
-                try {
-                    return (!xmlHttpRequest.status && location.protocol === "file:")
-                            || (xmlHttpRequest.status >= 200 && xmlHttpRequest.status < 300)
-                            || xmlHttpRequest.status === 304
-                            || (navigator.userAgent.indexOf("Safari") >= 0 && typeof xmlHttpRequest.status === "undefined");
-                } catch (e) {
-                    return false;
-                }
-            },
-            get: function(url, onSuccess, onError) {
-                return this.ajax(url, "GET", null, onSuccess, onError);
-            },
-            post: function(url, data, onSuccess, onError) {
-                return this.ajax(url, "POST", data, onSuccess, onError);
-            },
-            ajax: function(url, type, data, onSuccess, onError) {
-                var _this = this;
-                var xmlHttpRequest = this.getXMLHttpRequest();
-                if (type === "GET" || type === "DELETE") {
-                    url += ((url.indexOf("?") > 0) ? "&" : "?") + "_method" + _this.typeJson[type];
-                }
-                xmlHttpRequest.open(type, url, true);
-                _this.init(xmlHttpRequest);
-                var isTimeout = false;
-                setTimeout(function() {
-                    isTimeout = true;
-                }, 3 * 1000);
-                xmlHttpRequest.onreadystatechange = function() {
-                    if (xmlHttpRequest.readyState !== 4 && !isTimeout) {
-                        return;
-                    }
-                    if (_this.isSuccess(xmlHttpRequest)) {
-                        var contentType = xmlHttpRequest.getResponseHeader("content-type");
-                        var isXml = !type && contentType && contentType.indexOf("xml") >= 0;
-                        var data = type === "xml" || isXml ? xmlHttpRequest.responseXML : xmlHttpRequest.responseText;
-                        onSuccess.call(this, data);
-                    } else {
-                        if (onError) {
-                            onError.call(this, xmlHttpRequest);
-                        }
-                    }
-                };
-                var dataStr = "";
-                if (data && typeof data === 'object') {
-                    data["_method"] = _this.typeJson[type];
-                    for (var key in data) {
-                        dataStr += key + "=" + encodeURIComponent(data[key]) + "&";
-                    }
-                    if (dataStr) {
-                        dataStr = dataStr.substr(0, dataStr.length - 1);
-                    }
-                }
-                xmlHttpRequest.send(dataStr ? dataStr : data);
-                return this;
-            },
-            getJson: function(url, onSuccess, onError) {
-                this.setup({"Content-type": "text/json"});
-                var callback = function(data) {
-                    if (!data) {
-                        return;
-                    }
-                    var jsonObj = null;
-                    try {
-                        jsonObj = JSON.parse(data);
-                    } catch (e) {
-                        jsonObj = data;
-                    }
-                    onSuccess.call(this, jsonObj);
-                };
-                return  this.get(url, callback, onError);
-            },
-            onError: function(xmlHttpRequest, fn) {
-                fn.call(this, xmlHttpRequest);
-            }
-        };
-    }
-
-    return {
-        getInstance: function() {
-            if (!_instance) {
-                _instance = new constructor();
-            }
-            return _instance;
-        }
-    };
-})();
-
 /**
  
  
  */
 
 
-var TABLELOAD = TABLELOAD || (function() {
+var TableLoad = TableLoad || (function() {
     var _instance;
 
     function constructor() {
@@ -590,8 +466,8 @@ var TABLELOAD = TABLELOAD || (function() {
                 Ajax.send({
                     type: "GET",
                     url: url,
-                    async : false,
-                    data: {"name": "table-load"},
+                    async: true,
+                    data: {"function": "table-load"},
                     timeout: 5000,
                     onSuccess: function(jsonData) {
                         if (!jsonData) {
@@ -653,3 +529,18 @@ var TABLELOAD = TABLELOAD || (function() {
     };
 })();
 
+function getElementsByClassName(className, node, tag) {
+    var classElements = [];
+    node = node || document;
+    tag = tag || '*';
+    var els = node.getElementsByTagName(tag);
+    var elsLen = els.length;
+    var pattern = new RegExp("(^|\\s)" + className + "(\\s|$)");
+    for (var i = 0, j = 0; i < elsLen; i++) {
+        if (pattern.test(els[i].className)) {
+            classElements[j] = els[i];
+            j++;
+        }
+    }
+    return classElements;
+}

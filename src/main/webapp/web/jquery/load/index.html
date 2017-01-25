@@ -5,14 +5,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <script src="../../../static/js/lib/jquery-2.1.4.min.js"></script>
         <script src="../../../static/js/web/ajax.js"></script>
+        <script src="../../../static/js/web/jsLoad.js"></script>
         <script src="../../../static/js/web/utils.js"></script>
     </head>
     <body>
         <div>Hello world</div>
         <hr/>
-        <div id="div1" class="jq-load" data-url="./table.html" data-params="{id : 1}">Hello world</div>
+        <div id="div1" class="jq-load js-load" data-url="./table.html" data-params='{"id":"1"}'>Hello world</div>
         <hr/>
-        <span id="div2" class="jq-load" data-url="./table.html" data-params="{id : 2}">Hello world</span>
+        <span id="div2" class="jq-load js-load" data-url="./table.html" data-params='{"id":"2"}'>Hello world</span>
         <hr/>
         <script>
             (function() {
@@ -35,10 +36,10 @@
                     var url = $(e).attr("data-url");
                     var params = $(e).attr("data-params");
                     if (url) {
-                        $(e).load(url, params, function() {
-                        });
+                        //$(e).load(url, params, function() { });
                     }
                 });
+                JsLoad.load();
             })();
         </script>
     </body>

@@ -34,6 +34,12 @@
                 },
                 overrideMimeType: options.overrideMimeType || null // "text/plain; charset=utf-8"
             };
+            if (options.data && typeof options.data === "string") {
+                try {
+                    options.data = JSON.parse(options.data);
+                } catch (e) {
+                }
+            }
             var xhr = getXMLHttpRequest();
             xhr.open(options.type, options.url, options.async);
             setRequestHeader(options.requestHeader, xhr);
@@ -72,8 +78,9 @@
                 xhr = null;
             };
             var data = formatData(options);
-            xhr.send(data);
-
+            window.setTimeout(function() {
+                xhr.send(data);
+            }, 0);
             function getXMLHttpRequest() {
                 var xhr = null;
                 try {
