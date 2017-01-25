@@ -587,9 +587,10 @@ var TABLELOAD = TABLELOAD || (function() {
                 var html = tbody.innerHTML;
                 var jsonkey = table.getAttribute("data-jsonkey");
 
-                ajax({
+                Ajax.send({
                     type: "GET",
                     url: url,
+                    async : false,
                     data: {"name": "table-load"},
                     timeout: 5000,
                     onSuccess: function(jsonData) {
