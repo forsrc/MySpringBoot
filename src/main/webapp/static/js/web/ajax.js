@@ -30,7 +30,7 @@
                 },
                 typeJson: options.typeJson || {"GET": "GET", "POST": "POST", "PUT": "PUT", "PATCH": "PATCH", "DELETE": "DELETE"},
                 requestHeader: options.requestHeader || {
-                    "Content-type": "application/x-www-form-urlencoded"
+                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
                 overrideMimeType: options.overrideMimeType || null // "text/plain; charset=utf-8"
             };
@@ -40,7 +40,7 @@
                 } catch (e) {
                 }
             }
-            var xhr = getXMLHttpRequest();
+            var xhr = getXMLHttpRequest(options.url);
             xhr.open(options.type, options.url, options.async);
             setRequestHeader(options.requestHeader, xhr);
             if (options.overrideMimeType) {
@@ -81,10 +81,10 @@
             window.setTimeout(function() {
                 xhr.send(data);
             }, 0);
-            function getXMLHttpRequest() {
+            function getXMLHttpRequest(url) {
                 var xhr = null;
                 try {
-                    if (!isLocal(url)) {
+                    if (url && !isLocal(url)) {
                         xhr = new XDomainRequest();
                     }
                     xhr = xhr || new ActiveXObject("Msxml2.XMLHTTP");
