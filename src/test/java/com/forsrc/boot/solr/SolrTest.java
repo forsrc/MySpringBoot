@@ -25,6 +25,6 @@ public class SolrTest {
         user.setUsername("u 10");
         user.setEmail("xxx");
         System.out.println("---> SolrTest");
-        userSolrService.save(user);
+        //userSolrService.save(user);
     }
 }
