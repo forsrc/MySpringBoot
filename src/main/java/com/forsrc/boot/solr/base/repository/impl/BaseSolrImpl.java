@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSolr<E, PK> {
@@ -29,13 +28,22 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
     }
 
     @Override
-    public void save(E e) throws IOException, SolrServerException {
+    public void save(final E e) throws IOException, SolrServerException {
         exec(new SolrHandler<Void>() {
             @Override
             public Void handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
-                SolrQuery solrQuery = new SolrQuery();
-                QueryResponse response = httpSolrClient.query(solrQuery);
-                SolrDocumentList solrDocumentList = response.getResults();
+                httpSolrClient.addBean(e);
+                return null;
+            }
+        });
+    }
+
+    @Override
+    public void delete(final String id) throws IOException, SolrServerException {
+        exec(new SolrHandler<Void>() {
+            @Override
+            public Void handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
+                httpSolrClient.deleteById(id);
                 return null;
             }
         });

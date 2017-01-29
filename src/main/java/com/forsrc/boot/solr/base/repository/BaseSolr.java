@@ -13,19 +13,21 @@ import java.util.List;
 
 public interface BaseSolr<E, PK extends Serializable> {
 
-    public void save(E e) throws IOException, SolrServerException;
+    public void save(final E e) throws IOException, SolrServerException;
+
+    public void delete(final String id) throws IOException, SolrServerException;
 
     public List<E> getByQuery(final String query, final Pageable pageable) throws IOException, SolrServerException;
 
     public String getSolrName();
 
-    public <T> T exec(SolrHandler<T> solrHandler) throws IOException, SolrServerException;
+    public <T> T exec(final SolrHandler<T> solrHandler) throws IOException, SolrServerException;
 
-    public SolrDocumentList findByQuery(final String query, Pageable page) throws IOException, SolrServerException;
+    public SolrDocumentList findByQuery(final String query, final Pageable page) throws IOException, SolrServerException;
 
     public Class<E> getEntityClass();
 
     public static interface SolrHandler<T> {
-        public T handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException;
+        public T handle(final HttpSolrClient httpSolrClient) throws IOException, SolrServerException;
     }
 }
