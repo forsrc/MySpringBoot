@@ -33,6 +33,8 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
             @Override
             public Void handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
                 httpSolrClient.addBean(e);
+                System.out.println("--> httpSolrClient.addBean(e);");
+                httpSolrClient.commit();
                 return null;
             }
         });
@@ -44,6 +46,7 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
             @Override
             public Void handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
                 httpSolrClient.deleteById(id);
+                httpSolrClient.commit();
                 return null;
             }
         });
@@ -62,6 +65,7 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
             throw e;
         } finally {
             if (httpSolrClient != null) {
+                httpSolrClient.rollback();
                 httpSolrClient.close();
             }
         }

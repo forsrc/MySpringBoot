@@ -59,13 +59,6 @@ public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr{
 
 
     @Override
-    public void save(User user) {
-
-    }
-
-
-
-    @Override
     public String getSolrName() {
         return "/user";
     }

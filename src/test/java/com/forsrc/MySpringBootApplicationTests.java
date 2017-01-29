@@ -1,4 +1,4 @@
-package com.forsrc.boot;
+package com.forsrc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
