@@ -281,6 +281,18 @@
             <version>4.6.0.201612231935-r</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>4.3.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.14.3</version>
+        </dependency>
+
 
         <!--<dependency>-->
             <!--<groupId>de.codecentric</groupId>-->
