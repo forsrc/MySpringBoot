@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 //@Controller
 @RestController
-@RequestMapping("/")
+@RequestMapping("/test")
 public class DemoController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     @ResponseBody
     String helloWorld() {
         System.out.println("Hello World! --> " + new Date().toString());
-        return "Hello World!　--> " + new Date().toString();
+        return "Hello World! --> " + new Date().toString();
     }
 }

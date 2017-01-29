@@ -1,5 +1,7 @@
 package com.forsrc.pojo;
 
+
+
 import java.text.MessageFormat;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -9,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+
 /**
  * The type User.
  */
 //@Entity
 //@Table(name = "user")
+//@Document(coreName="collection1")
 public class User implements java.io.Serializable {
 
     // Fields
@@ -21,9 +25,10 @@ public class User implements java.io.Serializable {
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     //@Temporal(javax.persistence.TemporalType.DATE)
-    private Date createOn;
-    //@Temporal(javax.persistence.TemporalType.DATE)
     private Date updateOn;
+    //@Temporal(javax.persistence.TemporalType.DATE)
+    private Date createOn;
+    //@Indexed(solrType="text_general")
     private String username;
     private String email;
     private int status; // 0: delete; 1: OK; 2: NG

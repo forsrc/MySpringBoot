@@ -20,5 +20,5 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <import resource="batch/spring-batch.xml"/>
+    <!--<import resource="batch/spring-batch.xml"/>-->
 </beans>
