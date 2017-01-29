@@ -16,10 +16,5 @@ public class SolrConfig {
     @Resource
     private Environment env;
 
-    @Bean
-    public SolrClient solrClient() throws MalformedURLException, IllegalStateException {
-        return new HttpSolrClient(env.getRequiredProperty("solr.host"));
-    }
-
 
 }
