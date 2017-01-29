@@ -1,6 +1,7 @@
 package com.forsrc.boot.solr.user.repository.impl;
 
 
+import com.forsrc.boot.solr.base.repository.BaseSolr;
 import com.forsrc.boot.solr.base.repository.impl.BaseSolrImpl;
 import com.forsrc.boot.solr.user.repository.UserSolr;
 import com.forsrc.pojo.User;
@@ -21,35 +22,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr {
+public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr{
 
     @Override
     public List<User> findByUsername(String username, Pageable pageable) throws Exception {
         final List<User> list = new ArrayList<>();
 
         SolrDocumentList solrDocumentList = findByQuery("username:" + username, pageable);
-        exec(new SolrHandler<Void>() {
+        return exec(new SolrHandler<List<User>>() {
             @Override
-            public Void handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException, IllegalAccessException, InvocationTargetException, InstantiationException {
+            public List<User> handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
                 SolrQuery solrQuery = new SolrQuery();
                 solrQuery.setQuery("username:" + username);
                 solrQuery.setStart(pageable.getOffset());
                 solrQuery.setRows(pageable.getPageSize());
                 QueryResponse response = httpSolrClient.query(solrQuery);
-                SolrDocumentList solrDocumentList = response.getResults();
-                for (SolrDocument sd : solrDocumentList) {
-                    System.out.println("id：" + sd.getFieldValue("id"));
-                    System.out.println("username：" + sd.getFieldValue("username"));
-                    User user = new User();
-                    user.setId(Long.parseLong(sd.getFieldValue("id").toString()));
-                    List<String> lst = (List)sd.getFieldValue("username");
-                    user.setUsername(lst.get(0));
-                    list.add(user);
-                }
-                return null;
+                return response.getBeans(User.class);
+//                SolrDocumentList solrDocumentList = response.getResults();
+//                for (SolrDocument sd : solrDocumentList) {
+//                    System.out.println("id：" + sd.getFieldValue("id"));
+//                    System.out.println("username：" + sd.getFieldValue("username"));
+//                    User user = new User();
+//                    user.setId(Long.parseLong(sd.getFieldValue("id").toString()));
+//                    List<String> lst = (List)sd.getFieldValue("username");
+//                    user.setUsername(lst.get(0));
+//                    list.add(user);
+//                }
             }
         });
-        return list;
     }
 
     @Override
@@ -59,14 +59,20 @@ public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr {
 
 
     @Override
-    public User save(User user) {
+    public void save(User user) {
 
-        return user;
     }
+
+
 
     @Override
     public String getSolrName() {
         return "/user";
+    }
+
+    @Override
+    public Class<User> getEntityClass() {
+        return User.class;
     }
 
 }

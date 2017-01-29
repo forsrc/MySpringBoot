@@ -9,18 +9,23 @@ import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public interface BaseSolr<E, PK extends Serializable> {
 
-    public E save(E e);
+    public void save(E e) throws IOException, SolrServerException;
+
+    public List<E> getByQuery(final String query, final Pageable pageable) throws IOException, SolrServerException;
 
     public String getSolrName();
 
-    public <T> T exec(SolrHandler<T> solrHandler) throws IOException, SolrServerException, Exception;
+    public <T> T exec(SolrHandler<T> solrHandler) throws IOException, SolrServerException;
 
-    public SolrDocumentList findByQuery(final String query, Pageable page) throws Exception;
+    public SolrDocumentList findByQuery(final String query, Pageable page) throws IOException, SolrServerException;
+
+    public Class<E> getEntityClass();
 
     public static interface SolrHandler<T> {
-        public T handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException, IllegalAccessException, InvocationTargetException, InstantiationException;
+        public T handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException;
     }
 }

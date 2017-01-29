@@ -24,10 +24,10 @@ public class UserSolrController {
 
     @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
-    public List<User> get() throws Exception {
+    public List<User> get(String username) throws Exception {
         Pageable pageable = new PageRequest(0, 10);
         try {
-            List<User> list = service.findByUsername("*1*", pageable);
+            List<User> list = service.findByUsername(username, pageable);
             //System.out.println("---> " + ((Object[])(list.get(0)))[0]);
             return list;
         } catch (Exception e) {
