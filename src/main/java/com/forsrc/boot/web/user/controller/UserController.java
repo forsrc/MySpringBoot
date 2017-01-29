@@ -35,7 +35,7 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = {RequestMethod.GET})
     @ResponseBody
-    public User add(String username, String password, String email) {
+    public User add(String username, String password, String email) throws Exception {
         try {
             User user = new User();
             user.setUsername(username);
@@ -49,7 +49,7 @@ public class UserController {
 
     @RequestMapping(value = "/", method = {RequestMethod.PUT})
     @ResponseBody
-    public User save(String username, String email) {
+    public User save(String username, String email) throws Exception{
         try {
             User user = new User();
             user.setUsername(username);
@@ -64,7 +64,7 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
     @ResponseBody
-    public User delete(@PathVariable("id") Long id) {
+    public User delete(@PathVariable("id") Long id) throws Exception{
         System.out.println(MessageFormat.format("delete({0}) --> {1}", id, new Date().toString()));
         try {
             User user = new User(id);
@@ -86,7 +86,7 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     @ResponseBody
-    public User update(@PathVariable("id") Long id, String username, String email) {
+    public User update(@PathVariable("id") Long id, String username, String email) throws Exception{
         System.out.println(MessageFormat.format("update({0}) --> {1}", id, new Date().toString()));
         try {
             User user = userService.get(id);

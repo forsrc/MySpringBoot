@@ -25,8 +25,8 @@ import java.util.List;
 public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr{
 
     @Override
-    public List<User> findByUsername(String username, Pageable pageable) throws Exception {
-        final List<User> list = new ArrayList<>();
+    public List<User> findByUsername(final String username, final Pageable pageable) throws Exception {
+        final List<User> list = new ArrayList<User>();
 
         SolrDocumentList solrDocumentList = findByQuery("username:" + username, pageable);
         return exec(new SolrHandler<List<User>>() {
