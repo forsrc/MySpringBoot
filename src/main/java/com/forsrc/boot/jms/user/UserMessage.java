@@ -1,18 +1,23 @@
-package com.forsrc.boot.jms.amq;
+package com.forsrc.boot.jms.user;
 
 import java.util.UUID;
 
-public class QueueMessage {
+public class UserMessage {
 
     private UUID id;
     private String message;
 
-    public QueueMessage() {
+    public UserMessage() {
         setId(UUID.randomUUID());
     }
 
+    public UserMessage(String message) {
+        setId(UUID.randomUUID());
+        this.message = message;
+    }
+
     public String toString() {
-        return String.format("QueuedItem [id=%s,message=%s]", id, message);
+        return String.format("UserMessage [id = %s, message = %s]", id, message);
     }
 
     public void setId(UUID id) {

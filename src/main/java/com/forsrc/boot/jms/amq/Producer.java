@@ -1,42 +1,43 @@
 package com.forsrc.boot.jms.amq;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.jms.Queue;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.jms.Queue;
+import javax.jms.Topic;
+import java.util.Date;
 
 @Component
 public class Producer {
 
     @Autowired
-    private JmsMessagingTemplate jmsMessagingTemplate;
-    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Resource(name = "queue")
     private Queue queue;
+    @Resource(name = "topic")
+    private Topic topic;
 
     @Scheduled(fixedDelay = 60 * 1000)
     public void send() {
-        QueueMessage qm = new QueueMessage();
-        qm.setMessage(new Date().toString());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String message = mapper.writeValueAsString(qm);
-            this.jmsMessagingTemplate.convertAndSend(this.queue, message);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        String message = new Date().toString();
+        this.jmsTemplate.convertAndSend(this.queue, message);
+        this.jmsTemplate.convertAndSend(this.topic, message);
     }
 
-    @Bean
+    @Bean(name = "queue")
     public Queue queue() {
-        return new ActiveMQQueue("q/user");
+        return new ActiveMQQueue("q_user");
+    }
+
+    @Bean(name = "topic")
+    public Topic topic() {
+        return new ActiveMQTopic("t_user");
     }
 }

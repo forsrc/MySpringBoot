@@ -6,8 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Consumer {
 
-    @JmsListener(destination = "q/user")
+    @JmsListener(destination = "q_user")
     public void receiveQueue(String text) {
-        System.out.println("Consumer -> receiveQueue ->" + text);
+        System.out.println("--> Consumer.receiveQueue() -> " + text);
+    }
+
+    @JmsListener(destination = "t_user")
+    public void receiveTopic(String text) {
+        System.out.println("--> Consumer.receiveTopic() -> " + text);
     }
 }
