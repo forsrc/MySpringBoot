@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class UserBatchTest {
 
-    @Test
+    //@Test
     public void test() throws Exception {
         String[] springConfig = {"config/spring/batch/spring-batch.xml"};
 

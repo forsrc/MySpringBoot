@@ -20,6 +20,6 @@ public class Sender {
                 return session.createTextMessage(message);
             }
         };
-        jmsTemplate.send(queueName,messageCreator);
+        jmsTemplate.send(queueName, messageCreator);
     }
 }
