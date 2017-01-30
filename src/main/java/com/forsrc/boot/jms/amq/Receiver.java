@@ -6,7 +6,9 @@ import org.springframework.jms.annotation.JmsListener;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Receiver implements MessageListener {
 
     @JmsListener(destination = "q/user")

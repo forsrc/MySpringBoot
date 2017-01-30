@@ -1,7 +1,7 @@
 package com.forsrc.boot.jms.amq;
 
-
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -21,9 +21,11 @@ public class AmqTest {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+    @Autowired
+    private TopicUser userActiveMQTopic;
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
         System.out.println(jmsTemplate);
         ActiveMQQueue queue = new ActiveMQQueue("q/user");
         MessageCreator messageCreator = new MessageCreator() {
@@ -33,5 +35,9 @@ public class AmqTest {
             }
         };
         jmsTemplate.send(queue, messageCreator);
+
+        userActiveMQTopic.send("OK : " + new Date().toString());
+        System.out.println("----------");
+        TimeUnit.SECONDS.sleep(1);
     }
 }

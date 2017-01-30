@@ -7,7 +7,9 @@ import org.springframework.jms.core.MessageCreator;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Sender {
 
     @Autowired
