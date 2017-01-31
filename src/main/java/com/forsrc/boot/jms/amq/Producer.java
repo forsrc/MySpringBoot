@@ -16,8 +16,10 @@ import java.util.Date;
 @Component
 public class Producer {
 
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    @Resource(name = "topicJmsTemplate")
+    private JmsTemplate topicJmsTemplate;
+    @Resource(name = "queueJmsTemplate")
+    private JmsTemplate queueJmsTemplate;
 
     @Resource(name = "queue")
     private Queue queue;
@@ -27,8 +29,8 @@ public class Producer {
     @Scheduled(fixedDelay = 60 * 1000)
     public void send() {
         String message = new Date().toString();
-        this.jmsTemplate.convertAndSend(this.queue, message);
-        this.jmsTemplate.convertAndSend(this.topic, message);
+        this.queueJmsTemplate.convertAndSend(this.queue, message);
+        this.topicJmsTemplate.convertAndSend(this.topic, message);
     }
 
     @Bean(name = "queue")

@@ -17,7 +17,7 @@ public class UserMessage {
     }
 
     public String toString() {
-        return String.format("UserMessage [id = %s, message = %s]", id, message);
+        return String.format("UserMessage{id = %s, message = %s}", id, message);
     }
 
     public void setId(UUID id) {
