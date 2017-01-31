@@ -30,7 +30,7 @@ public class CollectionUtils {
         public boolean handle(E e);
     }
 
-    public static void main(String[] args){
+    public static void Main(String[] args){
         List<Integer> list = new LinkedList<Integer>();
         list.add(1);
         list.add(3);

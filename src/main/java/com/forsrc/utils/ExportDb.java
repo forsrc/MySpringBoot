@@ -118,7 +118,7 @@ public final class ExportDb {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
 
         init();
     }
