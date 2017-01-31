@@ -5,18 +5,17 @@ import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import javax.websocket.ClientEndpoint;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.server.standard.SpringConfigurator;
 
-@ServerEndpoint(value = "/websocket/ws/user", configurator = SpringConfigurator.class)
+@ClientEndpoint
 @Component
-public class UserWebsocket {
+public class UserWebsocketClient {
 
     private static final CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();
     private static long count;
@@ -28,8 +27,8 @@ public class UserWebsocket {
     @OnOpen
     public void onOpen(Session session) {
         sessionSet.add(session);
-        System.out.println("--> ServerEndpoint onOpen() --> " + session);
-        System.out.println("--> ServerEndpoint onOpen() --> count: " + getCount());
+        System.out.println("--> ClientEndpoint onOpen() --> " + session);
+        System.out.println("--> ClientEndpoint onOpen() --> count: " + getCount());
         setCount(1);
         THREAD_LOCAL.set(session);
         try {
@@ -41,8 +40,8 @@ public class UserWebsocket {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("--> ServerEndpoint onMessage() --> " + session);
-        System.out.println("--> ServerEndpoint onMessage() --> message: " + message);
+        System.out.println("--> ClientEndpoint onMessage() --> " + session);
+        System.out.println("--> ClientEndpoint onMessage() --> message: " + message);
         for (Session s : sessionSet) {
             try {
                 s.getBasicRemote().sendText(message);
@@ -58,12 +57,12 @@ public class UserWebsocket {
         sessionSet.remove(session);
         THREAD_LOCAL.remove();
         setCount(-1);
-        System.out.println("--> ServerEndpoint onClose() --> " + getCount());
+        System.out.println("--> ClientEndpoint onClose() --> " + getCount());
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("--> ServerEndpoint onError() --> " + error.getMessage());
+        System.out.println("--> ClientEndpoint onError() --> " + error.getMessage());
         error.printStackTrace();
     }
 
