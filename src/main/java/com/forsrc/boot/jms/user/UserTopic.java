@@ -62,7 +62,6 @@ public class UserTopic {
 //        container.setDestination(userTopicBean);
 //        return container;
 //    }
-
     @Bean(name = "userTopicDefaultMessageListenerContainer")
     public DefaultMessageListenerContainer UserTopicDefaultMessageListenerContainer(
             @Autowired
@@ -72,7 +71,24 @@ public class UserTopic {
             @Autowired
             @Qualifier("userTopicBean") Destination destination) {
         DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-        container.setPubSubDomain(false);
+        container.setPubSubDomain(true);
+        container.setConnectionFactory(connectionFactory);
+        container.setupMessageListener(messageListener);
+        container.setDestination(destination);
+        return container;
+    }
+
+    @Bean(name = "userTopicSubscriberDefaultMessageListenerContainer")
+    public DefaultMessageListenerContainer UserTopicSubscriberDefaultMessageListenerContainer(
+            @Autowired
+            @Qualifier("topicConnectionFactory") ConnectionFactory connectionFactory,
+            @Autowired
+            @Qualifier("userTopicSubscriberReceiver") MessageListener messageListener,
+            @Autowired
+            @Qualifier("userTopicBean") Destination destination) {
+        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+        container.setPubSubDomain(true);
+        container.setSubscriptionDurable(false);
         container.setConnectionFactory(connectionFactory);
         container.setupMessageListener(messageListener);
         container.setDestination(destination);
@@ -102,21 +118,22 @@ public class UserTopic {
         }
     }
 
-    @Component
+    @Component("userTopicSubscriberReceiver")
     public class UserTopicSubscriberReceiver implements MessageListener {
 
-        @JmsListener(destination = SUBSCRIBER_NAME)
+        @JmsListener(destination = TOPIC_NAME, subscription = SUBSCRIBER_NAME)
         public void onMessage(Message message) {
-            System.out.println("--> UserTopic: " + message);
+            System.out.println("-->onMessage() UserTopicSubscriber: " + message);
             try {
                 if (message instanceof ActiveMQTextMessage) {
                     String json = ((ActiveMQTextMessage) message).getText();
                     if (json.startsWith("{") && json.endsWith("}")) {
                         ObjectMapper mapper = new ObjectMapper();
                         UserMessage userMessage = mapper.readValue(json, UserMessage.class);
-                        System.out.println("--> UserTopic: " + userMessage.toString());
+                        System.out.println("--> UserTopicSubscriber: " + userMessage.toString());
                         return;
                     }
+                    System.out.println("--> UserTopic: " + json);
 
                 }
             } catch (Exception e) {

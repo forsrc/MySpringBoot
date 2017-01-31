@@ -59,7 +59,6 @@ public class UserQueue {
 //        container.setDestination(userQueueBean);
 //        return container;
 //    }
-
     @Bean(name = "userQueueDefaultMessageListenerContainer")
     public DefaultMessageListenerContainer UserQueueDefaultMessageListenerContainer(
             @Autowired
@@ -69,7 +68,7 @@ public class UserQueue {
             @Autowired
             @Qualifier("userQueueBean") Destination destination) {
         DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-        container.setPubSubDomain(true);
+        container.setPubSubDomain(false);
         container.setConnectionFactory(connectionFactory);
         container.setupMessageListener(messageListener);
         container.setDestination(destination);
