@@ -13,23 +13,23 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jms.*;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 @Component
 public class UserQueue {
 
     public static final String QUEUE_NAME = "q/user";
-
-    @Autowired
+    @Resource(name = "queueJmsTemplate")
     private JmsTemplate jmsTemplate;
-
     @Resource(name = "userQueueBean")
     private Queue userQueueBean;
+    @Resource(name = "queueConnectionFactory")
+    private ConnectionFactory queueConnectionFactory;
 
     @Bean(name = "userQueueBean")
     public Queue userQueueBean() {
         return new ActiveMQQueue(QUEUE_NAME);
     }
-
 
     public void send(final UserMessage userMessage) {
         MessageCreator messageCreator = new MessageCreator() {
@@ -49,12 +49,22 @@ public class UserQueue {
         jmsTemplate.send(userQueueBean, messageCreator);
     }
 
+    @Bean(name = "topicDefaultMessageListenerContainer")
+    public DefaultMessageListenerContainer topicDefaultMessageListenerContainer() {
+        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+        container.setPubSubDomain(false);
+        container.setConnectionFactory(queueConnectionFactory);
+        container.setupMessageListener(new UserQueueReceiver());
+        container.setDestination(userQueueBean);
+        return container;
+    }
 
     @Component
     public class UserQueueReceiver implements MessageListener {
-        @JmsListener(destination = QUEUE_NAME)
+
+        @JmsListener(destination = QUEUE_NAME, containerFactory = "queueJmsListenerContainerFactory")
         public void onMessage(Message message) {
-            System.out.println("--> UserQueue: " + message);
+            System.out.println("-->onMessage() UserQueue: " + message);
             try {
                 if (message instanceof ActiveMQTextMessage) {
                     String json = ((ActiveMQTextMessage) message).getText();
@@ -62,8 +72,9 @@ public class UserQueue {
                         ObjectMapper mapper = new ObjectMapper();
                         UserMessage userMessage = mapper.readValue(json, UserMessage.class);
                         System.out.println("--> UserQueue: " + userMessage.toString());
+                        return;
                     }
-
+                    System.out.println("--> UserQueue: " + json);
                 }
 
             } catch (Exception e) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -31,7 +32,8 @@ public class DatabaseConfig {
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-    @Bean
+    @Bean(name = "dataSource")
+    @Primary
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
@@ -109,24 +111,24 @@ public class DatabaseConfig {
      }
      */
     /*
-    @Bean(name = "jpaTransactionManager")
-    //@Qualifier("jpaTransactionManager")
-    public JpaTransactionManager jpaTransactionManager() {
-        JpaTransactionManager transactionManager =
-                new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(
-                entityManagerFactory.getObject());
-        return transactionManager;
-    }
+     @Bean(name = "jpaTransactionManager")
+     //@Qualifier("jpaTransactionManager")
+     public JpaTransactionManager jpaTransactionManager() {
+     JpaTransactionManager transactionManager =
+     new JpaTransactionManager();
+     transactionManager.setEntityManagerFactory(
+     entityManagerFactory.getObject());
+     return transactionManager;
+     }
 
-    @Bean(name = "txManager02")
-    //@Qualifier(value = "txManager02")
-    public PlatformTransactionManager txManager02() {
-        return new DataSourceTransactionManager(dataSource);
-    }
-    */
+     @Bean(name = "txManager02")
+     //@Qualifier(value = "txManager02")
+     public PlatformTransactionManager txManager02() {
+     return new DataSourceTransactionManager(dataSource);
+     }
+     */
     @Bean(name = "transactionManager")
-    @Qualifier(value = "transactionManager")
+    @Primary
     public PlatformTransactionManager txManager01() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
@@ -140,7 +142,8 @@ public class DatabaseConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    @Bean
+    @Bean(name = "jdbcTemplate")
+    @Primary
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
