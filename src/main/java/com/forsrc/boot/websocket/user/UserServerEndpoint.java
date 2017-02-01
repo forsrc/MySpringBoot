@@ -41,6 +41,13 @@ public class UserServerEndpoint {
                 e.printStackTrace();
             }
         }
+        if("close".equals(message)){
+            try {
+                session.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @OnClose

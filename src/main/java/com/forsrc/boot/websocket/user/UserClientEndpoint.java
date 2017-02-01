@@ -40,13 +40,6 @@ public class UserClientEndpoint {
     public void onMessage(String message, Session session) {
         System.out.println("--> ClientEndpoint onMessage() --> " + session);
         System.out.println("--> ClientEndpoint onMessage() --> message: " + message);
-        for (Session s : sessionSet) {
-            try {
-                s.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @OnClose

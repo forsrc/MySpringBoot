@@ -18,7 +18,7 @@ public class WebsocketTest {
     @Test
     public void test() throws Exception {
 
-        System.setProperty("javax.net.debug", "all");
+        //System.setProperty("javax.net.debug", "all");
 
         System.setProperty("javax.net.ssl.trustStore", new ClassPathResource("truststore.keystore").getFile().getAbsolutePath());
         System.setProperty("javax.net.ssl.trustStore", new ClassPathResource("client.jks").getFile().getAbsolutePath());
@@ -29,10 +29,11 @@ public class WebsocketTest {
 
 
         Session session = container.connectToServer(UserClientEndpoint.class, uri);
-        //session.getBasicRemote().sendText("77");
-        //session.getBasicRemote().sendText("75");
-        session.setMaxIdleTimeout(60 * 1000);
-        TimeUnit.SECONDS.sleep(60);
+        session.getBasicRemote().sendText("77");
+        session.getBasicRemote().sendText("75");
+        session.getBasicRemote().sendText("close");
+        session.setMaxIdleTimeout(3 * 1000);
+        TimeUnit.SECONDS.sleep(3);
 
         session.close();
     }
