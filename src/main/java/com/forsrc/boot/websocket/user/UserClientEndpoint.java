@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.websocket.ClientEndpoint;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -13,9 +14,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.springframework.stereotype.Component;
 
-@ClientEndpoint
 @Component
-public class UserWebsocketClient {
+@ClientEndpoint
+public class UserClientEndpoint {
 
     private static final CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();
     private static long count;
@@ -25,7 +26,7 @@ public class UserWebsocketClient {
     private static final ThreadLocal<Session> THREAD_LOCAL = new ThreadLocal<>();
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, EndpointConfig ec) {
         sessionSet.add(session);
         System.out.println("--> ClientEndpoint onOpen() --> " + session);
         System.out.println("--> ClientEndpoint onOpen() --> count: " + getCount());

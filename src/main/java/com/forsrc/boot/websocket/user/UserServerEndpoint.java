@@ -16,7 +16,7 @@ import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 @ServerEndpoint(value = "/websocket/ws/user", configurator = SpringConfigurator.class)
 @Component
-public class UserWebsocket {
+public class UserServerEndpoint {
 
     private static final CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();
     private static long count;
