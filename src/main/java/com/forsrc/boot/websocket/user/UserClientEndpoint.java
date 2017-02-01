@@ -1,18 +1,12 @@
 package com.forsrc.boot.websocket.user;
 
+import org.springframework.stereotype.Component;
+
+import javax.websocket.*;
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.websocket.ClientEndpoint;
-import javax.websocket.EndpointConfig;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import org.springframework.stereotype.Component;
 
 @Component
 @ClientEndpoint
@@ -26,17 +20,20 @@ public class UserClientEndpoint {
     private static final ThreadLocal<Session> THREAD_LOCAL = new ThreadLocal<>();
 
     @OnOpen
-    public void onOpen(Session session, EndpointConfig ec) {
+    public void onOpen(Session session) {
         sessionSet.add(session);
+        setCount(1);
         System.out.println("--> ClientEndpoint onOpen() --> " + session);
         System.out.println("--> ClientEndpoint onOpen() --> count: " + getCount());
-        setCount(1);
         THREAD_LOCAL.set(session);
-        try {
-            session.getAsyncRemote().sendText(session.getId() + " --> hello world, " + new Date());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    }
+
+    public void onOpen(Session session, EndpointConfig ec) {
+        sessionSet.add(session);
+        setCount(1);
+        System.out.println("--> ClientEndpoint onOpen() --> " + session);
+        System.out.println("--> ClientEndpoint onOpen() --> count: " + getCount());
+        THREAD_LOCAL.set(session);
     }
 
     @OnMessage
@@ -56,8 +53,8 @@ public class UserClientEndpoint {
     public void onClose() {
         Session session = THREAD_LOCAL.get();
         sessionSet.remove(session);
-        THREAD_LOCAL.remove();
         setCount(-1);
+        THREAD_LOCAL.remove();
         System.out.println("--> ClientEndpoint onClose() --> " + getCount());
     }
 

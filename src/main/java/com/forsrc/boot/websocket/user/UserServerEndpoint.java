@@ -1,20 +1,16 @@
 package com.forsrc.boot.websocket.user;
 
+import com.forsrc.boot.config.WebsocketConfig;
+import org.springframework.stereotype.Component;
+
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.server.standard.SpringConfigurator;
 
-@ServerEndpoint(value = "/websocket/ws/user", configurator = SpringConfigurator.class)
+@ServerEndpoint(value = "/wss/user", configurator = WebsocketConfig.ServerEndpointConfigurator.class)
 @Component
 public class UserServerEndpoint {
 
@@ -28,15 +24,10 @@ public class UserServerEndpoint {
     @OnOpen
     public void onOpen(Session session) {
         sessionSet.add(session);
+        setCount(1);
         System.out.println("--> ServerEndpoint onOpen() --> " + session);
         System.out.println("--> ServerEndpoint onOpen() --> count: " + getCount());
-        setCount(1);
         THREAD_LOCAL.set(session);
-        try {
-            session.getAsyncRemote().sendText(session.getId() + " --> hello world, " + new Date());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @OnMessage

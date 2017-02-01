@@ -32,8 +32,9 @@ public class DatabaseConfig {
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-    @Bean(name = "dataSource")
-    @Primary
+    //@Bean(name = "dataSource")
+    //@Primary
+    @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
@@ -128,7 +129,7 @@ public class DatabaseConfig {
      }
      */
     @Bean(name = "transactionManager")
-    @Primary
+    //@Primary
     public PlatformTransactionManager txManager01() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
@@ -142,8 +143,9 @@ public class DatabaseConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    @Bean(name = "jdbcTemplate")
-    @Primary
+    //@Bean(name = "jdbcTemplate")
+    //@Primary
+    @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
