@@ -2,12 +2,6 @@ package com.forsrc.pojo;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  * The type UserPrivacy.
@@ -28,6 +22,7 @@ public class UserPrivacy implements java.io.Serializable {
     private Date updateOn;
     private String password;
     private int version;
+    private int status; // 0: delete; 1: OK; 2: NG
 
     // Constructors
     /**
@@ -171,5 +166,23 @@ public class UserPrivacy implements java.io.Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    /**
+     * Gets status.
+     *
+     * @return the status
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets status.
+     *
+     * @param status the status
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

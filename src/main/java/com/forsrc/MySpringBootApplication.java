@@ -6,14 +6,16 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jms.annotation.EnableJms;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @SpringBootApplication
 //@EnableAdminServer
 @ComponentScan
 @EnableAutoConfiguration
-@EnableJms
-@EnableWebSocket
+//@EnableJms
 public class MySpringBootApplication {
 
 	public static void main(String[] args) {

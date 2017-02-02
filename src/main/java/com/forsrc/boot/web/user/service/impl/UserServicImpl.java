@@ -5,13 +5,12 @@ import com.forsrc.boot.web.user.dao.UserPrivacyDao;
 import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.User;
 import com.forsrc.pojo.UserPrivacy;
-import java.text.MessageFormat;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 
 @Transactional
@@ -61,5 +60,10 @@ public class UserServicImpl implements UserService {
     @Override
     public void update(User user) {
         userDao.update(user);
+    }
+
+    @Override
+    public UserPrivacy findByUsername(String username) {
+        return userPrivacyDao.findByUsername(username);
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserPrivacyDao extends BaseDao<UserPrivacy, Long> {
+    public UserPrivacy findByUsername(String username);
 }
