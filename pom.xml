@@ -60,11 +60,17 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>${springboot.version}</version>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${springboot.version}</version>
-        </dependency-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

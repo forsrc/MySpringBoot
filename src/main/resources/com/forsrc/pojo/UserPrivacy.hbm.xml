@@ -34,11 +34,29 @@
         <property name="username" type="java.lang.String" update="false">
             <column name="username" not-null="true" unique="true" length="30" index="index_user_privacy_username"/>
         </property>
+
+        <property name="status" type="java.lang.Integer" update="false">
+            <column name="status" default="1" length="1" not-null="true"/>
+        </property>
     </class>
     <sql-query name="sql_user_privacy_update_password">
         <![CDATA[
             UPDATE t_user_privacy SET password = :password WHERE user_id = :id  
          ]]>
+    </sql-query>
+    <sql-query name="sql_user_privacy_findByUsername" read-only="true">
+        <![CDATA[
+             SELECT
+                    u.id, u.username, u.password, u.user_id, u.is_admin, u.create_on, u.update_on, u.version
+             FROM
+                    t_user_privacy u
+             WHERE
+                    u.username = :username
+
+
+         ]]>
+        <query-param name="username" type="java.lang.String"/>
+        <return alias="u" class="com.forsrc.pojo.UserPrivacy"/>
     </sql-query>
 
     <database-object>
