@@ -13,7 +13,7 @@ import javax.jms.Queue;
 import javax.jms.Topic;
 import java.util.Date;
 
-@Component
+//@Component
 public class Producer {
 
     @Resource(name = "topicJmsTemplate")

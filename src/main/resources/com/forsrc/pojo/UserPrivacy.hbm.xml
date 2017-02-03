@@ -41,7 +41,7 @@
     </class>
     <sql-query name="sql_user_privacy_update_password">
         <![CDATA[
-            UPDATE t_user_privacy SET password = :password WHERE user_id = :id  
+            UPDATE t_user_privacy SET password = :password WHERE user_id = :id and u.status = 1
          ]]>
     </sql-query>
     <sql-query name="sql_user_privacy_findByUsername" read-only="true">
@@ -52,7 +52,8 @@
                     t_user_privacy u
              WHERE
                     u.username = :username
-
+                    and
+                    u.status = 1
 
          ]]>
         <query-param name="username" type="java.lang.String"/>

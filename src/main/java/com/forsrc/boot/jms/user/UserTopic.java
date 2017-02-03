@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
-@Component
+//@Component
 public class UserTopic {
 
     public static final String TOPIC_NAME = "t/user";

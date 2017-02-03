@@ -16,7 +16,7 @@ import javax.jms.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
-@Component
+//@Component
 public class UserQueue {
 
     public static final String QUEUE_NAME = "q/user";
