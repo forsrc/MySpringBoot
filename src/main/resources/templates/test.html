@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Title</title>
+    </head>
+    <body>
+        <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3><br/>
+        name:<span sec:authentication="name"/><br/>
+        authorities:<span sec:authentication="principal.authorities"/><br/>
+        enabled:<span sec:authentication="principal.enabled"/><br/>
+        accountNonLocked:<span sec:sec:authentication="principal.accountNonLocked"/><br/>
+        <hr/>
+        <span sec:authorize="hasAuthority('ROLE_TEST')">ROLE_TEST</span><br/>
+        <span sec:authorize="hasAuthority('ROLE_USER')">ROLE_USER</span><br/>
+        <span sec:authorize-url='/logout'><a href="/logout">logout</a></span>
+        <span sec:authorize-url='GET /user/1'><a href="/user/1">GET user</a></span>
+        <span sec:authorize-url='POST /user/1'><a href="/user/1">POST user</a></span>
+        <span sec:authorize-url='PUT /user/1'><a href="/user/1">PUT user</a></span>
+        <span sec:authorize-url='PATCH /user/1'><a href="/user/1">PATCH user</a></span>
+        <span sec:authorize-url='DELECT /user/1'><a href="/user/1">DELECT user</a></span>
+        
+        <span sec:authorize="isAuthenticated()">ROLE_USER</span><br/>
 
-</body>
+    </body>
 </html>

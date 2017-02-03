@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>oops!</title>
+    </head>
+    <body>
+        <h3>oops!</h3><span sec:authorize="isAuthenticated()">[[${#httpServletRequest.remoteUser}]]</span>
+        <div th:text="${url}"></div>
+        <div th:text="${exception.message}"></div>
+        <div>
+            <a href="Javascript:history.back();">back</a>
+            <a sec:authorize="isAuthenticated()" href="/logout">logout</a>
+            <a sec:authorize="isAnonymous()" href="/login">login</a>
+        </div>
+    </body>
+</html>

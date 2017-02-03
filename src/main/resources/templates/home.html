@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>home</title>
-</head>
-<body>
-<label>home</label>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>home</title>
+    </head>
+    <body>
+        <label>home</label>
+        <div>
+            <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]] !</h3><br/>
 
-</body>
+
+
+        </div>
+
+    </body>
 </html>
