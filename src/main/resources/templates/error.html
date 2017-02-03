@@ -7,7 +7,7 @@
         <title>oops!</title>
     </head>
     <body>
-        <h3>oops!</h3><span sec:authorize="isAuthenticated()">[[${#httpServletRequest.remoteUser}]]</span>
+        <h3>oops!</h3><span sec:authorize="isAuthenticated()" th:inline="text">[[${#httpServletRequest.remoteUser}]]</span>
         <div th:text="${url}"></div>
         <div th:text="${exception.message}"></div>
         <div>

@@ -16,7 +16,7 @@ public class DemoController {
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
     //@ResponseBody
-    @PreAuthorize("authenticated and hasPermission('ROLE_TEST')")
+    @PreAuthorize("isAuthenticated()")
     String helloWorld() {
         System.out.println(String.format("Hello World! --> %s", new Date().toString()));
         return "/test";
