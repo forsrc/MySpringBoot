@@ -242,7 +242,7 @@ public class MD5Utils {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new IOException("GetFileMd5():" + file.getPath(), e);
+            throw new IOException(String.format("GetFileMd5(): %s", file.getPath()), e);
         } finally {
             try {
                 if (in != null) {

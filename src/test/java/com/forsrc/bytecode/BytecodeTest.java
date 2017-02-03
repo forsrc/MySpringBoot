@@ -45,7 +45,7 @@ public class BytecodeTest {
         ctClass.addConstructor(ctConstructor);
 
         CtMethod printMethod = new CtMethod(CtClass.voidType, "print", new CtClass[]{}, ctClass);
-        printMethod.setBody("{System.out.println(this.id  + \" -1-> \" + this.username); System.out.println(this.getId()  + \" -2-> \" + this.getUsername());}");
+        printMethod.setBody(String.format("{System.out.println(this.id  + \" -1-> \" + this.username); System.out.println(this.getId()  + \" -2-> \" + this.getUsername());}"));
         ctClass.addMethod(printMethod);
 
         ctClass.writeFile();

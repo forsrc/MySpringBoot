@@ -61,7 +61,7 @@ public class MsgUtils {
     public static String getMsg(String type, String msg, int index, boolean flag) {
 
         StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(DateTimeUtils.getDateTime()).append(" ");
         sb.append(type).append(" ");
         sb.append(msg);
@@ -121,7 +121,7 @@ public class MsgUtils {
                 true);
         for (int i = 0; i < trace.length; i++) {
             // ConsoleColorUtils.printRed("\t\t\t\tat " + trace[i] + "\n");
-            System.err.print("\t\t\t\tat " + trace[i] + "\n");
+            System.err.print(String.format("\t\t\t\tat %s\n", trace[i]));
         }
         Throwable ourCause = exception.getCause();
         if (ourCause != null) {
@@ -148,25 +148,25 @@ public class MsgUtils {
         }
         int framesInCommon = trace.length - 1 - m;
         // ConsoleColorUtils.printRed(new
-        // StringBuffer().append("\t\t\t\tCaused by: ")
+        // StringBuilder().append("\t\t\t\tCaused by: ")
         // .append(throwable).toString());
-        System.err.println(new StringBuffer().append("\t\t\t\tCaused by: ")
+        System.err.println(new StringBuilder().append("\t\t\t\tCaused by: ")
                 .append(throwable).toString());
         // System.out.println();
 
         for (int i = 0; i <= m; i++) {
             // ConsoleColorUtils.printRed(new
-            // StringBuffer().append("\n\t\t\t\tat " + trace[i])
+            // StringBuilder().append("\n\t\t\t\tat " + trace[i])
             // .toString());
-            System.err.println(new StringBuffer().append(
-                    "\n\t\t\t\tat " + trace[i]).toString());
+            System.err.println(new StringBuilder().append(
+                    "\n\t\t\t\tat ").append(trace[i]).toString());
             // System.out.println();
         }
         if (framesInCommon != 0)
             // ConsoleColorUtils.printRed(new
-            // StringBuffer().append("\n\t\t\t\t... ")
+            // StringBuilder().append("\n\t\t\t\t... ")
             // .append(framesInCommon).append(" more\n").toString());
-            System.err.println(new StringBuffer().append("\n\t\t\t\t... ")
+            System.err.println(new StringBuilder().append("\n\t\t\t\t... ")
                     .append(framesInCommon).append(" more\n").toString());
         // System.out.println();
         // Recurse if we have a cause
@@ -252,7 +252,7 @@ public class MsgUtils {
             return;
         }
         StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (printTime) {
             // System.out.print(DateTimeUtils.getDateTime());
             // System.out.print(" ");
@@ -271,9 +271,9 @@ public class MsgUtils {
             // .equals(type.trim()) ? "printYellow" : "printLightCyan",
             // String.class);
             // method.invoke(new ConsoleColorUtils(), new
-            // StringBuffer().append(type).append(" ")
+            // StringBuilder().append(type).append(" ")
             // .append(msg).toString());
-            // System.out.print(new StringBuffer().append(type).append(" ")
+            // System.out.print(new StringBuilder().append(type).append(" ")
             // .append(msg).toString());
             sb.append(msg);
         } catch (Exception e) {

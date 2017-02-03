@@ -28,12 +28,12 @@ public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr{
     public List<User> findByUsername(final String username, final Pageable pageable) throws Exception {
         final List<User> list = new ArrayList<User>();
 
-        SolrDocumentList solrDocumentList = findByQuery("username:" + username, pageable);
+        SolrDocumentList solrDocumentList = findByQuery(String.format("username:%s", username), pageable);
         return exec(new SolrHandler<List<User>>() {
             @Override
             public List<User> handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
                 SolrQuery solrQuery = new SolrQuery();
-                solrQuery.setQuery("username:" + username);
+                solrQuery.setQuery(String.format("username:%s", username));
                 solrQuery.setStart(pageable.getOffset());
                 solrQuery.setRows(pageable.getPageSize());
                 QueryResponse response = httpSolrClient.query(solrQuery);

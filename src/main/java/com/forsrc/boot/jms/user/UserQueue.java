@@ -80,17 +80,17 @@ public class UserQueue {
 
         @JmsListener(destination = QUEUE_NAME, containerFactory = "queueJmsListenerContainerFactory")
         public void onMessage(Message message) {
-            System.out.println("-->onMessage() UserQueue: " + message);
+            System.out.println(String.format("--> onMessage() UserQueue: %s", message));
             try {
                 if (message instanceof ActiveMQTextMessage) {
                     String json = ((ActiveMQTextMessage) message).getText();
-                    if (json.startsWith("{") && json.endsWith("}")) {
+                    if (json != null && json.startsWith("{") && json.endsWith("}")) {
                         ObjectMapper mapper = new ObjectMapper();
                         UserMessage userMessage = mapper.readValue(json, UserMessage.class);
-                        System.out.println("--> UserQueue: " + userMessage.toString());
+                        System.out.println(String.format("--> UserQueue: %s", userMessage.toString()));
                         return;
                     }
-                    System.out.println("--> UserQueue: " + json);
+                    System.out.println(String.format("--> UserQueue: %s", json));
                 }
 
             } catch (Exception e) {

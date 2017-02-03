@@ -1,6 +1,5 @@
 package com.forsrc.ehcache;
 
-
 import com.forsrc.constant.KeyConstants;
 import com.forsrc.utils.SessionUtils;
 
@@ -27,9 +26,7 @@ import java.util.Set;
 public class MethodCacheInterceptor implements MethodInterceptor, AfterReturningAdvice, InitializingBean {
 
     private static final Logger LOGGER = Logger.getLogger(MethodCacheInterceptor.class);
-
     private Cache cache;
-    
     private static final Set<String> removeKeySet = new HashSet<String>();
 
     /**
@@ -59,7 +56,7 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     public void afterReturning(Object object, Method arg1, Object[] objects, Object obj)
             throws Throwable {
 
-    	this.removeByClassName(obj.getClass().getName());
+        this.removeByClassName(obj.getClass().getName());
     }
 
     @Override
@@ -92,30 +89,28 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
         this.removeByClassName(className);
     }
 
-
     private Element ehcache(MethodInvocation invocation) throws Throwable {
         String targetName = invocation.getThis().getClass().getName();
         String methodName = invocation.getMethod().getName();
         Object[] arguments = invocation.getArguments();
         String key = this.getCacheKey(targetName, methodName, arguments);
         Element element = null;
-        synchronized(this) {
-        	element = this.cache.get(key);
-	        if (element != null) {
-	            LOGGER.info("[Ehcache] find cache: " + key);
-	            return element;
-	        }
-	        if (null == element) {
-	            Object result = invocation.proceed();
-	            element = new Element(key, result);
-	            this.cache.put(element);
-	            String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
-	            this.removeKeySet.add(keyWithoutUsername);
-	        }
+        synchronized (this) {
+            element = this.cache.get(key);
+            if (element != null) {
+                LOGGER.info(String.format("[Ehcache] find cache: %s", key));
+                return element;
+            }
+            if (null == element) {
+                Object result = invocation.proceed();
+                element = new Element(key, result);
+                this.cache.put(element);
+                String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
+                this.removeKeySet.add(keyWithoutUsername);
+            }
         }
         return element;
     }
-
 
     private Element ehcache(ProceedingJoinPoint jp) throws Throwable {
         String targetName = jp.getTarget().getClass().getName();
@@ -123,33 +118,32 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
         Object[] arguments = jp.getArgs();
         String key = this.getCacheKey(targetName, methodName, arguments);
         Element element = null;
-        synchronized(this) {
-	        element = this.cache.get(key);
-	        if (element != null) {
-	            LOGGER.info("[Ehcache] find cache: " + key);
-	            return element;
-	        }
-	        if (null == element) {
-	            Object result = jp.proceed(arguments);
-	            element = new Element(key, result);
-	            this.cache.put(element);
-	            String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
-	            this.removeKeySet.add(keyWithoutUsername);
-	        }
+        synchronized (this) {
+            element = this.cache.get(key);
+            if (element != null) {
+                LOGGER.info(String.format("[Ehcache] find cache: %s", key));
+                return element;
+            }
+            if (null == element) {
+                Object result = jp.proceed(arguments);
+                element = new Element(key, result);
+                this.cache.put(element);
+                String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
+                this.removeKeySet.add(keyWithoutUsername);
+            }
         }
         return element;
     }
-    
 
     private String getCacheKey(String className, String methodName, Object[] arguments) {
         String username = SessionUtils.get(KeyConstants.USERNAME.getKey());
         String key = getCacheKeyWithoutUsername(className, methodName, arguments);
         if (username == null) {
-           return key;
+            return key;
         }
-        return key + "/" + username;
+        return String.format("%s/%s", username, key);
     }
-    
+
     private String getCacheKeyWithoutUsername(String className, String methodName, Object[] arguments) {
 
         StringBuffer sb = new StringBuffer(className.length() + methodName.length() + 10
@@ -167,12 +161,12 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
         String key = className.substring(0, className.lastIndexOf("."));
         String username = SessionUtils.get(KeyConstants.USERNAME.getKey());
         if (username != null) {
-            return key + "/" + username;
+            return String.format("%s/%s", username, key);
         }
         return className;
 
     }
-    
+
     @Deprecated
     private void remove(final String key) {
         Iterator<String> it = this.cache.getKeys().iterator();
@@ -180,7 +174,7 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
             String cacheKey = it.next();
             if (cacheKey.startsWith(key)) {
                 this.cache.remove(cacheKey);
-                LOGGER.info("[Ehcache] remove cache: " + cacheKey);
+                LOGGER.info(String.format("[Ehcache] remove cache: %s", cacheKey));
             }
         }
     }
@@ -191,8 +185,8 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
         String cacheKey = null;
         boolean delete = false;
         while (it.hasNext()) {
-        	cacheKey = username == null ? it.next() : it.next() + "/" + username;
-        	delete = this.cache.remove(cacheKey);
+            cacheKey = username == null ? it.next() : String.format("%s/%s", username, it.next());
+            delete = this.cache.remove(cacheKey);
             LOGGER.info(MessageFormat.format("[Ehcache] remove cache: [{0}] {1}", delete, cacheKey));
         }
     }

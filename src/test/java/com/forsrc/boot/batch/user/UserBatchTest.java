@@ -19,7 +19,7 @@ public class UserBatchTest {
         Job job = (Job) context.getBean("userJob");
 
         JobExecution execution = jobLauncher.run(job, new JobParameters());
-        System.out.println("Exit Status : " + execution.getStatus());
+        System.out.println(String.format("Exit Status : %s", execution.getStatus()));
         System.out.println("Done");
 
         context.close();

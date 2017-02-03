@@ -452,7 +452,7 @@ public class BufferedRandomAccessFile extends RandomAccessFile implements FileDa
         long bytes = getFilePointer() - markedPointer;
         assert bytes >= 0;
         if (bytes > Integer.MAX_VALUE)
-            throw new UnsupportedOperationException("Overflow: " + bytes);
+            throw new UnsupportedOperationException(String.format("Overflow: %s", bytes));
         return (int) bytes;
     }
 }

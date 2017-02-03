@@ -34,8 +34,8 @@ public class AmqTest {
 
     @Test
     public void test() throws InterruptedException {
-        System.out.println("--> queueJmsTemplate:" + queueJmsTemplate);
-        System.out.println("--> topicJmsTemplate:" + topicJmsTemplate);
+        System.out.println(String.format("--> queueJmsTemplate: %s", queueJmsTemplate));
+        System.out.println(String.format("--> topicJmsTemplate: %s", topicJmsTemplate));
         queueJmsTemplate.send("q/user", new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {

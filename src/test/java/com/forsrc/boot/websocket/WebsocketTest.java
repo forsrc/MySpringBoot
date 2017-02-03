@@ -26,12 +26,13 @@ public class WebsocketTest {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         URI uri = URI.create("wss://localhost:8075/wss/user");
         ClientEndpointConfig config = ClientEndpointConfig.Builder.create().build();
-
-
-        Session session = container.connectToServer(UserClientEndpoint.class, uri);
+        config.getUserProperties().put("javax.net.ssl.trustStore", new ClassPathResource("truststore.keystore").getFile().getAbsolutePath());
+        config.getUserProperties().put("javax.net.ssl.trustStore", new ClassPathResource("client.jks").getFile().getAbsolutePath());
+        config.getUserProperties().put("javax.net.ssl.trustStorePassword", "apache");
+        Session session = container.connectToServer(UserClientEndpoint.class, config, uri);
         session.getBasicRemote().sendText("77");
         session.getBasicRemote().sendText("75");
-        session.getBasicRemote().sendText("close");
+        session.getBasicRemote().sendText(String.format("CLOSE: %s", session.getId()));
         session.setMaxIdleTimeout(3 * 1000);
         TimeUnit.SECONDS.sleep(3);
 

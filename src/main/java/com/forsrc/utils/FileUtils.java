@@ -69,7 +69,7 @@ public class FileUtils {
             throw new IllegalArgumentException("File is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
         long startTime = System.currentTimeMillis();
         BufferedReader br = null;
@@ -139,7 +139,7 @@ public class FileUtils {
             throw new IllegalArgumentException("File is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
         long startTime = System.currentTimeMillis();
         RandomAccessFile raf = null;
@@ -206,7 +206,7 @@ public class FileUtils {
             throw new IllegalArgumentException("File is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
         long startTime = System.currentTimeMillis();
         Scanner scanner = null;
@@ -275,7 +275,7 @@ public class FileUtils {
             throw new IllegalArgumentException("File is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
         if (start >= file.length()) {
             throw new IllegalArgumentException(String.format(
@@ -384,7 +384,7 @@ public class FileUtils {
             throw new IllegalArgumentException("SaveFile is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
         if (start >= file.length()) {
             LogUtils.LOGGER.debug(MessageFormat.format(
@@ -504,7 +504,7 @@ public class FileUtils {
             throw new IllegalArgumentException("File is null.");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("File is not exists: " + file);
+            throw new IllegalArgumentException(String.format("File is not exists: %s", file));
         }
 
     }

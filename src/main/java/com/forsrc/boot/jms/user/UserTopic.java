@@ -100,17 +100,17 @@ public class UserTopic {
 
         @JmsListener(destination = TOPIC_NAME, containerFactory = "topicJmsListenerContainerFactory")
         public void onMessage(Message message) {
-            System.out.println("-->onMessage() UserTopic: " + message);
+            System.out.println(String.format("-->onMessage() UserTopic: %s", message));
             try {
                 if (message instanceof ActiveMQTextMessage) {
                     String json = ((ActiveMQTextMessage) message).getText();
                     if (json.startsWith("{") && json.endsWith("}")) {
                         ObjectMapper mapper = new ObjectMapper();
                         UserMessage userMessage = mapper.readValue(json, UserMessage.class);
-                        System.out.println("--> UserTopic: " + userMessage.toString());
+                        System.out.println(String.format("--> UserTopic: %s", userMessage.toString()));
                         return;
                     }
-                    System.out.println("--> UserTopic: " + json);
+                    System.out.println(String.format("--> UserTopic: %s", json));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -123,17 +123,17 @@ public class UserTopic {
 
         @JmsListener(destination = TOPIC_NAME, subscription = SUBSCRIBER_NAME)
         public void onMessage(Message message) {
-            System.out.println("-->onMessage() UserTopicSubscriber: " + message);
+            System.out.println(String.format("-->onMessage() UserTopicSubscriber: %s", message));
             try {
                 if (message instanceof ActiveMQTextMessage) {
                     String json = ((ActiveMQTextMessage) message).getText();
                     if (json.startsWith("{") && json.endsWith("}")) {
                         ObjectMapper mapper = new ObjectMapper();
                         UserMessage userMessage = mapper.readValue(json, UserMessage.class);
-                        System.out.println("--> UserTopicSubscriber: " + userMessage.toString());
+                        System.out.println(String.format("--> UserTopicSubscriber: %s", userMessage.toString()));
                         return;
                     }
-                    System.out.println("--> UserTopic: " + json);
+                    System.out.println(String.format("--> UserTopic: %s", json));
 
                 }
             } catch (Exception e) {

@@ -307,10 +307,10 @@ public class JredisUtils {
     public static String formatKey(final String namespace, final KeyType keyType, final String key) throws JredisUtilsException {
         String k = namespace + keyType.getType() + key;
         if (MyStringUtils.isBlank(namespace)) {
-            throw new IllegalArgumentException("Namespace is blank. -> " + k);
+            throw new IllegalArgumentException(String.format("Namespace is blank. -> %s", k));
         }
         if (MyStringUtils.isBlank(key)) {
-            throw new IllegalArgumentException("Key is blank. -> " + k);
+            throw new IllegalArgumentException(String.format("Key is blank. -> %s", k));
         }
         checkKey(k);
         return k;
@@ -474,7 +474,7 @@ public class JredisUtils {
      */
     public static void checkReply(Long actual, long expected) throws JredisUtilsException {
         if (actual == null) {
-            throw new JredisUtilsException("Actual reply is null, expected : " + expected);
+            throw new JredisUtilsException(String.format("Actual reply is null, expected : %s", expected));
         }
         if (actual.equals(expected)) {
             throw new JredisUtilsException(
@@ -511,14 +511,14 @@ public class JredisUtils {
             throw new JredisUtilsException("The key is null.");
         }
         if (key.indexOf("/key_type_") < 0) {
-            throw new JredisUtilsException("Incorrect key type in the key: " + key);
+            throw new JredisUtilsException(String.format("Incorrect key type in the key: %s", key));
         }
         if (key.indexOf("/key_type_") == 0) {
-            throw new JredisUtilsException("No namespace in the key : " + key);
+            throw new JredisUtilsException(String.format("No namespace in the key : %s", key));
         }
         Matcher matcher = PATTERN_KEY.matcher(key);
         if (!matcher.matches()) {
-            throw new JredisUtilsException("Incorrect key format: " + key);
+            throw new JredisUtilsException(String.format("Incorrect key format: %s", key));
 
         }
     }

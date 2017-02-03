@@ -15,24 +15,24 @@ public class UserTextWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("--> UserTextWebSocketHandler afterConnectionEstablished() --> " + session);
+        System.out.println(String.format("--> UserTextWebSocketHandler afterConnectionEstablished() --> %s", session));
         sessions.add(session);
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        System.out.println("--> UserTextWebSocketHandler handleTextMessage() --> " + message);
+        System.out.println(String.format("--> UserTextWebSocketHandler handleTextMessage() --> %s", message));
         sessions.sendMessage(message);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("--> UserTextWebSocketHandler afterConnectionClosed() --> " + session);
+        System.out.println(String.format("--> UserTextWebSocketHandler afterConnectionClosed() --> %s", session));
         sessions.remove(session);
     }
 
     public void broadcastMessage(TextMessage message) throws IOException {
-        System.out.println("--> UserTextWebSocketHandler broadcastMessage() --> " + message);
+        System.out.println(String.format("--> UserTextWebSocketHandler broadcastMessage() --> %s", message));
         sessions.sendMessage(message);
     }
 

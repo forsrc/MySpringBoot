@@ -87,7 +87,7 @@ public class WebUtils {
         List<String> list = new ArrayList<String>();
         Locale[] locales = Locale.getAvailableLocales();
         for (Locale locale : locales) {
-            list.add(locale.getLanguage() + "_" + locale.getCountry());
+            list.add(String.format("%s_%s", locale.getLanguage(), locale.getCountry()));
         }
         return list;
     }
@@ -123,7 +123,7 @@ public class WebUtils {
         String language = languageFromRequest == null ? languageFromSession
                 : languageFromRequest;
         Locale locale = getLocale(language);
-        language = locale.getLanguage() + "_" + locale.getCountry();
+        language = String.format("%s_%s", locale.getLanguage(), locale.getCountry());
         //struts2
         /*ActionContext actionContext = ActionContext.getContext();
         if (actionContext != null) { //struts2

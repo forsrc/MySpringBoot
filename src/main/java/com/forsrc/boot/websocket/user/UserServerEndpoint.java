@@ -6,9 +6,12 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ServerEndpoint(value = "/wss/user", configurator = WebsocketConfig.ServerEndpointConfigurator.class)
 @Component
@@ -25,15 +28,15 @@ public class UserServerEndpoint {
     public void onOpen(Session session) {
         sessionSet.add(session);
         setCount(1);
-        System.out.println("--> ServerEndpoint onOpen() --> " + session);
-        System.out.println("--> ServerEndpoint onOpen() --> count: " + getCount());
+        System.out.println(String.format("--> ServerEndpoint onOpen() --> %s", session));
+        System.out.println(String.format("--> ServerEndpoint onOpen() --> count: %s", getCount()));
         THREAD_LOCAL.set(session);
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("--> ServerEndpoint onMessage() --> " + session);
-        System.out.println("--> ServerEndpoint onMessage() --> message: " + message);
+        System.out.println(String.format("--> ServerEndpoint onMessage() --> %s", session));
+        System.out.println(String.format("--> ServerEndpoint onMessage() --> message: %s", message));
         for (Session s : sessionSet) {
             try {
                 s.getBasicRemote().sendText(message);
@@ -41,27 +44,38 @@ public class UserServerEndpoint {
                 e.printStackTrace();
             }
         }
-        if("close".equals(message)){
-            try {
-                session.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (message != null && message.equals(String.format("CLOSE: %s", session.getId()))) {
+            close(session);
         }
     }
 
     @OnClose
     public void onClose() {
+        System.out.println(String.format("--> ServerEndpoint onClose() --> %s", getCount()));
         Session session = THREAD_LOCAL.get();
+        close(session);
         sessionSet.remove(session);
         THREAD_LOCAL.remove();
         setCount(-1);
-        System.out.println("--> ServerEndpoint onClose() --> " + getCount());
+    }
+
+    private void close(Session session) {
+        if (session != null && session.isOpen()) {
+            synchronized (session) {
+                if (session != null && session.isOpen()) {
+                    try {
+                        session.getBasicRemote().sendText(String.format("CLOSE: %s", session.getId()));
+                    } catch (IOException ex) {
+                        Logger.getLogger(UserClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("--> ServerEndpoint onError() --> " + error.getMessage());
+        System.out.println(String.format("--> ServerEndpoint onError() --> %s", error.getMessage()));
         error.printStackTrace();
     }
 

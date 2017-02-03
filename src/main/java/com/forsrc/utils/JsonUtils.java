@@ -108,7 +108,7 @@ public class JsonUtils {
 
         StringBuilder sb = new StringBuilder();
         if (session != null) {
-            sb.append("[" + session + "]").append("\n");
+            sb.append("[").append(session).append("]").append("\n");
         }
         Iterator<String> it = jsonNode.getFieldNames();
         while (it.hasNext()) {
@@ -154,9 +154,8 @@ public class JsonUtils {
         for (int i = 0; i < index; i++) {
             sb.append("  ");
         }
-        json = json.replaceAll("^\\{", sb.toString() + "{\n  " + sb.toString());
-        json = json.replaceAll("\\}$", sb.toString() + "\n" + sb.toString()
-                + "}");
+        json = json.replaceAll("^\\{", String.format("%s{\n  %s", sb.toString(), sb.toString()));
+        json = json.replaceAll("\\}$",  String.format("%s\n%s}",sb.toString(), sb.toString()));
         return json;
     }
 
