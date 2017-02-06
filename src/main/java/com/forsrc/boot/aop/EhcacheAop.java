@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Iterator;
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -17,13 +18,13 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class EhcacheAop {
 
     private static final Logger LOGGER = Logger.getLogger(EhcacheAop.class);
     @Autowired
-    private Cache cache;
+    private Ehcache cache;
 
     @Before("execution(public * com.forsrc..*.*Service.*(..))")
     public void before(JoinPoint jp) throws Throwable {

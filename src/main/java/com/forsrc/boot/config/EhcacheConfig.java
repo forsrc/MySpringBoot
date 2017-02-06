@@ -1,7 +1,7 @@
 package com.forsrc.boot.config;
 
+import net.sf.ehcache.Ehcache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -17,7 +17,7 @@ public class EhcacheConfig {
     private EhCacheCacheManager ehCacheCacheManager;
 
     @Bean
-    public Cache cache() {
+    public org.springframework.cache.Cache cache() {
         return ehCacheCacheManager.getCache("ehcache_pojp_aop");
     }
 
@@ -33,5 +33,11 @@ public class EhcacheConfig {
         cacheManagerFactoryBean.setShared(true);
         return cacheManagerFactoryBean;
 
+    }
+
+    @Bean
+    public Ehcache ehcache(EhCacheCacheManager ehCacheCacheManager) {
+        Ehcache ehcache = ehCacheCacheManager.getCacheManager().getEhcache("ehcache_pojp_aop");
+        return ehcache;
     }
 }
