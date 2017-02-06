@@ -62,9 +62,9 @@
     
     <sql-query name="sql_user_privacy_init" read-only="false">
         <![CDATA[
-            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (1, 1, 'admin", 'admin', 0, 1);
-            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (2, 2, 'user",  'user',  0, 1);
-            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (3, 3, 'test",  'test',  0, 1);
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (1, 1, 'admin', 'admin', 0, 1);
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (2, 2, 'user',  'user',  0, 1);
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (3, 3, 'test',  'test',  0, 1);
          ]]>
     </sql-query>
 
