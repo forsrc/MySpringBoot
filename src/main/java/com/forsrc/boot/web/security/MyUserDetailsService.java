@@ -15,9 +15,11 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserPrivacy user = userService.findByUsername(username);
         if (user == null) {
+            System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is not exist: %s", username));
             throw new UsernameNotFoundException(String.format("User is not exist: %s", username));
         }
-        MyUserDetails myUserDetails = new MyUserDetails(user.getUsername(), user.getPassword());
+        System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is : %s", username));
+        MyUserDetails myUserDetails = new MyUserDetails(user);
 
         return myUserDetails;
     }

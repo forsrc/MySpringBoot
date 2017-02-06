@@ -16,10 +16,9 @@ public class RoleDaoImpl extends BaseDaoImpl<Role, Long> implements RoleDao {
         return Role.class;
     }
 
-
     @Override
-    public List<Role> roles() {
-        Query query = entityManager.createQuery(String.format("from %s", getEntityClassName()));
+    public List<Role> getRoles() {
+        Query query = entityManager.createNamedQuery("sql_role_getRoles", getEntityClass());
         return query.getResultList();
     }
 }

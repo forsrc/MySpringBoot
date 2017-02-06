@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class SecurityController {
 
-    @RequestMapping(value = "/login", method = {RequestMethod.GET})
+    @RequestMapping(value = "/login")
     public String login() throws Exception {
         return "/login";
     }
 
-    @RequestMapping(value = "/404", method = {RequestMethod.GET})
+    @RequestMapping(value = "/404")
     public ModelAndView e404(HttpServletRequest request) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String url = String.format("%s://%s:%s%s%s"
@@ -30,7 +30,7 @@ public class SecurityController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/403", method = {RequestMethod.GET})
+    @RequestMapping(value = "/403")
     public ModelAndView e403(HttpServletRequest request) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String url = String.format("%s://%s:%s%s%s"
@@ -45,7 +45,7 @@ public class SecurityController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/502", method = {RequestMethod.GET})
+    @RequestMapping(value = "/502")
     public ModelAndView e502(HttpServletRequest request) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String url = String.format("%s://%s:%s%s%s"
@@ -60,7 +60,7 @@ public class SecurityController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home", method = {RequestMethod.GET})
+    @RequestMapping(value = "/home")
     public ModelAndView home() throws Exception {
         return new ModelAndView("/home");
     }

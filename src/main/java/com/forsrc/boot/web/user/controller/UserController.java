@@ -24,13 +24,13 @@ public class UserController {
 
     @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
-    public List<User> get() throws Exception{
+    public List<User> get() throws Exception {
         try {
             List<User> list = userService.get(0, 10);
             //System.out.println("---> " + ((Object[])(list.get(0)))[0]);
             return list;
         } catch (Exception e) {
-            throw new Exception(MessageFormat.format("Exception --> {0} : {1}", new Date().toString(), e.getMessage()));
+            throw e;
         }
     }
 
@@ -52,7 +52,7 @@ public class UserController {
     @RequestMapping(value = "/", method = {RequestMethod.PUT})
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_USER')")
-    public User save(String username, String email) throws Exception{
+    public User save(String username, String email) throws Exception {
         try {
             User user = new User();
             user.setUsername(username);
@@ -69,7 +69,7 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN') and #id > 0")
     //@PreAuthorize("#id > 0")
-    public User delete(@PathVariable("id") Long id) throws Exception{
+    public User delete(@PathVariable("id") Long id) throws Exception {
         System.out.println(MessageFormat.format("delete({0}) --> {1}", id, new Date().toString()));
         try {
             User user = new User(id);
@@ -94,7 +94,7 @@ public class UserController {
     @ResponseBody
     //@PreAuthorize("hasRole('ROLE_USER')")
     @PreAuthorize("principal.username.equals(#username)")
-    public User update(@PathVariable("id") Long id, String username, String email) throws Exception{
+    public User update(@PathVariable("id") Long id, String username, String email) throws Exception {
         System.out.println(MessageFormat.format("update({0}) --> {1}", id, new Date().toString()));
         try {
             User user = userService.get(id);

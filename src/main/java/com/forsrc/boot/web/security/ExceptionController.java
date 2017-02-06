@@ -10,6 +10,8 @@ public class ExceptionController {
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+        System.out.println("--> ExceptionController.defaultErrorHandler():");
+        e.printStackTrace();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("exception", e);
         modelAndView.addObject("url", req.getRequestURL());

@@ -3,20 +3,20 @@ package com.forsrc.pojo;
 import java.text.MessageFormat;
 import java.util.Date;
 
-public class Role implements java.io.Serializable {
+public class RoleUrl implements java.io.Serializable {
 
     private Long id;
-    private String name;
-    private Long parentId;
+    private String url;
+    private Long roleId;
     private Date updateOn;
     private Date createOn;
     private int status; // 0: delete; 1: OK; 2: NG
     private int version;
 
-    public Role() {
+    public RoleUrl() {
     }
 
-    public Role(Long id) {
+    public RoleUrl(Long id) {
         this.id = id;
     }
 
@@ -28,12 +28,20 @@ public class Role implements java.io.Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public Date getUpdateOn() {
@@ -68,16 +76,8 @@ public class Role implements java.io.Serializable {
         this.version = version;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
     @Override
     public String toString() {
-        return MessageFormat.format("'{'\"id\" : \"{0}\", \"userId\" : \"{1}\"'}'", id, name);
+        return MessageFormat.format("'{'\"id\" : \"{0}\", \"userId\" : \"{1}\"', \"roleId\" : \"{2}\"'}'", id, url, roleId);
     }
 }

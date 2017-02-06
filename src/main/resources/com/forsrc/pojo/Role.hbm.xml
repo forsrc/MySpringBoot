@@ -37,20 +37,26 @@
             UPDATE t_role SET name = :name WHERE id = :id and status = 1
          ]]>
     </sql-query>
-    <sql-query name="sql_role_findByUserId" read-only="true">
+    <sql-query name="sql_role_getRoles" read-only="true">
         <![CDATA[
              SELECT
-                    obj.id, obj.name, obj.create_on, obj.update_on, obj.version, obj.status
+                    obj.id, obj.name, obj.url, obj.parentId, obj.create_on, obj.update_on, obj.version, obj.status
              FROM
                     t_role obj
              WHERE
-                    obj.id = :id
-                    and
                     obj.status = 1
 
          ]]>
-        <query-param name="id" type="java.lang.Long"/>
         <return alias="obj" class="com.forsrc.pojo.Role"/>
+    </sql-query>
+    
+    <sql-query name="sql_role_init" read-only="false">
+        <![CDATA[
+            INSERT INTO t_role (id, name, version, status) VALUES (1, 'ROLE_ADMIN', 0, 1);
+            INSERT INTO t_role (id, name, version, status) VALUES (2, 'ROLE_USER',  0, 1);
+            INSERT INTO t_role (id, name, version, status) VALUES (3, 'ROLE_TEST',  0, 1);
+
+         ]]>
     </sql-query>
 
     <database-object>

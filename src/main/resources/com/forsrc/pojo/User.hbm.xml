@@ -131,24 +131,32 @@
     <query name="hql_user_get_" read-only="true">
 
         SELECT
-            obj.id, obj.username, obj.status, obj.isAdmin, obj.email, obj.image, obj.createOn, obj.updateOn, obj.version
+        obj.id, obj.username, obj.status, obj.isAdmin, obj.email, obj.image, obj.createOn, obj.updateOn, obj.version
         FROM
-            com.forsrc.pojo.User obj
+        com.forsrc.pojo.User obj
         WHERE
-            1 = 1
-            and
-            obj.status = 1
+        1 = 1
+        and
+        obj.status = 1
     </query>
     
     <query name="hql_user_get" read-only="true">
 
         FROM
-            com.forsrc.pojo.User obj
+        com.forsrc.pojo.User obj
         WHERE
-            1 = 1
-            and
-            obj.status = 1
+        1 = 1
+        and
+        obj.status = 1
     </query>
+    
+    <sql-query name="sql_user_init" read-only="false">
+        <![CDATA[
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (1, 'admin', 'admin@forsrc.com', 1, 0, 1);
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (2, 'user',  'user@forsrc.com',  0, 0, 1);
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (3, 'test',  'test@forsrc.com',  0, 0, 1);
+         ]]>
+    </sql-query>
 
     <database-object>
         <create>

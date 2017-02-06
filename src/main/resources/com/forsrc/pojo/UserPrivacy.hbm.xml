@@ -47,7 +47,7 @@
     <sql-query name="sql_user_privacy_findByUsername" read-only="true">
         <![CDATA[
              SELECT
-                    u.id, u.username, u.password, u.user_id, u.is_admin, u.create_on, u.update_on, u.version
+                    u.id, u.username, u.password, u.user_id, u.create_on, u.update_on, u.version
              FROM
                     t_user_privacy u
              WHERE
@@ -58,6 +58,14 @@
          ]]>
         <query-param name="username" type="java.lang.String"/>
         <return alias="u" class="com.forsrc.pojo.UserPrivacy"/>
+    </sql-query>
+    
+    <sql-query name="sql_user_privacy_init" read-only="false">
+        <![CDATA[
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (1, 1, 'admin", 'admin', 0, 1);
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (2, 2, 'user",  'user',  0, 1);
+            INSERT INTO t_user_privacy (id, user_id, username, password, version, status) VALUES (3, 3, 'test",  'test',  0, 1);
+         ]]>
     </sql-query>
 
     <database-object>

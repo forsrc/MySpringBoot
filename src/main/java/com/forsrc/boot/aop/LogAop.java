@@ -16,12 +16,12 @@ public class LogAop {
 
     @Before("execution(public * com.forsrc..*.*Controller.*(..))")
     public void before(JoinPoint jp) throws Throwable {
-        System.out.println(MessageFormat.format("[{0}] --> Before {1} ", new Date(), jp));
+        System.out.println(MessageFormat.format("[{0}] LogAop --> Before {1} ", new Date(), jp));
     }
 
     @After("execution(public * com.forsrc..*.*Controller.*(..))")
     public void after(JoinPoint jp) throws Throwable {
-        System.out.println(MessageFormat.format("[{0}] --> After  {1} ", new Date(), jp));
+        System.out.println(MessageFormat.format("[{0}] LogAop --> After  {1} ", new Date(), jp));
     }
 
     @Around("execution(public * com.forsrc..*.*Controller.*(..))")
@@ -30,7 +30,7 @@ public class LogAop {
         long start = System.nanoTime();
         Object obj = pjp.proceed();
         long end = System.nanoTime() - start;
-        System.out.println(MessageFormat.format("[{0}] --> Around {1} : {2}ns ", new Date(), pjp, end));
+        System.out.println(MessageFormat.format("[{0}] LogAop --> Around {1} : {2}ns ", new Date(), pjp, end));
         return obj;
     }
 }
