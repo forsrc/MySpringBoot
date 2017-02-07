@@ -19,7 +19,8 @@ public class UserPrivacyDaoImpl extends BaseDaoImpl<UserPrivacy, Long> implement
 
     @Override
     public UserPrivacy findByUsername(String username) {
-        Query query = entityManager.createNativeQuery("sql_user_privacy_findByUsername", UserPrivacy.class);
+        Query query = entityManager.createNamedQuery("sql_user_privacy_findByUsername", UserPrivacy.class);
+        query.setParameter("username", username);
         query.setFirstResult(0);
         query.setMaxResults(1);
         return (UserPrivacy) query.getSingleResult();

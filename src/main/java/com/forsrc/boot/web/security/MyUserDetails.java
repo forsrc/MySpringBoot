@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 public class MyUserDetails implements UserDetails {
 
@@ -25,38 +27,24 @@ public class MyUserDetails implements UserDetails {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private UserRoleService userRoleServiceu;
+    private UserRoleService userRoleService;
     private UserPrivacy userPrivacy;
-    private static Map<Long, Role> ROLE_MAP;
+    private Map<Long, Role> roles;
 
-    public MyUserDetails(UserPrivacy userPrivacy) {
+    public MyUserDetails(UserRoleService userRoleService, UserPrivacy userPrivacy, Map<Long, Role> roles) {
+        this.userRoleService = userRoleService;
+        this.roles = roles;
         this.userPrivacy = userPrivacy;
-        loadRoles();
-    }
-
-    private void loadRoles() {
-        if (ROLE_MAP != null) {
-            return;
-        }
-        synchronized (ROLE_MAP) {
-            if (ROLE_MAP != null) {
-                return;
-            }
-            ROLE_MAP = new HashMap<>();
-            List<Role> roles = roleService.getRoles();
-            for (Role role : roles) {
-                ROLE_MAP.put(role.getId(), role);
-            }
-        }
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         List<GrantedAuthority> auths = new ArrayList<>();
         //auths.add(new SimpleGrantedAuthority("ROLE_TEST"));
-        List<UserRole> userRoles = userRoleServiceu.findByUserId(userPrivacy.getUserId());
+        List<UserRole> userRoles = userRoleService.findByUserId(userPrivacy.getUserId());
         for (UserRole userRole : userRoles) {
-            Role role = ROLE_MAP.get(userRole.getRoleId());
+            Role role = roles.get(userRole.getRoleId());
             if (role != null) {
                 auths.add(new SimpleGrantedAuthority(role.getName()));
             }
@@ -66,7 +54,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userPrivacy.getPassword();
+        return new BCryptPasswordEncoder().encode(userPrivacy.getPassword());
     }
 
     @Override
@@ -92,5 +80,37 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserPrivacy getUserPrivacy() {
+        return userPrivacy;
+    }
+
+    public void setUserPrivacy(UserPrivacy userPrivacy) {
+        this.userPrivacy = userPrivacy;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public RoleService getRoleService() {
+        return roleService;
+    }
+
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
+    public UserRoleService getUserRoleService() {
+        return userRoleService;
+    }
+
+    public void setUserRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 }

@@ -38,7 +38,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         return new ServerEndpointExporter();
     }
 
-    @Component
+    //@Component
     public static class ServerEndpointConfigurator extends ServerEndpointConfig.Configurator implements ApplicationContextAware {
 
         /**

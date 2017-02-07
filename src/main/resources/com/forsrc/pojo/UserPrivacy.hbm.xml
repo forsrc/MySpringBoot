@@ -47,7 +47,7 @@
     <sql-query name="sql_user_privacy_findByUsername" read-only="true">
         <![CDATA[
              SELECT
-                    u.id, u.username, u.password, u.user_id, u.create_on, u.update_on, u.version
+                    u.id, u.username, u.password, u.user_id, u.create_on, u.update_on, u.version, u.status
              FROM
                     t_user_privacy u
              WHERE

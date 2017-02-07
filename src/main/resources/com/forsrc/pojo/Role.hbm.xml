@@ -17,8 +17,12 @@
         <timestamp name="updateOn" column="update_on" generated="always"></timestamp>
         -->
 
-        <property name="name" type="java.lang.String" update="false">
+        <property name="name" type="java.lang.String">
             <column name="name" not-null="true" length="30"/>
+        </property>
+        
+        <property name="parentId" type="java.lang.Long">
+            <column name="parent_id"/>
         </property>
 
         <property name="createOn" type="java.util.Date" update="false" insert="false" generated="insert" access="field">
@@ -40,7 +44,7 @@
     <sql-query name="sql_role_getRoles" read-only="true">
         <![CDATA[
              SELECT
-                    obj.id, obj.name, obj.url, obj.parentId, obj.create_on, obj.update_on, obj.version, obj.status
+                    obj.id, obj.name, obj.parent_id, obj.create_on, obj.update_on, obj.version, obj.status
              FROM
                     t_role obj
              WHERE

@@ -1,5 +1,6 @@
 package com.forsrc.boot.config;
 
+import com.forsrc.boot.web.security.MyUserDetails;
 import com.forsrc.boot.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -50,15 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("test").password("test").roles("TEST");
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER");
-        //auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+                .withUser("forsrc").password("forsrc").roles("ADMIN");
+        auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Bean
-    UserDetailsService myUserDetailsService() {
+    public UserDetailsService myUserDetailsService() {
         return new MyUserDetailsService();
     }
 
