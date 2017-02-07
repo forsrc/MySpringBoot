@@ -16,28 +16,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private UserRoleService userRoleService;
+    private SecurityService securityService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserPrivacy user = userService.findByUsername(username);
+        UserPrivacy user = securityService.findByUsername(username);
         if (user == null) {
             System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is not exist: %s", username));
             throw new UsernameNotFoundException(String.format("User is not exist: %s", username));
         }
         System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is : %s", username));
         Map<Long, Role> roles = getRoles();
-        MyUserDetails myUserDetails = new MyUserDetails(userRoleService, user, roles);
+        MyUserDetails myUserDetails = new MyUserDetails(securityService, user, roles);
         return myUserDetails;
     }
 
     private Map<Long, Role> getRoles() {
         Map<Long, Role> map = new HashMap<>();
-        List<Role> roles = roleService.getRoles();
+        List<Role> roles = securityService.getRoles();
         for (Role role : roles) {
             map.put(role.getId(), role);
         }
