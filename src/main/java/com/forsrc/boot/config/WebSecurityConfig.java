@@ -1,6 +1,6 @@
 package com.forsrc.boot.config;
 
-import com.forsrc.boot.web.security.MyUserDetails;
+import com.forsrc.boot.web.security.MyAuthenticationHandler;
 import com.forsrc.boot.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +20,6 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -41,9 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").permitAll()
+                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
+                .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
                 .permitAll();
         // @formatter:on
     }
@@ -59,6 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService myUserDetailsService() {
         return new MyUserDetailsService();
+    }
+
+    @Bean
+    public MyAuthenticationHandler myAuthenticationHandler() {
+        return new MyAuthenticationHandler();
     }
 
     @Override

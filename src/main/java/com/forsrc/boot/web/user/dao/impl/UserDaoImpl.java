@@ -9,7 +9,6 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
 
@@ -27,5 +26,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
         //return (List<User>)query.getResultList();
         //return super.get(start, size);
         return createNamedQuery("hql_user_get", null, start, size);
+    }
+
+    @Override
+    public List<User> findByUsername(String username) {
+        Query query = entityManager.createNamedQuery("sql_user_findByUserId", getEntityClass());
+        query.setParameter("username", username);
+        return query.getResultList();
     }
 }
