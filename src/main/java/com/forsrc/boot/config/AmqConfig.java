@@ -11,10 +11,12 @@ import org.springframework.jms.config.JmsListenerContainerFactory;
 
 import javax.jms.ConnectionFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 @Configuration
+@EnableJms
 public class AmqConfig {
 
     @Configuration
