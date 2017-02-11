@@ -129,7 +129,7 @@ public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao
     @Override
     public <T> long count(Class<T> cls) {
         String hql = MessageFormat.format("SELECT COUNT(1) FROM {0}", cls.getName());
-        Object count = (Long) entityManager.createQuery(hql).setFirstResult(0).setMaxResults(1).getSingleResult();
+        Object count = entityManager.createQuery(hql).setFirstResult(0).setMaxResults(1).getSingleResult();
         if (count instanceof Long) {
             return ((Long) count).longValue();
         }

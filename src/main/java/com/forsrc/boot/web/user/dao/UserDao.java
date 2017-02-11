@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @CacheConfig(cacheNames = "ehcache_pojp")
 public interface UserDao extends BaseDao<User, Long> {
 
-    public List<User> findByUsername(String username);
+    List<User> findByUsername(String username);
 }

@@ -17,44 +17,44 @@ import org.springframework.stereotype.Repository;
 @CacheConfig(cacheNames = "ehcache_pojp")
 public interface BaseDao<E, PK extends Serializable> {
 
-    public static final int SIZE_MAX = 100;
+    int SIZE_MAX = 100;
 
     @CachePut
-    public void save(E e);
+    void save(E e);
 
     @CacheEvict()
-    public void delete(E e);
+    void delete(E e);
 
     @Cacheable(condition = "#result != null")
-    public E get(PK pk);
+    E get(PK pk);
 
     @Cacheable(condition = "#result != null")
-    public List<E> get(int start, int size);
+    List<E> get(int start, int size);
 
     @Cacheable(condition = "#result != null")
-    public <T> List<T> get(Class<T> cls, int start, int size);
+    <T> List<T> get(Class<T> cls, int start, int size);
 
     @Cacheable(condition = "#result != null")
-    public List<E> get(String hql, Map<String, Object> params, int start, int size);
+    List<E> get(String hql, Map<String, Object> params, int start, int size);
 
     @CachePut(condition = "#result != null")
-    public void update(E e);
+    void update(E e);
 
     @Cacheable(condition = "#result != null")
-    public <T> List<T> createNamedQuery(String namedQuery, Map<String, Object> params, int start, int size);
+    <T> List<T> createNamedQuery(String namedQuery, Map<String, Object> params, int start, int size);
 
     @Cacheable(condition = "#result != null")
-    public <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start, int size);
+    <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start, int size);
 
-    public int executeUpdateNamedQuery(String namedQuery, Map<String, Object> params);
+    int executeUpdateNamedQuery(String namedQuery, Map<String, Object> params);
 
-    public int executeUpdate(String hql, Map<String, Object> params);
-
-    @Cacheable
-    public long count();
+    int executeUpdate(String hql, Map<String, Object> params);
 
     @Cacheable
-    public <T> long count(Class<T> cls);
+    long count();
 
-    public Class<E> getEntityClass();
+    @Cacheable
+    <T> long count(Class<T> cls);
+
+    Class<E> getEntityClass();
 }

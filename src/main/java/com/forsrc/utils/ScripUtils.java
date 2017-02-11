@@ -88,7 +88,7 @@ public class ScripUtils {
     /**
      * The enum Scrip name.
      */
-    public static enum ScripName {
+    public enum ScripName {
         /**
          * Javascript scrip name.
          */
@@ -98,7 +98,7 @@ public class ScripUtils {
         GROOVY("groovy");
         private String name;
 
-        private ScripName(String name) {
+        ScripName(String name) {
             this.name = name;
         }
 
@@ -133,7 +133,7 @@ public class ScripUtils {
          * @param scriptEngine the script engine
          * @param config       the config
          */
-        public void todo(ScriptEngine scriptEngine, ScripConfig config);
+        void todo(ScriptEngine scriptEngine, ScripConfig config);
     }
 
     /**

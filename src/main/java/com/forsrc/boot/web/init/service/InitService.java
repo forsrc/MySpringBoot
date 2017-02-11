@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface InitService {
 
     @Transactional(transactionManager = "transactionManager", value = "transactionManager", propagation = Propagation.REQUIRED, readOnly = false)
-    public void initDb() throws Exception;
+    void initDb() throws Exception;
 }

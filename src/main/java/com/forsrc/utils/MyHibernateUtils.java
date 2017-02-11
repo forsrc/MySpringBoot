@@ -174,7 +174,7 @@ public class MyHibernateUtils {
     /**
      * The interface Handler.
      */
-    public static interface Handler {
+    public interface Handler {
         /**
          * Handle boolean.
          *
@@ -184,7 +184,7 @@ public class MyHibernateUtils {
          * @return the boolean
          * @throws IOException the io exception
          */
-        public boolean handle(String propertyName, String propertyColumnName, Type type) throws IOException;
+        boolean handle(String propertyName, String propertyColumnName, Type type) throws IOException;
     }
 
     /**

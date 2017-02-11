@@ -19,7 +19,7 @@ public class JsonSerializerTimestamp extends JsonSerializer<Timestamp> {
 
     @Override
     public void serialize(Timestamp date, JsonGenerator gen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         String value = dateFormat.format(date);
         gen.writeString(value);
     }

@@ -30,7 +30,7 @@ interface FileDataInput extends DataInput, Closeable {
      *
      * @return the path
      */
-    public String getPath();
+    String getPath();
 
     /**
      * Is eof boolean.
@@ -38,26 +38,26 @@ interface FileDataInput extends DataInput, Closeable {
      * @return the boolean
      * @throws IOException the io exception
      */
-    public boolean isEOF() throws IOException;
+    boolean isEOF() throws IOException;
 
     /**
      * Mark.
      */
-    public void mark();
+    void mark();
 
     /**
      * Reset.
      *
      * @throws IOException the io exception
      */
-    public void reset() throws IOException;
+    void reset() throws IOException;
 
     /**
      * Bytes past mark int.
      *
      * @return the int
      */
-    public int bytesPastMark();
+    int bytesPastMark();
 
     /**
      * Gets absolute position.

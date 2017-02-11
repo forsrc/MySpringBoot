@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jms.*;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
@@ -53,7 +54,7 @@ public class UserTopic {
         jmsTemplate.send(userTopicBean, messageCreator);
     }
 
-//    @Bean(name = "topicDefaultMessageListenerContainer")
+    //    @Bean(name = "topicDefaultMessageListenerContainer")
 //    public DefaultMessageListenerContainer topicDefaultMessageListenerContainer() {
 //        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 //        container.setPubSubDomain(true);

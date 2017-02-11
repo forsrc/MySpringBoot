@@ -13,5 +13,5 @@ import org.springframework.cache.annotation.Cacheable;
 public interface RoleDao extends BaseDao<Role, Long> {
 
     @Cacheable
-    public List<Role> getRoles();
+    List<Role> getRoles();
 }

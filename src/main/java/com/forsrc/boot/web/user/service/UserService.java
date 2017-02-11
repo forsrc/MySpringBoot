@@ -15,23 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserService {
 
     @Transactional(transactionManager = "transactionManager", value = "transactionManager", propagation = Propagation.REQUIRED, readOnly = false)
-    public void save(User user);
+    void save(User user);
 
     @Transactional(transactionManager = "transactionManager", value = "transactionManager", propagation = Propagation.REQUIRED, readOnly = false)
-    public void save(User user, char[] password);
+    void save(User user, char[] password);
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED, readOnly = false)
-    public void delete(User user);
+    void delete(User user);
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public User get(long id);
+    User get(long id);
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public List<User> get(int start, int size);
+    List<User> get(int start, int size);
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED, readOnly = false)
-    public void update(User user);
+    void update(User user);
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public UserPrivacy findByUsername(String username);
+    UserPrivacy findByUsername(String username);
 }

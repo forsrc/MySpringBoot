@@ -1,7 +1,6 @@
 package com.forsrc.boot.solr.user.service.impl;
 
 
-
 import com.forsrc.boot.solr.user.repository.UserSolr;
 import com.forsrc.boot.solr.user.service.UserSolrService;
 import com.forsrc.pojo.User;
@@ -25,7 +24,7 @@ public class UserSolrServiceImpl implements UserSolrService {
     }
 
     @Override
-    public void save(User user) throws IOException, SolrServerException{
+    public void save(User user) throws IOException, SolrServerException {
         this.repository.save(user);
     }
 

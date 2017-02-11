@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public interface BaseSolrService<T, PK extends Serializable> {
 
-    public T save(T t);
+    T save(T t);
 
-    public void delete(T t);
+    void delete(T t);
 }

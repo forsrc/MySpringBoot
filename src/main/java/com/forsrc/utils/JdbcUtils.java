@@ -180,16 +180,16 @@ public class JdbcUtils {
         return datasource;
     }
 
-    public static interface HandlerResultSet {
-        public void handle(ResultSetMetaData resultSetMetaData)
+    public interface HandlerResultSet {
+        void handle(ResultSetMetaData resultSetMetaData)
                 throws SQLException;
 
-        public boolean handle(int row, String columnName, Object value)
+        boolean handle(int row, String columnName, Object value)
                 throws SQLException;
     }
 
-    public static interface HandlerConnection {
-        public void handle(Connection connection) throws SQLException;
+    public interface HandlerConnection {
+        void handle(Connection connection) throws SQLException;
     }
 
 }

@@ -7,13 +7,13 @@ import org.apache.solr.common.SolrException;
 
 public class SolrUtils {
 
-    public static enum SolrProperties {
+    public enum SolrProperties {
 
         baseSolrUrl("baseSolrUrl"),
         timeout("timeout");
         private String key;
 
-        private SolrProperties(String key) {
+        SolrProperties(String key) {
             this.key = key;
         }
 

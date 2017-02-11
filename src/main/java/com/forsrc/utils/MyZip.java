@@ -131,7 +131,7 @@ public class MyZip {
                             this.bufferSizipEntry)), this.bufferSizipEntry);
             String str = null;
             while ((str = bufferedReader.readLine()) != null) {
-                String zipEntryName = (String) JsonUtils.getValue("name", str);
+                String zipEntryName = JsonUtils.getValue("name", str);
                 if (zipEntryName == null) {
                     LogUtils.LOGGER.warn("Wrong comment: " + str);
                     continue;
@@ -148,7 +148,7 @@ public class MyZip {
                             .append(zipEntry.getName()).append(" size: ")
                             .append(zipEntry.getSize()).toString();
 
-                    String sizeStr = (String) JsonUtils.getValue("length",
+                    String sizeStr = JsonUtils.getValue("length",
                             zipEntry.getComment());
                     if (sizeStr == null || sizeStr.isEmpty()) {
                         LogUtils.LOGGER.warn(msg);
@@ -207,7 +207,7 @@ public class MyZip {
         String md5 = null;
         long start = System.currentTimeMillis();
         try {
-            commentMd5 = (String) JsonUtils.getValue("md5",
+            commentMd5 = JsonUtils.getValue("md5",
                     zipEntry.getComment());
             in = zipFile.getInputStream(zipEntry);
 
@@ -784,7 +784,7 @@ public class MyZip {
         String md5 = null;
         long start = System.currentTimeMillis();
         try {
-            commentMd5 = (String) JsonUtils.getValue("md5",
+            commentMd5 = JsonUtils.getValue("md5",
                     zipEntry.getComment());
             in = new BufferedInputStream(zipFile.getInputStream(zipEntry),
                     this.bufferSizipEntry);
@@ -1015,10 +1015,10 @@ public class MyZip {
             if (entry.isDirectory()) {
                 continue;
             }
-            String md5 = (String) JsonUtils.getValue("md5", entry.getComment());
+            String md5 = JsonUtils.getValue("md5", entry.getComment());
             if (entry.getName().equals(zipEntry.getName())
                     && md5 != null
-                    && md5.equals((String) JsonUtils.getValue("md5",
+                    && md5.equals(JsonUtils.getValue("md5",
                     zipEntry.getComment()))) {
                 return;
             }
@@ -1031,7 +1031,7 @@ public class MyZip {
         try {
 
             if (zipEntry.getComment() != null) {
-                comment = (String) JsonUtils.getValue("md5",
+                comment = JsonUtils.getValue("md5",
                         zipEntry.getComment());
             }
             in = new BufferedInputStream(zip.getInputStream(zipEntry),

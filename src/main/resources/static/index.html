@@ -55,7 +55,7 @@
                 self.authenticated = false;
                 $location.path("/");
             }).error(function(data) {
-                console.log("Logout failed")
+                console.log("Logout failed");
                 self.authenticated = false;
             });
         };

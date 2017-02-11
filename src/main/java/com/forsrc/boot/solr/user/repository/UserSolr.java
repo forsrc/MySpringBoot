@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public interface UserSolr extends BaseSolr<User, Long> {
 
-    List<User> findByUsername(String username, Pageable page) throws IOException, SolrServerException, Exception;
+    List<User> findByUsername(String username, Pageable page) throws Exception;
 
     Page<User> findByEmail(String value, Pageable page);
 }

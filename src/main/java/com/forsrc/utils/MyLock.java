@@ -76,25 +76,25 @@ public class MyLock {
     /**
      * The interface Todo read lock.
      */
-    public static interface TodoReadLock {
+    public interface TodoReadLock {
         /**
          * Todo.
          *
          * @throws Exception the exception
          */
-        public void todo() throws Exception;
+        void todo() throws Exception;
     }
 
     /**
      * The interface Todo write lock.
      */
-    public static interface TodoWriteLock {
+    public interface TodoWriteLock {
         /**
          * Todo.
          *
          * @throws Exception the exception
          */
-        public void todo() throws Exception;
+        void todo() throws Exception;
     }
 
 }

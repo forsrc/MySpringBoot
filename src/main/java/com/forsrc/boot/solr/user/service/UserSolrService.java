@@ -14,8 +14,8 @@ import java.util.List;
 @Service
 public interface UserSolrService {
 
-    public void save(User user) throws IOException, SolrServerException;
+    void save(User user) throws IOException, SolrServerException;
 
-    List<User> findByUsername(String username, Pageable page) throws IOException, SolrServerException, Exception;
+    List<User> findByUsername(String username, Pageable page) throws Exception;
 
 }

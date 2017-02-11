@@ -106,7 +106,7 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
                 element = new Element(key, result);
                 this.cache.put(element);
                 String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
-                this.removeKeySet.add(keyWithoutUsername);
+                removeKeySet.add(keyWithoutUsername);
             }
         }
         return element;
@@ -129,7 +129,7 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
                 element = new Element(key, result);
                 this.cache.put(element);
                 String keyWithoutUsername = getCacheKeyWithoutUsername(targetName, methodName, arguments);
-                this.removeKeySet.add(keyWithoutUsername);
+                removeKeySet.add(keyWithoutUsername);
             }
         }
         return element;
@@ -180,7 +180,7 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     }
 
     private void removeByClassName(final String key) {
-        Iterator<String> it = this.removeKeySet.iterator();
+        Iterator<String> it = removeKeySet.iterator();
         String username = SessionUtils.get(KeyConstants.USERNAME.getKey());
         String cacheKey = null;
         boolean delete = false;

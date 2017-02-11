@@ -32,7 +32,6 @@ ResourceServerConfigurerAdapter
                 .and()
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        ;
     }
 
 

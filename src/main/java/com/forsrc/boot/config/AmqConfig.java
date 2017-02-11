@@ -84,11 +84,11 @@ public class AmqConfig {
         public static String topicHost;
 
         public String getHost() {
-            return this.host;
+            return host;
         }
 
         public void setHost(String host) {
-            this.host = host;
+            Config.host = host;
         }
 
         public String getQueueHost() {
@@ -96,7 +96,7 @@ public class AmqConfig {
         }
 
         public void setQueueHost(String queueHost) {
-            this.queueHost = queueHost;
+            Config.queueHost = queueHost;
         }
 
         public String getTopicHost() {
@@ -104,7 +104,7 @@ public class AmqConfig {
         }
 
         public void setTopicHost(String topicHost) {
-            this.topicHost = topicHost;
+            Config.topicHost = topicHost;
         }
     }
 //    @Bean // Serialize message content to json using TextMessage

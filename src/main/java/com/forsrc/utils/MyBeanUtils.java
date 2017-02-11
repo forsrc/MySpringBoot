@@ -291,7 +291,7 @@ public class MyBeanUtils {
             Method methodSet = pd.getWriteMethod();
             methodSet.invoke(obj, entry.getValue());*//*
         }*/
-        return (ENTITY) obj;
+        return obj;
     }
 
     /**
@@ -310,7 +310,7 @@ public class MyBeanUtils {
         //ENTITY obj = (ENTITY)Class.forName(clazz.getName()).newInstance();
         ENTITY obj = clazz.newInstance();
         BeanUtils.populate(obj, map);
-        return (ENTITY) obj;
+        return obj;
     }
 
     /**

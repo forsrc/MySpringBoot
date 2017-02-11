@@ -14,5 +14,5 @@ import java.util.List;
 public interface RoleService {
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public List<Role> getRoles();
+    List<Role> getRoles();
 }

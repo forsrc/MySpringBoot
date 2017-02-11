@@ -14,5 +14,5 @@ import java.util.List;
 public interface UserRoleService {
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public List<UserRole> findByUserId(Long userId);
+    List<UserRole> findByUserId(Long userId);
 }

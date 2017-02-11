@@ -247,7 +247,7 @@ public class StarDictUtils {
     /**
      * The interface Handler.
      */
-    public static interface Handler {
+    public interface Handler {
         /**
          * Handle boolean.
          *
@@ -260,7 +260,7 @@ public class StarDictUtils {
          * @return the boolean
          * @throws Exception the exception
          */
-        public boolean handle(int index, boolean hasNext, Info info, Idx idx, Syn syn, String definition) throws Exception;
+        boolean handle(int index, boolean hasNext, Info info, Idx idx, Syn syn, String definition) throws Exception;
     }
 
     /**

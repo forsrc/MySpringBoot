@@ -18,7 +18,7 @@ public class JredisUtils {
     /**
      * The enum Key type.
      */
-    public static enum KeyType {
+    public enum KeyType {
         /**
          * Key type string key type.
          */
@@ -448,7 +448,7 @@ public class JredisUtils {
      */
     public static final void call(final String namespace, final KeyType type, final String key, final CallbackWithKey<ShardedJedis> callback) throws JredisUtilsException {
         JredisUtils jredisUtils = JredisUtils.getInstance();
-        final String k = jredisUtils.formatKey(namespace, type, key);
+        final String k = formatKey(namespace, type, key);
         jredisUtils.setKey(namespace, type, key);
         jredisUtils.handle(callback);
     }
@@ -528,14 +528,14 @@ public class JredisUtils {
      *
      * @param <T> the type parameter
      */
-    public static interface Callback<T> {
+    public interface Callback<T> {
         /**
          * Handle.
          *
          * @param t the t
          * @throws JredisUtilsException the jredis utils exception
          */
-        public void handle(final T t) throws JredisUtilsException;
+        void handle(final T t) throws JredisUtilsException;
     }
 
     /**
@@ -543,7 +543,7 @@ public class JredisUtils {
      *
      * @param <T> the type parameter
      */
-    public static interface CallbackWithKey<T> {
+    public interface CallbackWithKey<T> {
         /**
          * Handle.
          *
@@ -551,7 +551,7 @@ public class JredisUtils {
          * @param t   the t
          * @throws JredisUtilsException the jredis utils exception
          */
-        public void handle(final String key, final T t) throws JredisUtilsException;
+        void handle(final String key, final T t) throws JredisUtilsException;
     }
 
 

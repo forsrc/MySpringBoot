@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InitDao {
 
-    public void initDb() throws Exception;
+    void initDb() throws Exception;
 }

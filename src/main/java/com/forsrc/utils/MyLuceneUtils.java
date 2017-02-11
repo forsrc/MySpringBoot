@@ -335,8 +335,8 @@ public class MyLuceneUtils {
     }
 
 
-    public static interface Callback<T> {
-        public void handle(final T t) throws MyLuceneUtilsException;
+    public interface Callback<T> {
+        void handle(final T t) throws MyLuceneUtilsException;
     }
 
 }

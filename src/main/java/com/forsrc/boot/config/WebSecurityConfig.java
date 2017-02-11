@@ -53,13 +53,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
                 .permitAll()
-                // oauth2
-                //.and()
-                //.requestMatchers()
-                //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
-                //.and()
-                //.csrf()
-                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        // oauth2
+        //.and()
+        //.requestMatchers()
+        //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
+        //.and()
+        //.csrf()
+        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
         ;
         // @formatter:on

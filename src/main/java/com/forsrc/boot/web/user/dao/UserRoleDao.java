@@ -11,5 +11,5 @@ import org.springframework.cache.annotation.CacheConfig;
 @CacheConfig(cacheNames = "ehcache_pojp")
 public interface UserRoleDao extends BaseDao<UserRole, Long> {
 
-    public List<UserRole> findByUserId(Long userId);
+    List<UserRole> findByUserId(Long userId);
 }

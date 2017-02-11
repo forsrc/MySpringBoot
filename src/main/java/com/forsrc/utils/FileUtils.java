@@ -1201,7 +1201,7 @@ public class FileUtils {
          *
          * @param str the str
          */
-        public void todo(String str);
+        void todo(String str);
     }
 
     /**
@@ -1213,7 +1213,7 @@ public class FileUtils {
          *
          * @param str the str
          */
-        public void todo(String str);
+        void todo(String str);
     }
 
     /**
@@ -1227,7 +1227,7 @@ public class FileUtils {
          * @param index the index
          * @param line  the line
          */
-        public void todo(long index, String line);
+        void todo(long index, String line);
     }
 
     /**
@@ -1239,7 +1239,7 @@ public class FileUtils {
          *
          * @param scanner the scanner
          */
-        public void init(Scanner scanner);
+        void init(Scanner scanner);
     }
 
     /**
@@ -1252,7 +1252,7 @@ public class FileUtils {
          *
          * @param raf the raf
          */
-        public void todo(RandomAccessFile raf);
+        void todo(RandomAccessFile raf);
     }
 
     /**
@@ -1267,6 +1267,6 @@ public class FileUtils {
          * @param line  the line
          * @return the string
          */
-        public String todo(long index, String line);
+        String todo(long index, String line);
     }
 }

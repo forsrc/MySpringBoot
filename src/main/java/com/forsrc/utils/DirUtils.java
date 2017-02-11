@@ -155,7 +155,7 @@ public class DirUtils {
     /**
      * The interface Dir handler.
      */
-    public static interface DirHandler {
+    public interface DirHandler {
         /**
          * Handle boolean.
          *
@@ -163,13 +163,13 @@ public class DirUtils {
          * @return the boolean
          * @throws HandleException the handle exception
          */
-        public boolean handle(final File dir) throws HandleException;
+        boolean handle(final File dir) throws HandleException;
     }
 
     /**
      * The interface File handler.
      */
-    public static interface FileHandler {
+    public interface FileHandler {
         /**
          * Handle boolean.
          *
@@ -177,7 +177,7 @@ public class DirUtils {
          * @return the boolean
          * @throws HandleException the handle exception
          */
-        public boolean handle(final File file) throws HandleException;
+        boolean handle(final File file) throws HandleException;
     }
 
     /**

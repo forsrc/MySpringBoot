@@ -7,5 +7,4 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 public class UserFlatFileItemReader {
 
 
-
 }

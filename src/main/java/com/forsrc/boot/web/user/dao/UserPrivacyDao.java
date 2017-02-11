@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @CacheConfig(cacheNames = "ehcache_pojp")
 public interface UserPrivacyDao extends BaseDao<UserPrivacy, Long> {
-    public UserPrivacy findByUsername(String username);
+    UserPrivacy findByUsername(String username);
 }

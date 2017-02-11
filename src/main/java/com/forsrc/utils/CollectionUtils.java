@@ -9,7 +9,7 @@ public class CollectionUtils {
         if (collection instanceof RandomAccess && collection instanceof List) {
             int length = collection.size();
             for (int i = 0; i < length; i++) {
-                if(itemHandler.handle(((List<E>) ((List) collection)).get(i))){
+                if(itemHandler.handle(((List<E>) collection).get(i))){
                     continue;
                 }
             }
@@ -26,8 +26,8 @@ public class CollectionUtils {
     }
 
 
-    public static interface ItemHandler<E> {
-        public boolean handle(E e);
+    public interface ItemHandler<E> {
+        boolean handle(E e);
     }
 
     public static void Main(String[] args){

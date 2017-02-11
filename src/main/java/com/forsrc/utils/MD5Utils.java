@@ -200,7 +200,7 @@ public class MD5Utils {
         String json = FileUtils.getFileTxt(md5File);
         String md5 = null;
         if (md5File.exists() && json != null && checkMd5(file)) {
-            md5 = (String) JsonUtils.getValue("md5", json);
+            md5 = JsonUtils.getValue("md5", json);
             if (md5 != null && md5.length() > 0) {
                 return md5;
             }
@@ -283,7 +283,7 @@ public class MD5Utils {
                     .append(" [Already md5] ")
                     .append(file.length())
                     .append(" md5: ")
-                    .append((String) JsonUtils.getValue(
+                    .append(JsonUtils.getValue(
                             "md5",
                             FileUtils.getFileTxt(new File(file.getPath()
                                     + FILE_DEF_EXT)))).toString());
@@ -338,11 +338,8 @@ public class MD5Utils {
                 || file.length() <= 0) {
             return false;
         }
-        if (isMd5FileType(file.getAbsolutePath()) || checkMd5(file)) {
-            return true;
-        }
+        return isMd5FileType(file.getAbsolutePath()) || checkMd5(file);
 
-        return false;
     }
 
     /**
@@ -356,12 +353,9 @@ public class MD5Utils {
             return false;
         }
         int length = fileName.length();
-        if (length > FILE_DEF_EXT.length() && fileName.endsWith(FILE_DEF_EXT)
-                && checkMd5(new File(fileName.replace(FILE_DEF_EXT, "")))) {
-            return true;
-        }
+        return length > FILE_DEF_EXT.length() && fileName.endsWith(FILE_DEF_EXT)
+                && checkMd5(new File(fileName.replace(FILE_DEF_EXT, "")));
 
-        return false;
     }
 
     /**
@@ -395,7 +389,7 @@ public class MD5Utils {
                 if (len == -1) {
                     break;
                 }
-                md.update(buf, 0, (int) (read + len > length ? length : len));
+                md.update(buf, 0, read + len > length ? length : len);
                 read += len;
             }
 
@@ -557,19 +551,19 @@ public class MD5Utils {
                     && !md5.equals(JsonUtils.getValue("md5", jsonString))) {
                 return false;
             }
-            String length = (String) JsonUtils.getValue("fileLength",
+            String length = JsonUtils.getValue("fileLength",
                     jsonString);
             if (length == null || !length.equals(file.length() + "")) {
                 return false;
             }
 
-            String md5Start1k = (String) JsonUtils.getValue("md5Start1k",
+            String md5Start1k = JsonUtils.getValue("md5Start1k",
                     jsonString);
             if (md5Start1k == null
                     || !md5Start1k.equals(getFileMd5(file, 0, 1024))) {
                 return false;
             }
-            String md5End1k = (String) JsonUtils.getValue("md5End1k",
+            String md5End1k = JsonUtils.getValue("md5End1k",
                     jsonString);
             if (md5End1k == null
                     || !md5End1k.equals(getFileMd5(file, file.length() - 1024,

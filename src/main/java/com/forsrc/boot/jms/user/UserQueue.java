@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jms.*;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
@@ -50,7 +51,7 @@ public class UserQueue {
         jmsTemplate.send(userQueueBean, messageCreator);
     }
 
-//    @Bean(name = "queueDefaultMessageListenerContainer")
+    //    @Bean(name = "queueDefaultMessageListenerContainer")
 //    public DefaultMessageListenerContainer queueDefaultMessageListenerContainer() {
 //        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 //        container.setPubSubDomain(false);
