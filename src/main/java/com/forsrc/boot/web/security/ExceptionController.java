@@ -17,7 +17,9 @@ public class ExceptionController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("exception", e);
         modelAndView.addObject("url", req.getRequestURL());
-        modelAndView.setViewName("/error");
+        if ("GET".equals(req.getMethod())) {
+            modelAndView.setViewName("/error");
+        }
         return modelAndView;
     }
 
@@ -28,7 +30,10 @@ public class ExceptionController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("exception", e);
         modelAndView.addObject("url", req.getRequestURL());
-        modelAndView.setViewName("/error");
+        System.out.println("----> " + req.getMethod());
+        if ("GET".equals(req.getMethod())) {
+            modelAndView.setViewName("/error");
+        }
         return modelAndView;
     }
 }
