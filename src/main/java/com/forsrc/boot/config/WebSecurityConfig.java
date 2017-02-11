@@ -7,42 +7,61 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
+
+@EnableAuthorizationServer()
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 //@Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
+@Primary
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private SpringTemplateEngine templateEngine;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-// @formatter:off
+        // @formatter:off
         http
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
-                .permitAll();
+                .permitAll()
+                // oauth2
+                //.and()
+                //.requestMatchers()
+                //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
+                //.and()
+                //.csrf()
+                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+        ;
         // @formatter:on
     }
 
@@ -78,5 +97,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SpringSecurityDialect securityDialect() {
         return new SpringSecurityDialect();
+    }
+
+    //@Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
     }
 }

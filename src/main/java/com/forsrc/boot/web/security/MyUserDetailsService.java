@@ -1,17 +1,15 @@
 package com.forsrc.boot.web.security;
 
-import com.forsrc.boot.web.user.service.RoleService;
-import com.forsrc.boot.web.user.service.UserRoleService;
-import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.Role;
 import com.forsrc.pojo.UserPrivacy;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MyUserDetailsService implements UserDetailsService {
 

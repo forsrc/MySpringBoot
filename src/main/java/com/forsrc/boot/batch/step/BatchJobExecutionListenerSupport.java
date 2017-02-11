@@ -23,7 +23,7 @@ public class BatchJobExecutionListenerSupport extends JobExecutionListenerSuppor
     @Override
     public void afterJob(JobExecution jobExecution) {
         System.out.println(jobExecution);
-        if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
+        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             System.out.println(jobExecution.getExitStatus());
         }
     }

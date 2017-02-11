@@ -1,28 +1,24 @@
 package com.forsrc.boot.solr.user.repository.impl;
 
 
-import com.forsrc.boot.solr.base.repository.BaseSolr;
 import com.forsrc.boot.solr.base.repository.impl.BaseSolrImpl;
 import com.forsrc.boot.solr.user.repository.UserSolr;
 import com.forsrc.pojo.User;
-import com.forsrc.utils.MyBeanUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr{
+public class UserSolrImpl extends BaseSolrImpl<User, Long> implements UserSolr {
 
     @Override
     public List<User> findByUsername(final String username, final Pageable pageable) throws Exception {

@@ -1,54 +1,21 @@
 package com.forsrc.boot.config;
 
-import javax.annotation.Resource;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
-
-import javax.jms.ConnectionFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
+
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
 
 @Configuration
 public class AmqConfig {
 
-    @Configuration
-    @ConfigurationProperties(prefix = "amq")
-    public static class Config {
-
-        public static String host;
-        public static String queueHost;
-        public static String topicHost;
-
-        public void setHost(String host) {
-            this.host = host;
-        }
-
-        public String getHost() {
-            return this.host;
-        }
-
-        public String getQueueHost() {
-            return queueHost;
-        }
-
-        public void setQueueHost(String queueHost) {
-            this.queueHost = queueHost;
-        }
-
-        public String getTopicHost() {
-            return topicHost;
-        }
-
-        public void setTopicHost(String topicHost) {
-            this.topicHost = topicHost;
-        }
-    }
     @Resource(name = "queueConnectionFactory")
     private ConnectionFactory queueConnectionFactory;
     @Resource(name = "topicConnectionFactory")
@@ -106,6 +73,39 @@ public class AmqConfig {
         configurer.configure(factory, topicConnectionFactory);
         // You could still override some of Boot's default if necessary.
         return factory;
+    }
+
+    @Configuration
+    @ConfigurationProperties(prefix = "amq")
+    public static class Config {
+
+        public static String host;
+        public static String queueHost;
+        public static String topicHost;
+
+        public String getHost() {
+            return this.host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public String getQueueHost() {
+            return queueHost;
+        }
+
+        public void setQueueHost(String queueHost) {
+            this.queueHost = queueHost;
+        }
+
+        public String getTopicHost() {
+            return topicHost;
+        }
+
+        public void setTopicHost(String topicHost) {
+            this.topicHost = topicHost;
+        }
     }
 //    @Bean // Serialize message content to json using TextMessage
 //    public MessageConverter jacksonJmsMessageConverter() {

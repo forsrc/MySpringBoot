@@ -35,6 +35,14 @@ public class UserSolrController {
         }
     }
 
+    /**
+     * Gets service.
+     *
+     * @return Value of service.
+     */
+    public UserSolrService getService() {
+        return service;
+    }
 
     /**
      * Sets new service.
@@ -44,14 +52,5 @@ public class UserSolrController {
     @Autowired
     public void setService(UserSolrService service) {
         this.service = service;
-    }
-
-    /**
-     * Gets service.
-     *
-     * @return Value of service.
-     */
-    public UserSolrService getService() {
-        return service;
     }
 }
