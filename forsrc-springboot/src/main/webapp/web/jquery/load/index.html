@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script src="../../../static/js/web/myutils.js"></script>
+    </head>
+    <body>
+        <div>Hello world</div>
+        <hr/>
+        <div id="div1" class="jq-load js-load" data-url="./table.html" data-params='{"id":"1"}'>Hello world</div>
+        <hr/>
+        <span id="div2" class="jq-load js-load" data-url="./table.html" data-params='{"id":"2"}'>Hello world</span>
+        <hr/>
+        <script>
+            (function() {
+                //alert("ok");
+                /*
+                 $("#div-1").load("./table.html", function(){
+                 alert("ok");
+                 });
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Content-Type', 'application/xml;charset=UTF-8');
+                    }
+                });
+
+                $(".jq-load").each(function(i, e) {
+                    console.log($(e));
+                    //alert(i + " --> " + $(e).attr("data-url"));
+                    //alert(i + " -..-> " + $(e).data("url") + " -..->" + $(e).data("params"));
+                    var url = $(e).attr("data-url");
+                    var params = $(e).attr("data-params");
+                    if (url) {
+                        //$(e).load(url, params, function() { });
+                    }
+                });
+                */
+                MyUtils.load();
+            })();
+        </script>
+    </body>
+</html>

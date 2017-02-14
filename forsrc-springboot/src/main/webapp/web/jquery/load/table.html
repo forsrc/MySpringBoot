@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Table</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <table class="table-load" data-url="./users.jsonp" data-jsonkey="return">
+            <thead>
+            <th>No.</th>
+            <th>id</th>
+            <th>email</th>
+            <th>username</th>
+            <th>updateOn</th>
+        </thead>
+        <tbody class="table-load-tbody">
+            <tr tid ="{_table_id}" tindex="{_table_index}" trindex="{_tr_index}">
+                <td>{_tr_number}</td>
+                <td>{id}</td>
+                <td>{email}</td>
+                <td>{username}</td>
+                <td>{updateOn}</td>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <table class="table-load" data-url="./user.jsonp" data-jsonkey="">
+            <thead>
+            <th>No.</th>
+            <th>id</th>
+            <th>email</th>
+            <th>username</th>
+            <th>updateOn</th>
+        </thead>
+        <tbody class="table-load-tbody">
+            <tr tid ="{_table_id}" tindex="{_table_index}" trindex="{_tr_index}">
+                <td>{_tr_number}</td>
+                <td>{id}</td>
+                <td>{email}</td>
+                <td>{username}</td>
+                <td>{updateOn}</td>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <hr/>
+    <script type="text/javascript">
+        "use strict";
+
+        (function () {
+            //alert($("#table-user"));
+            //tableLoad();
+            //tableLoadJs();
+            MyUtils.tableLoadJs("table-load");
+        })();
+        
+        function tableLoad() {
+            $(".table-load").each(function(i, table) {
+                tableLoadData(i, table);
+            });
+        }
+        function tableLoadData(i, table) {
+            var $table = $(table);
+            if ($table.attr("table-load-done")) {
+                return;
+            }
+            $table.attr("table-load-done", true);
+            var tableId = $table.attr("id");
+            if(!tableId){
+                tableId = "table-load-" + i;
+                $table.attr("id", tableId);
+            }
+            $table.data("table-load-index", i);
+            var url = $table.attr("data-url");
+            var tbody = $(".table-load-tbody", $table);
+            var html = tbody.html();
+            var jsonkey = $table.attr("data-jsonkey");
+            $.getJSON(url, function(jsonData) {
+                var data = jsonkey ? jsonData[jsonkey] : jsonData;
+                var h = "";
+                $.each(data, function(index, json) {
+                    json["_table_id"] = tableId;
+                    json["_table_index"] = i;
+                    json["_tr_index"] = index;
+                    json["_tr_number"] = index + 1;
+                    h += html.formatFromJson(json);
+                });
+                tbody.html(h);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
