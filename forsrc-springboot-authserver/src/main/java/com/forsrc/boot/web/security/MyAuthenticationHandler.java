@@ -65,6 +65,9 @@ public class MyAuthenticationHandler extends SavedRequestAwareAuthenticationSucc
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SecurityContext sc = SecurityContextHolder.getContext();
+        if(sc == null){
+            return;
+        }
         System.out.println(String.format("--> logout(): %s", sc.getAuthentication().getName()));
     }
 }

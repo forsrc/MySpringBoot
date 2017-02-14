@@ -24,3 +24,5 @@ nbdist/
 .nb-gradle/
 */target
 */target/*
+*/transaction-logs
+*logs

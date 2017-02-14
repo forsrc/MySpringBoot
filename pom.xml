@@ -28,7 +28,7 @@
 
     <modules>
         <module>forsrc-utils</module>
-        <module>forsrc-t-tools</module>
+        <module>forsrc-tools</module>
         <module>forsrc-core</module>
         <module>forsrc-springboot-authserver</module>
         <module>forsrc-springboot-resource</module>

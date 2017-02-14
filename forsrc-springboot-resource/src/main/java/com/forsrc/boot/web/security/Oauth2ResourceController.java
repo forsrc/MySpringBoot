@@ -17,12 +17,12 @@ public class Oauth2ResourceController {
 
     final List<Message> messages = Collections.synchronizedList(new LinkedList<Message>());
 
-    @RequestMapping(path = "/oauth2/messages", method = RequestMethod.GET)
+    @RequestMapping(path = "/api/messages", method = RequestMethod.GET)
     List<Message> getMessages(Principal principal) {
         return messages;
     }
 
-    @RequestMapping(path = "/oauth2/messages", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/messages", method = RequestMethod.POST)
     Message postMessage(Principal principal, @RequestBody Message message) {
         message.username = principal.getName();
         message.createdAt = new Date();

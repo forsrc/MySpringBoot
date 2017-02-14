@@ -22,7 +22,7 @@ public class Oauth2UiController {
 
     @Autowired
     OAuth2RestTemplate restTemplate;
-    @Value("${messages.url:https://localhost:8076}/oauth2")
+    @Value("${messages.url:https://localhost:8076}/api")
     String messagesUrl;
 
     @RequestMapping("/")
