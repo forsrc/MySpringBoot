@@ -4,15 +4,15 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <meta charset="UTF-8"/>
-        <title>oops! [client]</title>
+        <title>oops!</title>
     </head>
     <body>
-        <h3>oops!</h3><span sec:authorize="isAuthenticated()" th:inline="text"><span sec:authentication="name" style="color:green;"></span></span>
-        <div th:if="${exception} != null">Exception at -->
+        <h3>oops!  [core]</h3><span sec:authorize="isAuthenticated()" th:inline="text"><span sec:authentication="name" style="color:green;"></span></span>
+        <div>Exception at -->
             <div th:text="${url}"></div>
         </div> 
-        <div th:text="${exception} != null ? ${exception.getClass().getName()}"></div>
-        <div th:text="${exception} != null ? ${exception.message}"></div>
+        <div th:text="${exception.getClass().getName()}"></div>
+        <div th:text="${exception.message}"></div>
         <div>
             <a href="Javascript:history.back();">back</a>
             <a sec:authorize="isAuthenticated()" href="/logout">logout</a>

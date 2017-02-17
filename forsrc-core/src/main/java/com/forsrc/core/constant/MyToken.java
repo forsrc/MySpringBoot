@@ -1,4 +1,4 @@
-package com.forsrc.constant;
+package com.forsrc.core.constant;
 
 
 import com.forsrc.utils.MyAesUtils;

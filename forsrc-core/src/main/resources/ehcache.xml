@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+
+    <transactionManagerLookup class="net.sf.ehcache.transaction.manager.DefaultTransactionManagerLookup"
+                              properties="jndiName=java:/TransactionManager" propertySeparator=";"/>
+
+    <cacheManagerEventListenerFactory class="" properties=""/>
+
+
+    <!--<terracottaConfig url="192.168.1.100:9510,192.168.1.101:9510"/>-->
+
+    <diskStore path="java.io.tmpdir/restful"/>
+    <!-- <diskStore path="E:/cachetmpdir" /> -->
+
+    <defaultCache maxElementsInMemory="10240"
+                  eternal="false"
+                  timeToIdleSeconds="3"
+                  timeToLiveSeconds="3"
+                  overflowToDisk="false"
+                  maxElementsOnDisk="10000000"
+                  diskPersistent="false"
+                  diskExpiryThreadIntervalSeconds="120"
+                  memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.hibernate.cache.UpdateTimestampsCache"
+           maxElementsInMemory="10240"
+           eternal="true"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"/>
+
+    <cache name="org.hibernate.cache.StandardQueryCache"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="60"
+           overflowToDisk="false"/>
+
+
+    <cache name="SyresourcetypeServiceCache"
+           maxElementsInMemory="10240"
+           maxElementsOnDisk="1000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="SimplePageFragmentCachingFilter"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_1s"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="1"
+           timeToLiveSeconds="1"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_2s"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="2"
+           timeToLiveSeconds="2"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_3s"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_1m"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_10m"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"/>
+
+    <cache name="ehcache_1h"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="60"
+           overflowToDisk="true"/>
+
+    <cache name="ehcache_24h"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="86400"
+           timeToLiveSeconds="3600"
+           overflowToDisk="true"/>
+    
+    <cache name="ehcache_pojp"
+               maxElementsInMemory="10240"
+               eternal="false"
+               timeToIdleSeconds="3"
+               timeToLiveSeconds="3"
+               overflowToDisk="false"/>
+    
+    <cache name="ehcache_pojp_aop"
+               maxElementsInMemory="10240"
+               eternal="false"
+               timeToIdleSeconds="3"
+               timeToLiveSeconds="3"
+               overflowToDisk="false"/>
+
+
+    <!--=================================================================
+    Hibernate Object Caches
+    =================================================================-->
+
+    <cache name="com.forsrc.pojo.Role"
+           maxElementsInMemory="100"
+           timeToLiveSeconds="36000"
+           overflowToDisk="false"/>
+
+    <cache name="com.forsrc.pojo.UserRole"
+           maxElementsInMemory="100"
+           timeToLiveSeconds="36000"
+           overflowToDisk="false"/>
+
+    <cache name="com.forsrc.pojo.User"
+           maxElementsInMemory="1000"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"/>
+    
+    <cache name="com.forsrc.pojo.UserPrivacy"
+            maxElementsInMemory="1000"
+            timeToLiveSeconds="3600"
+            overflowToDisk="false"/>
+
+</ehcache>

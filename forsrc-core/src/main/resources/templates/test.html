@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Title [core]</title>
+    </head>
+    <body>
+        <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3><br/>
+        name:<span sec:authentication="name"/><br/>
+        authorities:<span sec:authentication="principal.authorities"/><br/>
+        enabled:<span sec:authentication="principal.enabled"/><br/>
+        accountNonLocked:<span sec:sec:authentication="principal.accountNonLocked"/><br/>
+        <hr/>
+        <span sec:authorize="hasAuthority('ROLE_TEST')">ROLE_TEST</span><br/>
+        <span sec:authorize="hasAuthority('ROLE_USER')">ROLE_USER</span><br/>
+        <span sec:authorize-url='/logout'><a href="/logout">logout</a></span>
+        <span sec:authorize-url='/user/1'><a href="/user/1">GET user</a></span>
+        <span sec:authorize-url='/user/-1'><a href="/user/1">POST user</a></span>
+        <span sec:authorize-url='PUT /user/0'><a href="/user/1">PUT user</a></span>
+        
+        <span sec:authorize="isAuthenticated()">ROLE_USER</span><br/>
+
+    </body>
+</html>

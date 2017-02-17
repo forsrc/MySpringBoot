@@ -1,4 +1,4 @@
-package com.forsrc.bytecode.pojo;
+package com.forsrc.core.bytecode.pojo;
 
 public abstract class Pojo {
 

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.forsrc.pojo">
+    <class name="User" table="t_user" lazy="false" dynamic-update="true" dynamic-insert="true" select-before-update="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id"/>
+            <generator class="increment"/>
+        </id>
+
+
+        <version name="version" column="version" type="integer"></version>
+
+        <!--
+        <timestamp name="updateOn" column="update_on" generated="always"></timestamp>
+        -->
+        <property name="updateOn" type="java.util.Date">
+            <column name="update_on" default="CURRENT_TIMESTAMP" not-null="true"/>
+        </property>
+
+        <property name="username" type="java.lang.String" update="false">
+            <column name="username" not-null="true" unique="true" length="30" index="index_user_username"/>
+        </property>
+
+        <!--<property name="password" type="java.lang.String" update="false">
+            <column name="password" not-null="true" default="'EdbQzHVPKsmmwIOtmJOHJg=='" length="30"/>
+        </property>-->
+
+        <property name="createOn" type="java.util.Date" update="false" insert="false" generated="insert" access="field">
+            <column name="create_on" default="CURRENT_TIMESTAMP" not-null="true"/>
+        </property>
+
+        <property name="status" type="java.lang.Integer" update="false">
+            <column name="status" default="1" length="1" not-null="true"/>
+        </property>
+
+        <property name="isAdmin" type="java.lang.Boolean">
+            <column name="is_admin" default="0" length="1"/>
+        </property>
+
+        <property name="email" type="java.lang.String">
+            <column name="email" not-null="true" length="200"/>
+        </property>
+
+        <property name="image" type="java.lang.String">
+            <column name="image" length="300"/>
+        </property>
+
+    </class>
+    <sql-query name="sql_user_insert_admin_">
+        <![CDATA[
+             INSERT INTO
+                            my_study_user
+                            (id, username, password, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (1, 'admin', 'EdbQzHVPKsmmwIOtmJOHJg==', 'forsrc@163.com', 1, 1, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+             INSERT INTO
+                            my_study_user
+                            (id, username, password, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (2, 'forsrc', 'EdbQzHVPKsmmwIOtmJOHJg==', 'forsrc-@163.com', 1, 0, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+         ]]>
+    </sql-query>
+    
+    <sql-query name="sql_user_insert_admin">
+        <![CDATA[
+             INSERT INTO
+                            my_study_user
+                            (id, username, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (1, 'admin', 'forsrc@163.com', 1, 1, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+             INSERT INTO
+                            my_study_user
+                            (id, username, email, status, is_admin, create_on, update_on, version)
+             VALUES
+                            (2, 'forsrc', 'forsrc-@163.com', 1, 0, '2016-07-07 12:00:00', '2016-07-07 12:00:00', 1)
+             ;
+
+         ]]>
+    </sql-query>
+
+    <sql-query name="sql_user_findByUsername" read-only="true">
+        <![CDATA[
+             SELECT
+                    obj.id, obj.username, obj.status, obj.is_admin, obj.email, obj.image, obj.create_on, obj.update_on, obj.version, obj.status
+             FROM
+                    my_study_user obj
+             WHERE
+                    obj.username = :username
+                    and
+                    obj.status = 1
+
+
+         ]]>
+        <query-param name="username" type="java.lang.String"/>
+        <return alias="u" class="com.forsrc.pojo.User"/>
+    </sql-query>
+    
+    <sql-query name="sql_user_findByUsername_" read-only="true">
+        <![CDATA[
+             SELECT
+                    obj.id, obj.username, obj.password, obj.status, obj.is_admin, obj.email, obj.image, obj.create_on, obj.update_on, obj.version, obj.status
+             FROM
+                    my_study_user obj
+             WHERE
+                    obj.username = :username
+                    and
+                    obj.status = 1
+
+
+         ]]>
+        <query-param name="username" type="java.lang.String"/>
+        <return alias="obj" class="com.forsrc.pojo.User"/>
+    </sql-query>
+
+    <query name="hql_user_findByUsername" read-only="true">
+
+        FROM com.forsrc.pojo.User obj WHERE obj.username = :username and obj.status = 1
+
+        <query-param name="username" type="java.lang.String"/>
+       
+    </query>
+
+    <query name="hql_user_get_" read-only="true">
+
+        SELECT
+        obj.id, obj.username, obj.status, obj.isAdmin, obj.email, obj.image, obj.createOn, obj.updateOn, obj.version
+        FROM
+        com.forsrc.pojo.User obj
+        WHERE
+        1 = 1
+        and
+        obj.status = 1
+    </query>
+    
+    <query name="hql_user_get" read-only="true">
+
+        FROM
+        com.forsrc.pojo.User obj
+        WHERE
+        1 = 1
+        and
+        obj.status = 1
+    </query>
+    
+    <sql-query name="sql_user_init" read-only="false">
+        <![CDATA[
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (1, 'admin', 'admin@forsrc.com', 1, 0, 1);
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (2, 'user',  'user@forsrc.com',  0, 0, 1);
+            INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (3, 'test',  'test@forsrc.com',  0, 0, 1);
+         ]]>
+    </sql-query>
+
+    <database-object>
+        <create>
+        </create>
+        <drop></drop>
+    </database-object>
+</hibernate-mapping>
