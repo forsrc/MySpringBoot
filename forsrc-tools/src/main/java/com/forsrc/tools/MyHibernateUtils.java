@@ -172,22 +172,6 @@ public class MyHibernateUtils {
     }
 
     /**
-     * The interface Handler.
-     */
-    public interface Handler {
-        /**
-         * Handle boolean.
-         *
-         * @param propertyName       the property name
-         * @param propertyColumnName the property column name
-         * @param type               the type
-         * @return the boolean
-         * @throws IOException the io exception
-         */
-        boolean handle(String propertyName, String propertyColumnName, Type type) throws IOException;
-    }
-
-    /**
      * Gets property names.
      *
      * @param sessionFactory the session factory
@@ -226,6 +210,97 @@ public class MyHibernateUtils {
             }
         });
         return map;
+    }
+
+    /**
+     * Gets prepared statement set method map.
+     *
+     * @return the prepared statement set method map
+     */
+    public static Map<Class<?>, Method> getPreparedStatementSetMethodMap() {
+        Map<Class<?>, Method> map = new HashMap<Class<?>, Method>();
+
+        try {
+//setLong(int parameterIndex, long x)
+            map.put(Long.class, PreparedStatement.class.getMethod("setLong", int.class, long.class));
+            map.put(int.class, PreparedStatement.class.getMethod("setLong", int.class, long.class));
+            //setString(int parameterIndex, String x)
+            map.put(String.class, PreparedStatement.class.getMethod("setString", int.class, String.class));
+            //setObject(int parameterIndex, Object x)
+            map.put(Object.class, PreparedStatement.class.getMethod("setObject", int.class, Object.class));
+            //setArray (int parameterIndex, Array x)
+            map.put(Array.class, PreparedStatement.class.getMethod("setArray", int.class, Array.class));
+            //setAsciiStream(int parameterIndex, java.io.InputStream x)
+            //map.put(InputStream.class, PreparedStatement.class.getMethod("setAsciiStream", Integer.class, InputStream.class));
+            //setBigDecimal(int parameterIndex, BigDecimal x)
+            map.put(BigDecimal.class, PreparedStatement.class.getMethod("setBigDecimal", int.class, BigDecimal.class));
+            //setBinaryStream(int parameterIndex, java.io.InputStream x)
+            map.put(InputStream.class, PreparedStatement.class.getMethod("setBinaryStream", int.class, InputStream.class));
+            //setBlob (int parameterIndex, Blob x)
+            map.put(Blob.class, PreparedStatement.class.getMethod("setBlob", int.class, Blob.class));
+            //setBoolean(int parameterIndex, boolean x)
+            map.put(Boolean.class, PreparedStatement.class.getMethod("setBoolean", int.class, boolean.class));
+            map.put(boolean.class, PreparedStatement.class.getMethod("setBoolean", int.class, boolean.class));
+            //setByte(int parameterIndex, byte x)
+            map.put(Byte.class, PreparedStatement.class.getMethod("setByte", int.class, byte.class));
+            map.put(byte.class, PreparedStatement.class.getMethod("setByte", int.class, byte.class));
+            //setBytes(int parameterIndex, byte x[])
+            map.put(Byte[].class, PreparedStatement.class.getMethod("setBytes", int.class, byte[].class));
+            map.put(byte[].class, PreparedStatement.class.getMethod("setBytes", int.class, byte[].class));
+            //setCharacterStream(int parameterIndex,java.io.Reader reader)
+            map.put(Reader.class, PreparedStatement.class.getMethod("setCharacterStream", int.class, Reader.class));
+            //setClob (int parameterIndex, Clob x)
+            map.put(Clob.class, PreparedStatement.class.getMethod("setClob", int.class, Clob.class));
+            //setDate(int parameterIndex, java.sql.Date x)
+            map.put(java.sql.Date.class, PreparedStatement.class.getMethod("setDate", int.class, java.sql.Date.class));
+            //setDouble(int parameterIndex, double x)
+            map.put(Double.class, PreparedStatement.class.getMethod("setDouble", int.class, double.class));
+            map.put(double.class, PreparedStatement.class.getMethod("setDouble", int.class, double.class));
+            //setFloat(int parameterIndex, float x)
+            map.put(Float.class, PreparedStatement.class.getMethod("setFloat", int.class, float.class));
+            map.put(float.class, PreparedStatement.class.getMethod("setFloat", int.class, float.class));
+            //setInt(int parameterIndex, int x)
+            map.put(Integer.class, PreparedStatement.class.getMethod("setInt", int.class, int.class));
+            map.put(int.class, PreparedStatement.class.getMethod("setInt", int.class, int.class));
+            //void setNull(int parameterIndex, int sqlType) throws SQLException;  Types
+            map.put(Types.class, PreparedStatement.class.getMethod("setNull", int.class, int.class));
+            //setNClob(int parameterIndex, NClob value)
+            map.put(NClob.class, PreparedStatement.class.getMethod("setNClob", int.class, NClob.class));
+            //setRef (int parameterIndex, Ref x)
+            map.put(Ref.class, PreparedStatement.class.getMethod("setRef", int.class, Ref.class));
+            //void setRowId(int parameterIndex, RowId x)
+            map.put(RowId.class, PreparedStatement.class.getMethod("setRowId", int.class, RowId.class));
+            //setShort(int parameterIndex, short x)
+            map.put(Short.class, PreparedStatement.class.getMethod("setShort", int.class, short.class));
+            map.put(short.class, PreparedStatement.class.getMethod("setShort", int.class, short.class));
+            //setSQLXML(int parameterIndex, SQLXML xmlObject)
+            map.put(SQLXML.class, PreparedStatement.class.getMethod("setSQLXML", int.class, SQLXML.class));
+            //setTime(int parameterIndex, java.sql.Time x)
+            map.put(Time.class, PreparedStatement.class.getMethod("setTime", int.class, Time.class));
+            //setTimestamp(int parameterIndex, java.sql.Timestamp x)
+            map.put(Timestamp.class, PreparedStatement.class.getMethod("setTimestamp", int.class, Timestamp.class));
+            //setURL(int parameterIndex, java.net.URL x)
+            map.put(URL.class, PreparedStatement.class.getMethod("setURL", int.class, URL.class));
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return map;
+    }
+
+    /**
+     * The interface Handler.
+     */
+    public interface Handler {
+        /**
+         * Handle boolean.
+         *
+         * @param propertyName       the property name
+         * @param propertyColumnName the property column name
+         * @param type               the type
+         * @return the boolean
+         * @throws IOException the io exception
+         */
+        boolean handle(String propertyName, String propertyColumnName, Type type) throws IOException;
     }
 
     /**
@@ -353,81 +428,6 @@ public class MyHibernateUtils {
             result = 31 * result + this.propertyColumnName.hashCode();
             return result;
         }
-    }
-
-    /**
-     * Gets prepared statement set method map.
-     *
-     * @return the prepared statement set method map
-     */
-    public static Map<Class<?>, Method> getPreparedStatementSetMethodMap() {
-        Map<Class<?>, Method> map = new HashMap<Class<?>, Method>();
-
-        try {
-//setLong(int parameterIndex, long x)
-            map.put(Long.class, PreparedStatement.class.getMethod("setLong", int.class, long.class));
-            map.put(int.class, PreparedStatement.class.getMethod("setLong", int.class, long.class));
-            //setString(int parameterIndex, String x)
-            map.put(String.class, PreparedStatement.class.getMethod("setString", int.class, String.class));
-            //setObject(int parameterIndex, Object x)
-            map.put(Object.class, PreparedStatement.class.getMethod("setObject", int.class, Object.class));
-            //setArray (int parameterIndex, Array x)
-            map.put(Array.class, PreparedStatement.class.getMethod("setArray", int.class, Array.class));
-            //setAsciiStream(int parameterIndex, java.io.InputStream x)
-            //map.put(InputStream.class, PreparedStatement.class.getMethod("setAsciiStream", Integer.class, InputStream.class));
-            //setBigDecimal(int parameterIndex, BigDecimal x)
-            map.put(BigDecimal.class, PreparedStatement.class.getMethod("setBigDecimal", int.class, BigDecimal.class));
-            //setBinaryStream(int parameterIndex, java.io.InputStream x)
-            map.put(InputStream.class, PreparedStatement.class.getMethod("setBinaryStream", int.class, InputStream.class));
-            //setBlob (int parameterIndex, Blob x)
-            map.put(Blob.class, PreparedStatement.class.getMethod("setBlob", int.class, Blob.class));
-            //setBoolean(int parameterIndex, boolean x)
-            map.put(Boolean.class, PreparedStatement.class.getMethod("setBoolean", int.class, boolean.class));
-            map.put(boolean.class, PreparedStatement.class.getMethod("setBoolean", int.class, boolean.class));
-            //setByte(int parameterIndex, byte x)
-            map.put(Byte.class, PreparedStatement.class.getMethod("setByte", int.class, byte.class));
-            map.put(byte.class, PreparedStatement.class.getMethod("setByte", int.class, byte.class));
-            //setBytes(int parameterIndex, byte x[])
-            map.put(Byte[].class, PreparedStatement.class.getMethod("setBytes", int.class, byte[].class));
-            map.put(byte[].class, PreparedStatement.class.getMethod("setBytes", int.class, byte[].class));
-            //setCharacterStream(int parameterIndex,java.io.Reader reader)
-            map.put(Reader.class, PreparedStatement.class.getMethod("setCharacterStream", int.class, Reader.class));
-            //setClob (int parameterIndex, Clob x)
-            map.put(Clob.class, PreparedStatement.class.getMethod("setClob", int.class, Clob.class));
-            //setDate(int parameterIndex, java.sql.Date x)
-            map.put(java.sql.Date.class, PreparedStatement.class.getMethod("setDate", int.class, java.sql.Date.class));
-            //setDouble(int parameterIndex, double x)
-            map.put(Double.class, PreparedStatement.class.getMethod("setDouble", int.class, double.class));
-            map.put(double.class, PreparedStatement.class.getMethod("setDouble", int.class, double.class));
-            //setFloat(int parameterIndex, float x)
-            map.put(Float.class, PreparedStatement.class.getMethod("setFloat", int.class, float.class));
-            map.put(float.class, PreparedStatement.class.getMethod("setFloat", int.class, float.class));
-            //setInt(int parameterIndex, int x)
-            map.put(Integer.class, PreparedStatement.class.getMethod("setInt", int.class, int.class));
-            map.put(int.class, PreparedStatement.class.getMethod("setInt", int.class, int.class));
-            //void setNull(int parameterIndex, int sqlType) throws SQLException;  Types
-            map.put(Types.class, PreparedStatement.class.getMethod("setNull", int.class, int.class));
-            //setNClob(int parameterIndex, NClob value)
-            map.put(NClob.class, PreparedStatement.class.getMethod("setNClob", int.class, NClob.class));
-            //setRef (int parameterIndex, Ref x)
-            map.put(Ref.class, PreparedStatement.class.getMethod("setRef", int.class, Ref.class));
-            //void setRowId(int parameterIndex, RowId x)
-            map.put(RowId.class, PreparedStatement.class.getMethod("setRowId", int.class, RowId.class));
-            //setShort(int parameterIndex, short x)
-            map.put(Short.class, PreparedStatement.class.getMethod("setShort", int.class, short.class));
-            map.put(short.class, PreparedStatement.class.getMethod("setShort", int.class, short.class));
-            //setSQLXML(int parameterIndex, SQLXML xmlObject)
-            map.put(SQLXML.class, PreparedStatement.class.getMethod("setSQLXML", int.class, SQLXML.class));
-            //setTime(int parameterIndex, java.sql.Time x)
-            map.put(Time.class, PreparedStatement.class.getMethod("setTime", int.class, Time.class));
-            //setTimestamp(int parameterIndex, java.sql.Timestamp x)
-            map.put(Timestamp.class, PreparedStatement.class.getMethod("setTimestamp", int.class, Timestamp.class));
-            //setURL(int parameterIndex, java.net.URL x)
-            map.put(URL.class, PreparedStatement.class.getMethod("setURL", int.class, URL.class));
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        return map;
     }
 
 }

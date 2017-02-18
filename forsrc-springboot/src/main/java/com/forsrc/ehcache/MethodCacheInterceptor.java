@@ -2,10 +2,8 @@ package com.forsrc.ehcache;
 
 import com.forsrc.constant.KeyConstants;
 import com.forsrc.tools.SessionUtils;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
@@ -26,8 +24,15 @@ import java.util.Set;
 public class MethodCacheInterceptor implements MethodInterceptor, AfterReturningAdvice, InitializingBean {
 
     private static final Logger LOGGER = Logger.getLogger(MethodCacheInterceptor.class);
-    private Cache cache;
     private static final Set<String> removeKeySet = new HashSet<String>();
+    private Cache cache;
+
+    /**
+     * Instantiates a new Method cache interceptor.
+     */
+    public MethodCacheInterceptor() {
+        super();
+    }
 
     /**
      * Sets cache.
@@ -36,13 +41,6 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
      */
     public void setCache(Cache cache) {
         this.cache = cache;
-    }
-
-    /**
-     * Instantiates a new Method cache interceptor.
-     */
-    public MethodCacheInterceptor() {
-        super();
     }
 
     @Override

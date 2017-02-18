@@ -1,9 +1,8 @@
 package com.forsrc.tools;
 
-import com.forsrc.utils.MyBeanUtils;
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.forsrc.utils.MyBeanUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;

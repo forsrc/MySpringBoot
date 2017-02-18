@@ -9,7 +9,7 @@ public class CollectionUtils {
         if (collection instanceof RandomAccess && collection instanceof List) {
             int length = collection.size();
             for (int i = 0; i < length; i++) {
-                if(itemHandler.handle(((List<E>) collection).get(i))){
+                if (itemHandler.handle(((List<E>) collection).get(i))) {
                     continue;
                 }
             }
@@ -18,19 +18,14 @@ public class CollectionUtils {
 
         Iterator<E> iterator = collection.iterator();
         while (iterator.hasNext()) {
-            if(itemHandler.handle(iterator.next())){
+            if (itemHandler.handle(iterator.next())) {
                 continue;
             }
         }
 
     }
 
-
-    public interface ItemHandler<E> {
-        boolean handle(E e);
-    }
-
-    public static void Main(String[] args){
+    public static void Main(String[] args) {
         List<Integer> list = new LinkedList<Integer>();
         list.add(1);
         list.add(3);
@@ -45,5 +40,9 @@ public class CollectionUtils {
             }
         });
 
+    }
+
+    public interface ItemHandler<E> {
+        boolean handle(E e);
     }
 }

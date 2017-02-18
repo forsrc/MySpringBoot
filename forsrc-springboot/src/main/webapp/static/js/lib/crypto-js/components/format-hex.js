@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function (undefined) {
     // Shortcuts
     var C = CryptoJS;
@@ -46,7 +46,7 @@ code.google.com/p/crypto-js/wiki/License
          */
         parse: function (input) {
             var ciphertext = Hex.parse(input);
-            return CipherParams.create({ ciphertext: ciphertext });
+            return CipherParams.create({ciphertext: ciphertext});
         }
     };
 }());

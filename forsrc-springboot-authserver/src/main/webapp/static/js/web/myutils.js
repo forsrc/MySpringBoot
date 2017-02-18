@@ -1,15 +1,15 @@
-;(function(window, document, Object) {
+;(function (window, document, Object) {
     'use strict';
-    (function(window, factory) {
+    (function (window, factory) {
         var define = window.define || null;
         if (typeof define === 'function' && define.amd) {
-            define('MyUtils', [], function() {
+            define('MyUtils', [], function () {
                 return factory();
             });
         } else {
             window.MyUtils = factory();
         }
-    })(window, function() {
+    })(window, function () {
 
         /**
          *
@@ -334,8 +334,8 @@
                 async: options.async === false ? false : true,
                 timeout: options.timeout || 5000,
                 data: options.data || null,
-                username: options.username|| null,
-                password: options.password|| null,
+                username: options.username || null,
+                password: options.password || null,
                 onSuccess: options.onSuccess || function () {
                 },
                 onComplete: options.onComplete || function () {

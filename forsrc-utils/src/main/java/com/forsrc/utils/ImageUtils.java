@@ -17,9 +17,10 @@
 
 package com.forsrc.utils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,10 +28,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
 
 /**
  * ImageUtils
@@ -112,8 +109,8 @@ public final class ImageUtils {
         ImageWriter imageWriter = ImageIO.getImageWritersBySuffix("jpg").next();
         ImageOutputStream out = ImageIO.createImageOutputStream(bao);
         try {
-        	imageWriter.setOutput(out);
-        	imageWriter.write(bufferedImage);
+            imageWriter.setOutput(out);
+            imageWriter.write(bufferedImage);
             return new ByteArrayInputStream(bao.toByteArray());
         } catch (IOException e) {
             throw e;

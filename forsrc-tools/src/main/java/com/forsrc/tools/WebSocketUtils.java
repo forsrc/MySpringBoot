@@ -1,12 +1,12 @@
 package com.forsrc.tools;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
 
 
 /**

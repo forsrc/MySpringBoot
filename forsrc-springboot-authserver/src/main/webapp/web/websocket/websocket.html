@@ -1,118 +1,118 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="../../static/js/web/myutils.js"></script>
-        <script src="../../static/js/lib/jquery-1.12.4.js"></script>
-        <script src="../../static/js/lib/sockjs-1.1.1.min.js"></script>
-        <script src="../../static/js/lib/stomp-2.3.3.min.js"></script>
-    </head>
-    <body>
-        <div id="first" class="box">
-            <div></div>
-            <form><input autocomplete="off" value="Type here..."></input></form>
-        </div>
-        <div>
-            <div>
-                <button id="connect" onclick="connect();">Connect</button>
-                <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-            </div>
-            <div id="conversationDiv">
-                <label>What is your name?</label><input type="text" id="name" />
-                <button id="sendName" onclick="sendName();">Send</button>
-                <p id="response"></p>
-            </div>
-        </div>
-        <script type="text/javascript">
-                    (function() {
-                        var websocket = new SockJS("/websocket/user");
-                        websocket.onopen = function(evnt) {
-                            console.log(evnt);
-                            console.log("--");
-                            websocket.send('test');
-                            console.log("--> onopen(): " + evnt);
-                        };
-                        websocket.onmessage = function(evnt) {
-                            console.log("--> onerror(): " + evnt.data);
-                            showGreeting(evnt.data);
-                        };
-                        websocket.onerror = function(evnt) {
-                            console.log("--> onerror(): " + evnt);
-                            //websocket.close();
-                        };
-                        websocket.onclose = function(evnt) {
-                            console.log("--> onclose(): " + evnt);
-                        };
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../../static/js/web/myutils.js"></script>
+    <script src="../../static/js/lib/jquery-1.12.4.js"></script>
+    <script src="../../static/js/lib/sockjs-1.1.1.min.js"></script>
+    <script src="../../static/js/lib/stomp-2.3.3.min.js"></script>
+</head>
+<body>
+<div id="first" class="box">
+    <div></div>
+    <form><input autocomplete="off" value="Type here..."></input></form>
+</div>
+<div>
+    <div>
+        <button id="connect" onclick="connect();">Connect</button>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+    </div>
+    <div id="conversationDiv">
+        <label>What is your name?</label><input type="text" id="name"/>
+        <button id="sendName" onclick="sendName();">Send</button>
+        <p id="response"></p>
+    </div>
+</div>
+<script type="text/javascript">
+    (function () {
+        var websocket = new SockJS("/websocket/user");
+        websocket.onopen = function (evnt) {
+            console.log(evnt);
+            console.log("--");
+            websocket.send('test');
+            console.log("--> onopen(): " + evnt);
+        };
+        websocket.onmessage = function (evnt) {
+            console.log("--> onerror(): " + evnt.data);
+            showGreeting(evnt.data);
+        };
+        websocket.onerror = function (evnt) {
+            console.log("--> onerror(): " + evnt);
+            //websocket.close();
+        };
+        websocket.onclose = function (evnt) {
+            console.log("--> onclose(): " + evnt);
+        };
 
-                        var sockjs_url = '/websocket/user';
-                        var sockjs = new SockJS(sockjs_url);
-                        $('#first input').focus();
-                        var div = $('#first div');
-                        var inp = $('#first input');
-                        var form = $('#first form');
-                        var print = function(m, p) {
-                            p = (p === undefined) ? '' : JSON.stringify(p);
-                            div.append($("<code>").text(m + ' ' + p));
-                            div.append($("<br>"));
-                            div.scrollTop(div.scrollTop() + 10000);
-                        };
-                        sockjs.onopen = function() {
-                            print('[*] open', sockjs.protocol);
-                        };
-                        sockjs.onmessage = function(e) {
-                            print('[.] message', e.data);
-                        };
-                        sockjs.onclose = function() {
-                            print('[*] close');
-                        };
-                        form.submit(function() {
-                            print('[ ] sending', inp.val());
-                            sockjs.send(inp.val());
-                            inp.val('');
-                            return false;
-                        });
-                    })();
-        </script>
-        <script type="text/javascript">
-            var stompClient = null;
-            function setConnected(connected) {
-                document.getElementById('connect').disabled = connected;
-                document.getElementById('disconnect').disabled = !connected;
-                document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-                document.getElementById('response').innerHTML = '';
-            }
-            function connect() {
-                var socket = new SockJS('/websocket/stomp');
-                stompClient = Stomp.over(socket);
-                stompClient.connect({}, function(frame) {
-                    setConnected(true);
-                    console.log('Connected: ' + frame);
-                    stompClient.subscribe('/topic/user', function(greeting) {
-                        //showGreeting(JSON.parse(greeting.body));
-                        showGreeting(greeting.body);
-                    });
-                });
-            }
-            function disconnect() {
-                if (stompClient != null) {
-                    stompClient.disconnect();
-                }
-                setConnected(false);
-                console.log("Disconnected");
-            }
-            function sendName() {
-                var name = document.getElementById('name').value;
-                stompClient.send("/ws/user", {}, JSON.stringify({'name': name, "id": 1}));
-                stompClient.send("/ws/thread", {}, JSON.stringify({'name': name, "id": 2}));
-            }
-            function showGreeting(message) {
-                var response = document.getElementById('response');
-                var p = document.createElement('p');
-                p.style.wordWrap = 'break-word';
-                p.appendChild(document.createTextNode(message));
-                response.appendChild(p);
-            }
-        </script>
-    </body>
+        var sockjs_url = '/websocket/user';
+        var sockjs = new SockJS(sockjs_url);
+        $('#first input').focus();
+        var div = $('#first div');
+        var inp = $('#first input');
+        var form = $('#first form');
+        var print = function (m, p) {
+            p = (p === undefined) ? '' : JSON.stringify(p);
+            div.append($("<code>").text(m + ' ' + p));
+            div.append($("<br>"));
+            div.scrollTop(div.scrollTop() + 10000);
+        };
+        sockjs.onopen = function () {
+            print('[*] open', sockjs.protocol);
+        };
+        sockjs.onmessage = function (e) {
+            print('[.] message', e.data);
+        };
+        sockjs.onclose = function () {
+            print('[*] close');
+        };
+        form.submit(function () {
+            print('[ ] sending', inp.val());
+            sockjs.send(inp.val());
+            inp.val('');
+            return false;
+        });
+    })();
+</script>
+<script type="text/javascript">
+    var stompClient = null;
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        document.getElementById('response').innerHTML = '';
+    }
+    function connect() {
+        var socket = new SockJS('/websocket/stomp');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/user', function (greeting) {
+                //showGreeting(JSON.parse(greeting.body));
+                showGreeting(greeting.body);
+            });
+        });
+    }
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+    function sendName() {
+        var name = document.getElementById('name').value;
+        stompClient.send("/ws/user", {}, JSON.stringify({'name': name, "id": 1}));
+        stompClient.send("/ws/thread", {}, JSON.stringify({'name': name, "id": 2}));
+    }
+    function showGreeting(message) {
+        var response = document.getElementById('response');
+        var p = document.createElement('p');
+        p.style.wordWrap = 'break-word';
+        p.appendChild(document.createTextNode(message));
+        response.appendChild(p);
+    }
+</script>
+</body>
 </html>

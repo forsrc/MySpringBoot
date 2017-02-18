@@ -5,17 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jms.*;
-
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 //@Component
 public class UserQueue {

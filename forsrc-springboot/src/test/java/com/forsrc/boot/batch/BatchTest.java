@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class BatchTest {
 
     @Test
-    public void test(){
+    public void test() {
 
     }
 }

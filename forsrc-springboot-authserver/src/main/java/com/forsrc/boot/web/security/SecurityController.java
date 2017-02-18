@@ -2,7 +2,6 @@ package com.forsrc.boot.web.security;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +22,7 @@ public class SecurityController {
                 , request.getServerName()
                 , request.getServerPort()
                 , request.getAttribute("javax.servlet.forward.request_uri")
-                , request.getQueryString() != null ? "?"  + request.getQueryString(): "")
-                ;
+                , request.getQueryString() != null ? "?" + request.getQueryString() : "");
         modelAndView.addObject("url", url);
         modelAndView.setViewName("/404");
         return modelAndView;
@@ -38,8 +36,7 @@ public class SecurityController {
                 , request.getServerName()
                 , request.getServerPort()
                 , request.getAttribute("javax.servlet.forward.request_uri")
-                , request.getQueryString() != null ? "?"  + request.getQueryString(): "")
-                ;
+                , request.getQueryString() != null ? "?" + request.getQueryString() : "");
         modelAndView.addObject("url", url);
         modelAndView.setViewName("/403");
         return modelAndView;
@@ -53,8 +50,7 @@ public class SecurityController {
                 , request.getServerName()
                 , request.getServerPort()
                 , request.getAttribute("javax.servlet.forward.request_uri")
-                , request.getQueryString() != null ? "?"  + request.getQueryString(): "")
-                ;
+                , request.getQueryString() != null ? "?" + request.getQueryString() : "");
         modelAndView.addObject("url", url);
         modelAndView.setViewName("/502");
         return modelAndView;

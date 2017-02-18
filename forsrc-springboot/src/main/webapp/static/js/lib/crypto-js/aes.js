@@ -16,9 +16,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307 USA
  */
- 
- // later modifications by wwwtyro@github
- 
+
+// later modifications by wwwtyro@github
+
 var aes = (function () {
 
     var my = {};
@@ -30,11 +30,11 @@ var aes = (function () {
     my.Init = function () {
         my.Sbox_Inv = new Array(256);
         for (var i = 0; i < 256; i++)
-        my.Sbox_Inv[my.Sbox[i]] = i;
+            my.Sbox_Inv[my.Sbox[i]] = i;
 
         my.ShiftRowTab_Inv = new Array(16);
         for (var i = 0; i < 16; i++)
-        my.ShiftRowTab_Inv[my.ShiftRowTab[i]] = i;
+            my.ShiftRowTab_Inv[my.ShiftRowTab[i]] = i;
 
         my.xtime = new Array(256);
         for (var i = 0; i < 128; i++) {
@@ -53,17 +53,17 @@ var aes = (function () {
         var kl = key.length,
             ks, Rcon = 1;
         switch (kl) {
-        case 16:
-            ks = 16 * (10 + 1);
-            break;
-        case 24:
-            ks = 16 * (12 + 1);
-            break;
-        case 32:
-            ks = 16 * (14 + 1);
-            break;
-        default:
-            alert("my.ExpandKey: Only key lengths of 16, 24 or 32 bytes allowed!");
+            case 16:
+                ks = 16 * (10 + 1);
+                break;
+            case 24:
+                ks = 16 * (12 + 1);
+                break;
+            case 32:
+                ks = 16 * (14 + 1);
+                break;
+            default:
+                alert("my.ExpandKey: Only key lengths of 16, 24 or 32 bytes allowed!");
         }
         for (var i = kl; i < ks; i += 4) {
             var temp = key.slice(i - 4, i);
@@ -73,7 +73,7 @@ var aes = (function () {
             }
             else if ((kl > 24) && (i % kl == 16)) temp = new Array(my.Sbox[temp[0]], my.Sbox[temp[1]], my.Sbox[temp[2]], my.Sbox[temp[3]]);
             for (var j = 0; j < 4; j++)
-            key[i + j] = key[i + j - kl] ^ temp[j];
+                key[i + j] = key[i + j - kl] ^ temp[j];
         }
     }
 
@@ -107,18 +107,18 @@ var aes = (function () {
 
     my.SubBytes = function (state, sbox) {
         for (var i = 0; i < 16; i++)
-        state[i] = sbox[state[i]];
+            state[i] = sbox[state[i]];
     }
 
     my.AddRoundKey = function (state, rkey) {
         for (var i = 0; i < 16; i++)
-        state[i] ^= rkey[i];
+            state[i] ^= rkey[i];
     }
 
     my.ShiftRows = function (state, shifttab) {
         var h = new Array().concat(state);
         for (var i = 0; i < 16; i++)
-        state[i] = h[shifttab[i]];
+            state[i] = h[shifttab[i]];
     }
 
     my.MixColumns = function (state) {

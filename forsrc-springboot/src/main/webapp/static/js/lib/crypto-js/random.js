@@ -95,25 +95,23 @@
 /**
  * All code is in an anonymous closure to keep the global namespace clean.
  *
- * @param {number=} overflow 
+ * @param {number=} overflow
  * @param {number=} startdenom
  */
-(function (pool, math, width, chunks, significance, overflow, startdenom)
-{
+(function (pool, math, width, chunks, significance, overflow, startdenom) {
 
 
     //
     // seedrandom()
     // This is the seedrandom function described above.
     //
-    math['seedrandom'] = function seedrandom(seed, use_entropy)
-    {
+    math['seedrandom'] = function seedrandom(seed, use_entropy) {
         var key = [];
         var arc4;
 
         // Flatten the seed string or build one from local entropy if needed.
         seed = mixkey(flatten(
-        use_entropy ? [seed, pool] : arguments.length ? seed : [new Date().getTime(), pool, window], 3), key);
+            use_entropy ? [seed, pool] : arguments.length ? seed : [new Date().getTime(), pool, window], 3), key);
 
         // Use the seed to initialize an ARC4 generator.
         arc4 = new ARC4(key);
@@ -124,19 +122,16 @@
         // Override Math.random
         // This function returns a random double in [0, 1) that contains
         // randomness in every bit of the mantissa of the IEEE 754 value.
-        math['random'] = function random()
-        { // Closure to return a random double:
+        math['random'] = function random() { // Closure to return a random double:
             var n = arc4.g(chunks); // Start with a numerator n < 2 ^ 48
             var d = startdenom; //   and denominator d = 2 ^ 48.
             var x = 0; //   and no 'extra last byte'.
-            while (n < significance)
-            { // Fill up all significant digits by
+            while (n < significance) { // Fill up all significant digits by
                 n = (n + x) * width; //   shifting numerator and
                 d *= width; //   denominator and generating a
                 x = arc4.g(1); //   new least-significant-byte.
             }
-            while (n >= overflow)
-            { // To avoid rounding up, before adding
+            while (n >= overflow) { // To avoid rounding up, before adding
                 n /= 2; //   last byte, shift everything
                 d /= 2; //   right using integer math until
                 x >>>= 1; //   we have exactly the desired bits.
@@ -160,8 +155,7 @@
     //
     /** @constructor */
 
-    function ARC4(key)
-    {
+    function ARC4(key) {
         var t, u, me = this,
             keylen = key.length;
         var i = 0,
@@ -170,18 +164,15 @@
         me.c = [];
 
         // The empty key [] is treated as [0].
-        if (!keylen)
-        {
+        if (!keylen) {
             key = [keylen++];
         }
 
         // Set up S using the standard key scheduling algorithm.
-        while (i < width)
-        {
+        while (i < width) {
             me.S[i] = i++;
         }
-        for (i = 0; i < width; i++)
-        {
+        for (i = 0; i < width; i++) {
             t = me.S[i];
             j = lowbits(j + t + key[i % keylen]);
             u = me.S[j];
@@ -190,8 +181,7 @@
         }
 
         // The "g" method returns the next (count) outputs as one number.
-        me.g = function getnext(count)
-        {
+        me.g = function getnext(count) {
             var s = me.S;
             var i = lowbits(me.i + 1);
             var t = s[i];
@@ -200,8 +190,7 @@
             s[i] = u;
             s[j] = t;
             var r = s[lowbits(t + u)];
-            while (--count)
-            {
+            while (--count) {
                 i = lowbits(i + 1);
                 t = s[i];
                 j = lowbits(j + t);
@@ -223,26 +212,21 @@
     // flatten()
     // Converts an object tree to nested arrays of strings.
     //
-    /** @param {Object=} result 
+    /** @param {Object=} result
      * @param {string=} prop
      * @param {string=} typ */
 
-    function flatten(obj, depth, result, prop, typ)
-    {
+    function flatten(obj, depth, result, prop, typ) {
         result = [];
         typ = typeof (obj);
-        if (depth && typ == 'object')
-        {
-            for (prop in obj)
-            {
-                if (prop.indexOf('S') < 5)
-                { // Avoid FF3 bug (local/sessionStorage)
-                    try
-                    {
+        if (depth && typ == 'object') {
+            for (prop in obj) {
+                if (prop.indexOf('S') < 5) { // Avoid FF3 bug (local/sessionStorage)
+                    try {
                         result.push(flatten(obj[prop], depth - 1));
                     }
-                    catch (e)
-                    {}
+                    catch (e) {
+                    }
                 }
             }
         }
@@ -254,20 +238,17 @@
     // Mixes a string seed into a key that is an array of integers, and
     // returns a shortened string seed that is equivalent to the result key.
     //
-    /** @param {number=} smear 
+    /** @param {number=} smear
      * @param {number=} j */
 
-    function mixkey(seed, key, smear, j)
-    {
+    function mixkey(seed, key, smear, j) {
         seed += ''; // Ensure the seed is a string
         smear = 0;
-        for (j = 0; j < seed.length; j++)
-        {
+        for (j = 0; j < seed.length; j++) {
             key[lowbits(j)] = lowbits((smear ^= key[lowbits(j)] * 19) + seed.charCodeAt(j));
         }
         seed = '';
-        for (j in key)
-        {
+        for (j in key) {
             seed += String.fromCharCode(key[j]);
         }
         return seed;
@@ -279,8 +260,7 @@
     //
 
 
-    function lowbits(n)
-    {
+    function lowbits(n) {
         return n & (width - 1);
     }
 
@@ -302,23 +282,22 @@
 
     // End anonymous scope, and pass initial values.
 })([], // pool: entropy pool starts empty
-Math, // math: package containing random, pow, and seedrandom
-256, // width: each RC4 output is 0 <= x < 256
-6, // chunks: at least six RC4 outputs for each double
-52 // significance: there are 52 significant digits in a double
+    Math, // math: package containing random, pow, and seedrandom
+    256, // width: each RC4 output is 0 <= x < 256
+    6, // chunks: at least six RC4 outputs for each double
+    52 // significance: there are 52 significant digits in a double
 );
 
 
 // This is not really a random number generator object, and two SeededRandom
 // objects will conflict with one another, but it's good enough for generating 
 // the rsa key.
-function SeededRandom(){}
+function SeededRandom() {
+}
 
-function SRnextBytes(ba)
-{
+function SRnextBytes(ba) {
     var i;
-    for(i = 0; i < ba.length; i++)
-    {
+    for (i = 0; i < ba.length; i++) {
         ba[i] = Math.floor(Math.random() * 256);
     }
 }
@@ -328,35 +307,35 @@ SeededRandom.prototype.nextBytes = SRnextBytes;
 // prng4.js - uses Arcfour as a PRNG
 
 function Arcfour() {
-  this.i = 0;
-  this.j = 0;
-  this.S = new Array();
+    this.i = 0;
+    this.j = 0;
+    this.S = new Array();
 }
 
 // Initialize arcfour context from key, an array of ints, each from [0..255]
 function ARC4init(key) {
-  var i, j, t;
-  for(i = 0; i < 256; ++i)
-    this.S[i] = i;
-  j = 0;
-  for(i = 0; i < 256; ++i) {
-    j = (j + this.S[i] + key[i % key.length]) & 255;
-    t = this.S[i];
-    this.S[i] = this.S[j];
-    this.S[j] = t;
-  }
-  this.i = 0;
-  this.j = 0;
+    var i, j, t;
+    for (i = 0; i < 256; ++i)
+        this.S[i] = i;
+    j = 0;
+    for (i = 0; i < 256; ++i) {
+        j = (j + this.S[i] + key[i % key.length]) & 255;
+        t = this.S[i];
+        this.S[i] = this.S[j];
+        this.S[j] = t;
+    }
+    this.i = 0;
+    this.j = 0;
 }
 
 function ARC4next() {
-  var t;
-  this.i = (this.i + 1) & 255;
-  this.j = (this.j + this.S[this.i]) & 255;
-  t = this.S[this.i];
-  this.S[this.i] = this.S[this.j];
-  this.S[this.j] = t;
-  return this.S[(t + this.S[this.i]) & 255];
+    var t;
+    this.i = (this.i + 1) & 255;
+    this.j = (this.j + this.S[this.i]) & 255;
+    t = this.S[this.i];
+    this.S[this.i] = this.S[this.j];
+    this.S[this.j] = t;
+    return this.S[(t + this.S[this.i]) & 255];
 }
 
 Arcfour.prototype.init = ARC4init;
@@ -364,7 +343,7 @@ Arcfour.prototype.next = ARC4next;
 
 // Plug in your RNG constructor here
 function prng_newstate() {
-  return new Arcfour();
+    return new Arcfour();
 }
 
 // Pool size must be a multiple of 4 and greater than 32.
@@ -383,60 +362,61 @@ var rng_pptr;
 
 // Mix in a 32-bit integer into the pool
 function rng_seed_int(x) {
-  rng_pool[rng_pptr++] ^= x & 255;
-  rng_pool[rng_pptr++] ^= (x >> 8) & 255;
-  rng_pool[rng_pptr++] ^= (x >> 16) & 255;
-  rng_pool[rng_pptr++] ^= (x >> 24) & 255;
-  if(rng_pptr >= rng_psize) rng_pptr -= rng_psize;
+    rng_pool[rng_pptr++] ^= x & 255;
+    rng_pool[rng_pptr++] ^= (x >> 8) & 255;
+    rng_pool[rng_pptr++] ^= (x >> 16) & 255;
+    rng_pool[rng_pptr++] ^= (x >> 24) & 255;
+    if (rng_pptr >= rng_psize) rng_pptr -= rng_psize;
 }
 
 // Mix in the current time (w/milliseconds) into the pool
 function rng_seed_time() {
-  rng_seed_int(new Date().getTime());
+    rng_seed_int(new Date().getTime());
 }
 
 // Initialize the pool with junk if needed.
-if(rng_pool == null) {
-  rng_pool = new Array();
-  rng_pptr = 0;
-  var t;
-  if(navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
-    // Extract entropy (256 bits) from NS4 RNG if available
-    var z = window.crypto.random(32);
-    for(t = 0; t < z.length; ++t)
-      rng_pool[rng_pptr++] = z.charCodeAt(t) & 255;
-  }  
-  while(rng_pptr < rng_psize) {  // extract some randomness from Math.random()
-    t = Math.floor(65536 * Math.random());
-    rng_pool[rng_pptr++] = t >>> 8;
-    rng_pool[rng_pptr++] = t & 255;
-  }
-  rng_pptr = 0;
-  rng_seed_time();
-  //rng_seed_int(window.screenX);
-  //rng_seed_int(window.screenY);
+if (rng_pool == null) {
+    rng_pool = new Array();
+    rng_pptr = 0;
+    var t;
+    if (navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
+        // Extract entropy (256 bits) from NS4 RNG if available
+        var z = window.crypto.random(32);
+        for (t = 0; t < z.length; ++t)
+            rng_pool[rng_pptr++] = z.charCodeAt(t) & 255;
+    }
+    while (rng_pptr < rng_psize) {  // extract some randomness from Math.random()
+        t = Math.floor(65536 * Math.random());
+        rng_pool[rng_pptr++] = t >>> 8;
+        rng_pool[rng_pptr++] = t & 255;
+    }
+    rng_pptr = 0;
+    rng_seed_time();
+    //rng_seed_int(window.screenX);
+    //rng_seed_int(window.screenY);
 }
 
 function rng_get_byte() {
-  if(rng_state == null) {
-    rng_seed_time();
-    rng_state = prng_newstate();
-    rng_state.init(rng_pool);
-    for(rng_pptr = 0; rng_pptr < rng_pool.length; ++rng_pptr)
-      rng_pool[rng_pptr] = 0;
-    rng_pptr = 0;
-    //rng_pool = null;
-  }
-  // TODO: allow reseeding after first request
-  return rng_state.next();
+    if (rng_state == null) {
+        rng_seed_time();
+        rng_state = prng_newstate();
+        rng_state.init(rng_pool);
+        for (rng_pptr = 0; rng_pptr < rng_pool.length; ++rng_pptr)
+            rng_pool[rng_pptr] = 0;
+        rng_pptr = 0;
+        //rng_pool = null;
+    }
+    // TODO: allow reseeding after first request
+    return rng_state.next();
 }
 
 function rng_get_bytes(ba) {
-  var i;
-  for(i = 0; i < ba.length; ++i) ba[i] = rng_get_byte();
+    var i;
+    for (i = 0; i < ba.length; ++i) ba[i] = rng_get_byte();
 }
 
-function SecureRandom() {}
+function SecureRandom() {
+}
 
 SecureRandom.prototype.nextBytes = rng_get_bytes;
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -18,11 +17,11 @@ import java.util.logging.Logger;
 public class UserServerEndpoint {
 
     private static final CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();
-    private static long count;
     private static final ReentrantReadWriteLock LOCK = new ReentrantReadWriteLock();
     private static final Lock LOCK_READ = LOCK.readLock();
     private static final Lock LOCK_WRITE = LOCK.writeLock();
     private static final ThreadLocal<Session> THREAD_LOCAL = new ThreadLocal<>();
+    private static long count;
 
     @OnOpen
     public void onOpen(Session session) {

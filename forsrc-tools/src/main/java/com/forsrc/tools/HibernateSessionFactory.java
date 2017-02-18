@@ -1,7 +1,6 @@
 package com.forsrc.tools;
 
 import com.forsrc.utils.LogUtils;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.boot.MetadataSources;

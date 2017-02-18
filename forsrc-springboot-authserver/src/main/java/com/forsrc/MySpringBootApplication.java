@@ -19,36 +19,36 @@ import java.io.IOException;
 @EnableAutoConfiguration
 public class MySpringBootApplication {
 
-	static {
-		//for localhost testing only
-		javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
-				new javax.net.ssl.HostnameVerifier() {
+    static {
+        //for localhost testing only
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+                new javax.net.ssl.HostnameVerifier() {
 
-					public boolean verify(String hostname,
-										  javax.net.ssl.SSLSession sslSession) {
-						if (hostname.equals("localhost")) {
-							return true;
-						}
-						return false;
-					}
-				});
-	}
+                    public boolean verify(String hostname,
+                                          javax.net.ssl.SSLSession sslSession) {
+                        if (hostname.equals("localhost")) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+    }
 
-	public static void main(String[] args) {
-		try {
-			System.setProperty("javax.net.ssl.trustStore", new ClassPathResource("/truststore.keystore").getFile().getAbsolutePath());
-			System.setProperty("javax.net.ssl.trustStorePassword", "apache");
-			System.setProperty("javax.net.ssl.keyStore", new ClassPathResource("/server.jks").getFile().getAbsolutePath());
-			System.setProperty("javax.net.ssl.keyStorePassword", "apache");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		SpringApplication.run(MySpringBootApplication.class, args);
-	}
+    public static void main(String[] args) {
+        try {
+            System.setProperty("javax.net.ssl.trustStore", new ClassPathResource("/truststore.keystore").getFile().getAbsolutePath());
+            System.setProperty("javax.net.ssl.trustStorePassword", "apache");
+            System.setProperty("javax.net.ssl.keyStore", new ClassPathResource("/server.jks").getFile().getAbsolutePath());
+            System.setProperty("javax.net.ssl.keyStorePassword", "apache");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SpringApplication.run(MySpringBootApplication.class, args);
+    }
 
-	@Profile("!cloud")
-	//@Bean
-	RequestDumperFilter requestDumperFilter() {
-		return new RequestDumperFilter();
-	}
+    @Profile("!cloud")
+        //@Bean
+    RequestDumperFilter requestDumperFilter() {
+        return new RequestDumperFilter();
+    }
 }

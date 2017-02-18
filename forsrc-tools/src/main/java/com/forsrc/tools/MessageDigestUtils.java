@@ -1,9 +1,8 @@
 package com.forsrc.tools;
 
+import com.forsrc.utils.LogUtils;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
-
-import com.forsrc.utils.LogUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

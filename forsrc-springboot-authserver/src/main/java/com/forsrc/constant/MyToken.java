@@ -25,14 +25,14 @@ public class MyToken implements Serializable {
     /**
      * Instantiates a new My token.
      */
-    public MyToken(){
+    public MyToken() {
         generate();
     }
 
     /**
      * Generate.
      */
-    public void generate(){
+    public void generate() {
         this.token = UUID.randomUUID().toString();
         this.tokenTime = new Date().getTime();
         this.aesKey = new MyAesUtils.AesKey();

@@ -105,20 +105,20 @@
            timeToIdleSeconds="86400"
            timeToLiveSeconds="3600"
            overflowToDisk="true"/>
-    
+
     <cache name="ehcache_pojp"
-               maxElementsInMemory="10240"
-               eternal="false"
-               timeToIdleSeconds="3"
-               timeToLiveSeconds="3"
-               overflowToDisk="false"/>
-    
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           overflowToDisk="false"/>
+
     <cache name="ehcache_pojp_aop"
-               maxElementsInMemory="10240"
-               eternal="false"
-               timeToIdleSeconds="3"
-               timeToLiveSeconds="3"
-               overflowToDisk="false"/>
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           overflowToDisk="false"/>
 
 
     <!--=================================================================
@@ -139,10 +139,10 @@
            maxElementsInMemory="1000"
            timeToLiveSeconds="3600"
            overflowToDisk="false"/>
-    
+
     <cache name="com.forsrc.pojo.UserPrivacy"
-            maxElementsInMemory="1000"
-            timeToLiveSeconds="3600"
-            overflowToDisk="false"/>
+           maxElementsInMemory="1000"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"/>
 
 </ehcache>

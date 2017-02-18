@@ -1,8 +1,5 @@
 package com.forsrc.boot.web.security;
 
-import com.forsrc.boot.web.user.service.RoleService;
-import com.forsrc.boot.web.user.service.UserRoleService;
-import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.Role;
 import com.forsrc.pojo.UserPrivacy;
 import com.forsrc.pojo.UserRole;
@@ -10,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import java.util.List;
 import java.util.Map;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class MyUserDetails implements UserDetails {
 

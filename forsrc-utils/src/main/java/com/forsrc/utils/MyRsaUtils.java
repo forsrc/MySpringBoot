@@ -16,13 +16,13 @@
  */
 package com.forsrc.utils;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * The type My rsa utils.
@@ -266,7 +266,7 @@ public final class MyRsaUtils {
         /**
          * The constant DEF_E.
          */
-        public static final BigInteger DEF_E =  new BigInteger("65537");
+        public static final BigInteger DEF_E = new BigInteger("65537");
 
         private int bits = 1024;
 

@@ -17,12 +17,10 @@
 
 package com.forsrc.utils;
 
-import javax.crypto.*;
-import javax.crypto.spec.DESKeySpec;
-
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
+import javax.crypto.*;
+import javax.crypto.spec.DESKeySpec;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;

@@ -1,16 +1,16 @@
 package com.forsrc.boot.base.dao.impl;
 
 import com.forsrc.boot.base.dao.BaseDao;
-import static com.forsrc.boot.base.dao.BaseDao.SIZE_MAX;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao<E, PK> {

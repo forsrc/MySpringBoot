@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 /**
  * Cipher core components.
  */
@@ -156,9 +156,9 @@ CryptoJS.lib.Cipher || (function (undefined) {
             return finalProcessedData;
         },
 
-        keySize: 128/32,
+        keySize: 128 / 32,
 
-        ivSize: 128/32,
+        ivSize: 128 / 32,
 
         _ENC_XFORM_MODE: 1,
 
@@ -490,7 +490,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
             return finalProcessedBlocks;
         },
 
-        blockSize: 128/32
+        blockSize: 128 / 32
     });
 
     /**
@@ -617,7 +617,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 ciphertext.sigBytes -= 16;
             }
 
-            return CipherParams.create({ ciphertext: ciphertext, salt: salt });
+            return CipherParams.create({ciphertext: ciphertext, salt: salt});
         }
     };
 
@@ -759,18 +759,18 @@ CryptoJS.lib.Cipher || (function (undefined) {
         execute: function (password, keySize, ivSize, salt) {
             // Generate random salt
             if (!salt) {
-                salt = WordArray.random(64/8);
+                salt = WordArray.random(64 / 8);
             }
 
             // Derive key and IV
-            var key = EvpKDF.create({ keySize: keySize + ivSize }).compute(password, salt);
+            var key = EvpKDF.create({keySize: keySize + ivSize}).compute(password, salt);
 
             // Separate key and IV
             var iv = WordArray.create(key.words.slice(keySize), ivSize * 4);
             key.sigBytes = keySize * 4;
 
             // Return params
-            return CipherParams.create({ key: key, iv: iv, salt: salt });
+            return CipherParams.create({key: key, iv: iv, salt: salt});
         }
     };
 

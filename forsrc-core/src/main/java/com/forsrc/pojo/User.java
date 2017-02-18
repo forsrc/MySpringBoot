@@ -1,15 +1,8 @@
 package com.forsrc.pojo;
 
 
-
 import java.text.MessageFormat;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 
 /**
@@ -37,6 +30,7 @@ public class User implements java.io.Serializable {
     private int version;
 
     // Constructors
+
     /**
      * default constructor
      */
@@ -53,6 +47,7 @@ public class User implements java.io.Serializable {
     }
 
     // Property accessors
+
     /**
      * Gets id.
      *

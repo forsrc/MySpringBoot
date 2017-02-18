@@ -37,10 +37,6 @@ public class MyLuceneUtils {
     private MyLuceneUtils() {
     }
 
-    private static class MyLuceneUtilsStaticClass {
-        private static final MyLuceneUtils INSTANCE = new MyLuceneUtils();
-    }
-
     /**
      * Create my lucene utils.
      *
@@ -101,6 +97,26 @@ public class MyLuceneUtils {
     }
 
     /**
+     * Gets index dir.
+     *
+     * @return the index dir
+     */
+    public static String getIndexDir() {
+        return _indexDir.get();
+    }
+
+    /**
+     * Sets index dir.
+     *
+     * @param indexDir the index dir
+     * @return the index dir
+     */
+    public MyLuceneUtils setIndexDir(String indexDir) {
+        _indexDir.set(indexDir);
+        return this;
+    }
+
+    /**
      * Close my lucene utils.
      *
      * @return the my lucene utils
@@ -127,26 +143,6 @@ public class MyLuceneUtils {
                 _indexWriter.remove();
             }
         }
-        return this;
-    }
-
-    /**
-     * Gets index dir.
-     *
-     * @return the index dir
-     */
-    public static String getIndexDir() {
-        return _indexDir.get();
-    }
-
-    /**
-     * Sets index dir.
-     *
-     * @param indexDir the index dir
-     * @return the index dir
-     */
-    public MyLuceneUtils setIndexDir(String indexDir) {
-        _indexDir.set(indexDir);
         return this;
     }
 
@@ -263,32 +259,6 @@ public class MyLuceneUtils {
         return indexWriter;
     }
 
-
-    /**
-     * The type My lucene utils exception.
-     */
-    public static class MyLuceneUtilsException extends Exception {
-        /**
-         * Instantiates a new My lucene utils exception.
-         *
-         * @param msg the msg
-         */
-        public MyLuceneUtilsException(String msg) {
-            super(msg);
-        }
-
-        /**
-         * Instantiates a new My lucene utils exception.
-         *
-         * @param e the e
-         */
-        public MyLuceneUtilsException(Exception e) {
-            super(e);
-        }
-
-    }
-
-
     public synchronized void index(Callback<IndexWriter> callback) throws MyLuceneUtilsException {
 
         WRITE_LOCK.lock();
@@ -337,6 +307,34 @@ public class MyLuceneUtils {
 
     public interface Callback<T> {
         void handle(final T t) throws MyLuceneUtilsException;
+    }
+
+    private static class MyLuceneUtilsStaticClass {
+        private static final MyLuceneUtils INSTANCE = new MyLuceneUtils();
+    }
+
+    /**
+     * The type My lucene utils exception.
+     */
+    public static class MyLuceneUtilsException extends Exception {
+        /**
+         * Instantiates a new My lucene utils exception.
+         *
+         * @param msg the msg
+         */
+        public MyLuceneUtilsException(String msg) {
+            super(msg);
+        }
+
+        /**
+         * Instantiates a new My lucene utils exception.
+         *
+         * @param e the e
+         */
+        public MyLuceneUtilsException(Exception e) {
+            super(e);
+        }
+
     }
 
 }

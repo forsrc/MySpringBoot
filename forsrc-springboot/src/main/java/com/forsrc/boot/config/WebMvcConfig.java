@@ -48,7 +48,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public ObjectMapper jsonMapper(){
+    public ObjectMapper jsonMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
             @Override

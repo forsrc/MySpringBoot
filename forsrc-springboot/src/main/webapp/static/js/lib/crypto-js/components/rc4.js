@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function () {
     // Shortcuts
     var C = CryptoJS;
@@ -48,7 +48,7 @@ code.google.com/p/crypto-js/wiki/License
             M[offset] ^= generateKeystreamWord.call(this);
         },
 
-        keySize: 256/32,
+        keySize: 256 / 32,
 
         ivSize: 0
     });

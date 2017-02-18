@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public interface BaseSolr<E, PK extends Serializable> {

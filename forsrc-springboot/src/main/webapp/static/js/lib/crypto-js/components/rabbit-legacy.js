@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function () {
     // Shortcuts
     var C = CryptoJS;
@@ -12,9 +12,9 @@ code.google.com/p/crypto-js/wiki/License
     var C_algo = C.algo;
 
     // Reusable objects
-    var S  = [];
+    var S = [];
     var C_ = [];
-    var G  = [];
+    var G = [];
 
     /**
      * Rabbit stream cipher algorithm.
@@ -69,7 +69,7 @@ code.google.com/p/crypto-js/wiki/License
                 var i0 = (((IV_0 << 8) | (IV_0 >>> 24)) & 0x00ff00ff) | (((IV_0 << 24) | (IV_0 >>> 8)) & 0xff00ff00);
                 var i2 = (((IV_1 << 8) | (IV_1 >>> 24)) & 0x00ff00ff) | (((IV_1 << 24) | (IV_1 >>> 8)) & 0xff00ff00);
                 var i1 = (i0 >>> 16) | (i2 & 0xffff0000);
-                var i3 = (i2 << 16)  | (i0 & 0x0000ffff);
+                var i3 = (i2 << 16) | (i0 & 0x0000ffff);
 
                 // Modify counter values
                 C[0] ^= i0;
@@ -103,17 +103,17 @@ code.google.com/p/crypto-js/wiki/License
 
             for (var i = 0; i < 4; i++) {
                 // Swap endian
-                S[i] = (((S[i] << 8)  | (S[i] >>> 24)) & 0x00ff00ff) |
-                       (((S[i] << 24) | (S[i] >>> 8))  & 0xff00ff00);
+                S[i] = (((S[i] << 8) | (S[i] >>> 24)) & 0x00ff00ff) |
+                    (((S[i] << 24) | (S[i] >>> 8)) & 0xff00ff00);
 
                 // Encrypt
                 M[offset + i] ^= S[i];
             }
         },
 
-        blockSize: 128/32,
+        blockSize: 128 / 32,
 
-        ivSize: 64/32
+        ivSize: 64 / 32
     });
 
     function nextState() {
@@ -155,13 +155,13 @@ code.google.com/p/crypto-js/wiki/License
 
         // Calculate new state values
         X[0] = (G[0] + ((G[7] << 16) | (G[7] >>> 16)) + ((G[6] << 16) | (G[6] >>> 16))) | 0;
-        X[1] = (G[1] + ((G[0] << 8)  | (G[0] >>> 24)) + G[7]) | 0;
+        X[1] = (G[1] + ((G[0] << 8) | (G[0] >>> 24)) + G[7]) | 0;
         X[2] = (G[2] + ((G[1] << 16) | (G[1] >>> 16)) + ((G[0] << 16) | (G[0] >>> 16))) | 0;
-        X[3] = (G[3] + ((G[2] << 8)  | (G[2] >>> 24)) + G[1]) | 0;
+        X[3] = (G[3] + ((G[2] << 8) | (G[2] >>> 24)) + G[1]) | 0;
         X[4] = (G[4] + ((G[3] << 16) | (G[3] >>> 16)) + ((G[2] << 16) | (G[2] >>> 16))) | 0;
-        X[5] = (G[5] + ((G[4] << 8)  | (G[4] >>> 24)) + G[3]) | 0;
+        X[5] = (G[5] + ((G[4] << 8) | (G[4] >>> 24)) + G[3]) | 0;
         X[6] = (G[6] + ((G[5] << 16) | (G[5] >>> 16)) + ((G[4] << 16) | (G[4] >>> 16))) | 0;
-        X[7] = (G[7] + ((G[6] << 8)  | (G[6] >>> 24)) + G[5]) | 0;
+        X[7] = (G[7] + ((G[6] << 8) | (G[6] >>> 24)) + G[5]) | 0;
     }
 
     /**

@@ -155,7 +155,7 @@ public class JsonUtils {
             sb.append("  ");
         }
         json = json.replaceAll("^\\{", String.format("%s{\n  %s", sb.toString(), sb.toString()));
-        json = json.replaceAll("\\}$",  String.format("%s\n%s}",sb.toString(), sb.toString()));
+        json = json.replaceAll("\\}$", String.format("%s\n%s}", sb.toString(), sb.toString()));
         return json;
     }
 

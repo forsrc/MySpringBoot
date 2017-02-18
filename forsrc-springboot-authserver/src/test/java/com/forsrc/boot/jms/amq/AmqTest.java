@@ -11,13 +11,12 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

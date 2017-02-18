@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function (Math) {
     // Shortcuts
     var C = CryptoJS;
@@ -80,23 +80,23 @@ code.google.com/p/crypto-js/wiki/License
                     W[i] = M[offset + i] | 0;
                 } else {
                     var gamma0x = W[i - 15];
-                    var gamma0  = ((gamma0x << 25) | (gamma0x >>> 7))  ^
-                                  ((gamma0x << 14) | (gamma0x >>> 18)) ^
-                                   (gamma0x >>> 3);
+                    var gamma0 = ((gamma0x << 25) | (gamma0x >>> 7)) ^
+                        ((gamma0x << 14) | (gamma0x >>> 18)) ^
+                        (gamma0x >>> 3);
 
                     var gamma1x = W[i - 2];
-                    var gamma1  = ((gamma1x << 15) | (gamma1x >>> 17)) ^
-                                  ((gamma1x << 13) | (gamma1x >>> 19)) ^
-                                   (gamma1x >>> 10);
+                    var gamma1 = ((gamma1x << 15) | (gamma1x >>> 17)) ^
+                        ((gamma1x << 13) | (gamma1x >>> 19)) ^
+                        (gamma1x >>> 10);
 
                     W[i] = gamma0 + W[i - 7] + gamma1 + W[i - 16];
                 }
 
-                var ch  = (e & f) ^ (~e & g);
+                var ch = (e & f) ^ (~e & g);
                 var maj = (a & b) ^ (a & c) ^ (b & c);
 
                 var sigma0 = ((a << 30) | (a >>> 2)) ^ ((a << 19) | (a >>> 13)) ^ ((a << 10) | (a >>> 22));
-                var sigma1 = ((e << 26) | (e >>> 6)) ^ ((e << 21) | (e >>> 11)) ^ ((e << 7)  | (e >>> 25));
+                var sigma1 = ((e << 26) | (e >>> 6)) ^ ((e << 21) | (e >>> 11)) ^ ((e << 7) | (e >>> 25));
 
                 var t1 = h + sigma1 + ch + K[i] + W[i];
                 var t2 = sigma0 + maj;

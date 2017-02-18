@@ -1,17 +1,11 @@
 package com.forsrc.bytecode;
 
 import com.forsrc.bytecode.pojo.Pojo;
+import javassist.*;
+import org.junit.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
-import javassist.ClassClassPath;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtConstructor;
-import javassist.CtField;
-import javassist.CtMethod;
-import javassist.CtNewMethod;
-import javassist.Modifier;
-import org.junit.Test;
 
 public class BytecodeTest {
 

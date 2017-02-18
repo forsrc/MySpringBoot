@@ -1,8 +1,6 @@
 package com.forsrc.boot.solr;
 
-import com.forsrc.boot.solr.user.repository.UserSolr;
 import com.forsrc.boot.solr.user.service.UserSolrService;
-import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.User;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Test;
@@ -18,6 +16,7 @@ import java.io.IOException;
 public class SolrTest {
     @Autowired
     private UserSolrService userSolrService;
+
     @Test
     public void test() throws IOException, SolrServerException {
         User user = new User();

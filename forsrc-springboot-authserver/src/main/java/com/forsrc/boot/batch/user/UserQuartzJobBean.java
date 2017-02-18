@@ -1,10 +1,5 @@
 package com.forsrc.boot.batch.user;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
@@ -13,11 +8,16 @@ import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class UserQuartzJobBean extends QuartzJobBean {
 
+    private static final String JOB_NAME = "jobName";
     private JobLocator jobLocator;
     private JobLauncher jobLauncher;
-    private static final String JOB_NAME = "jobName";
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {

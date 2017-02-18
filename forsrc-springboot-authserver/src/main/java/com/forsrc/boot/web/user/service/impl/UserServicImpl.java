@@ -29,7 +29,7 @@ public class UserServicImpl implements UserService {
     }
 
     @Override
-    public void save(User user, char [] password) {
+    public void save(User user, char[] password) {
         System.out.println(MessageFormat.format("---> has {0} users.", userDao.count()));
         userDao.save(user);
         UserPrivacy userPrivacy = new UserPrivacy();

@@ -1,9 +1,7 @@
 package com.forsrc.tools;
 
 
-
-
-public class JFreeChartUtils{
+public class JFreeChartUtils {
 
 }
 

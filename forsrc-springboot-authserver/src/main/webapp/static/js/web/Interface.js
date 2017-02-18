@@ -1,8 +1,8 @@
 /**
-    var InterfaceA = new Interface('InterfaceA', ['methodA', 'methodB']);
-    var A = function () {
+ var InterfaceA = new Interface('InterfaceA', ['methodA', 'methodB']);
+ var A = function () {
     };
-    A.prototype = {
+ A.prototype = {
     methodA: function () {
         alert("methodA")
     },
@@ -10,9 +10,9 @@
         alert("methodB")
     }
     };
-    var a = new A();
-    Interface.ensureImplements(a, [InterfaceA]);
-    a.methodA();
+ var a = new A();
+ Interface.ensureImplements(a, [InterfaceA]);
+ a.methodA();
  */
 ;(function (window, document, Object) {
     'use strict';

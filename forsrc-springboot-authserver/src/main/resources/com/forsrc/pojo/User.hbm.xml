@@ -3,7 +3,8 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.forsrc.pojo">
-    <class name="User" table="t_user" lazy="false" dynamic-update="true" dynamic-insert="true" select-before-update="true">
+    <class name="User" table="t_user" lazy="false" dynamic-update="true" dynamic-insert="true"
+           select-before-update="true">
         <id name="id" type="java.lang.Long">
             <column name="id"/>
             <generator class="increment"/>
@@ -66,7 +67,7 @@
 
          ]]>
     </sql-query>
-    
+
     <sql-query name="sql_user_insert_admin">
         <![CDATA[
              INSERT INTO
@@ -102,7 +103,7 @@
         <query-param name="username" type="java.lang.String"/>
         <return alias="u" class="com.forsrc.pojo.User"/>
     </sql-query>
-    
+
     <sql-query name="sql_user_findByUsername_" read-only="true">
         <![CDATA[
              SELECT
@@ -125,7 +126,7 @@
         FROM com.forsrc.pojo.User obj WHERE obj.username = :username and obj.status = 1
 
         <query-param name="username" type="java.lang.String"/>
-       
+
     </query>
 
     <query name="hql_user_get_" read-only="true">
@@ -139,7 +140,7 @@
         and
         obj.status = 1
     </query>
-    
+
     <query name="hql_user_get" read-only="true">
 
         FROM
@@ -149,7 +150,7 @@
         and
         obj.status = 1
     </query>
-    
+
     <sql-query name="sql_user_init" read-only="false">
         <![CDATA[
             INSERT INTO t_user (id, username, email, is_admin, version, status) VALUES (1, 'admin', 'admin@forsrc.com', 1, 0, 1);

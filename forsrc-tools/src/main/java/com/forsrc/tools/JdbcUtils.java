@@ -14,65 +14,6 @@ public class JdbcUtils {
     private static final ThreadLocal<DataSource> THREADLOCAL_DATASOURCE = new ThreadLocal<DataSource>();
     private static final ThreadLocal<Connection> THREADLOCAL_CONNECTION = new ThreadLocal<Connection>();
 
-    public final Connection getConnection() throws SQLException {
-        Connection connection = THREADLOCAL_CONNECTION.get();
-        if (connection == null || connection.isClosed()) {
-            synchronized (JdbcUtils.class) {
-                if (connection == null) {
-                    connection = THREADLOCAL_DATASOURCE.get().getConnection();
-                    THREADLOCAL_CONNECTION.set(connection);
-                }
-            }
-        }
-        return connection;
-    }
-
-    public final Connection getConnection(String url, String user,
-                                          String password) throws SQLException {
-
-        Connection connection = THREADLOCAL_CONNECTION.get();
-        if (connection == null || connection.isClosed()) {
-            synchronized (JdbcUtils.class) {
-                if (connection == null) {
-                    connection = DriverManager.getConnection(url, user,
-                            password);
-                    THREADLOCAL_CONNECTION.set(connection);
-                }
-            }
-        }
-        return connection;
-    }
-
-    public JdbcUtils setDataSource(DataSource dataSource) {
-        THREADLOCAL_DATASOURCE.set(dataSource);
-        return this;
-    }
-
-    public void close() throws SQLException {
-        Connection connection = THREADLOCAL_CONNECTION.get();
-        if (connection != null && !connection.isClosed()) {
-            synchronized (JdbcUtils.class) {
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                    THREADLOCAL_CONNECTION.remove();
-                }
-            }
-        }
-    }
-
-    public JdbcUtils call(HandlerConnection handler) throws SQLException {
-        Connection connection = getConnection();
-        handler.handle(connection);
-        return this;
-    }
-
-    public List<Map<String, Object>> list(final String sql, Object... parameters)
-            throws SQLException {
-        Connection connection = getConnection();
-
-        return list(connection, sql, parameters);
-    }
-
     public static List<Map<String, Object>> list(final Connection connection,
                                                  final String sql, final Object... parameters) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -99,12 +40,6 @@ public class JdbcUtils {
             close(preparedStatement);
         }
         return list;
-    }
-
-    public JdbcUtils call(final String sql, final Object[] parameters,
-                          final HandlerResultSet handlerResultSet) throws SQLException {
-        call(getConnection(), sql, parameters, handlerResultSet);
-        return this;
     }
 
     public static void call(final Connection connection, final String sql,
@@ -178,6 +113,71 @@ public class JdbcUtils {
         org.apache.tomcat.jdbc.pool.DataSource datasource = new org.apache.tomcat.jdbc.pool.DataSource();
         datasource.setPoolProperties(poolProperties);
         return datasource;
+    }
+
+    public final Connection getConnection() throws SQLException {
+        Connection connection = THREADLOCAL_CONNECTION.get();
+        if (connection == null || connection.isClosed()) {
+            synchronized (JdbcUtils.class) {
+                if (connection == null) {
+                    connection = THREADLOCAL_DATASOURCE.get().getConnection();
+                    THREADLOCAL_CONNECTION.set(connection);
+                }
+            }
+        }
+        return connection;
+    }
+
+    public final Connection getConnection(String url, String user,
+                                          String password) throws SQLException {
+
+        Connection connection = THREADLOCAL_CONNECTION.get();
+        if (connection == null || connection.isClosed()) {
+            synchronized (JdbcUtils.class) {
+                if (connection == null) {
+                    connection = DriverManager.getConnection(url, user,
+                            password);
+                    THREADLOCAL_CONNECTION.set(connection);
+                }
+            }
+        }
+        return connection;
+    }
+
+    public JdbcUtils setDataSource(DataSource dataSource) {
+        THREADLOCAL_DATASOURCE.set(dataSource);
+        return this;
+    }
+
+    public void close() throws SQLException {
+        Connection connection = THREADLOCAL_CONNECTION.get();
+        if (connection != null && !connection.isClosed()) {
+            synchronized (JdbcUtils.class) {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                    THREADLOCAL_CONNECTION.remove();
+                }
+            }
+        }
+    }
+
+    public JdbcUtils call(HandlerConnection handler) throws SQLException {
+        Connection connection = getConnection();
+        handler.handle(connection);
+        return this;
+    }
+
+    public List<Map<String, Object>> list(final String sql, Object... parameters)
+            throws SQLException {
+        Connection connection = getConnection();
+
+        return list(connection, sql, parameters);
+    }
+
+    public JdbcUtils call(final String sql, final Object[] parameters,
+                          final HandlerResultSet handlerResultSet) throws SQLException {
+        call(getConnection(), sql, parameters, handlerResultSet);
+        return this;
     }
 
     public interface HandlerResultSet {

@@ -588,7 +588,7 @@ function montRevert(x) {
 
 function montReduce(x) {
     while (x.t <= this.mt2) // pad x so am has enough room later
-    x[x.t++] = 0;
+        x[x.t++] = 0;
     for (var i = 0; i < this.m.t; ++i) {
         // faster way of calculating u0 = x[i]*mp mod DV
         var j = x[i] & 0x7fff;
@@ -798,7 +798,7 @@ function bnpFromNumber(a, b, c) {
         else {
             this.fromNumber(a, c);
             if (!this.testBit(a - 1)) // force MSB set
-            this.bitwiseTo(BigInteger.ONE.shiftLeft(a - 1), op_or, this);
+                this.bitwiseTo(BigInteger.ONE.shiftLeft(a - 1), op_or, this);
             if (this.isEven()) this.dAddOffset(1, 0); // force odd
             while (!this.isProbablePrime(b)) {
                 this.dAddOffset(2, 0);
@@ -841,7 +841,7 @@ function bnToByteArray() {
                 }
             }
             if ((d & 0x80) != 0) d |= -256;
-            if (k == 0 && (this.s & 0x80) != (d & 0x80))++k;
+            if (k == 0 && (this.s & 0x80) != (d & 0x80)) ++k;
             if (k > 0 || d != this.s) r[k++] = d;
         }
     }
@@ -976,7 +976,7 @@ function lbit(x) {
         x >>= 2;
         r += 2;
     }
-    if ((x & 1) == 0)++r;
+    if ((x & 1) == 0) ++r;
     return r;
 }
 
@@ -984,7 +984,7 @@ function lbit(x) {
 
 function bnGetLowestSetBit() {
     for (var i = 0; i < this.t; ++i)
-    if (this[i] != 0) return i * this.DB + lbit(this[i]);
+        if (this[i] != 0) return i * this.DB + lbit(this[i]);
     if (this.s < 0) return this.t * this.DB;
     return -1;
 }
@@ -1159,7 +1159,8 @@ function bnpDAddOffset(n, w) {
 
 // A "null" reducer
 
-function NullExp() {}
+function NullExp() {
+}
 
 function nNop(x) {
     return x;
@@ -1207,7 +1208,7 @@ function bnpMultiplyUpperTo(a, n, r) {
     r.s = 0; // assumes a,this >= 0
     while (--i >= 0) r[i] = 0;
     for (i = Math.max(n - this.t, 0); i < a.t; ++i)
-    r[this.t + i - n] = this.am(n - i, a[i], r, 0, 0, this.t + i - n);
+        r[this.t + i - n] = this.am(n - i, a[i], r, 0, 0, this.t + i - n);
     r.clamp();
     r.drShiftTo(1, r);
 }
@@ -1468,7 +1469,7 @@ function bnIsProbablePrime(t) {
     var i, x = this.abs();
     if (x.t == 1 && x[0] <= lowprimes[lowprimes.length - 1]) {
         for (i = 0; i < lowprimes.length; ++i)
-        if (x[0] == lowprimes[i]) return true;
+            if (x[0] == lowprimes[i]) return true;
         return false;
     }
     if (x.isEven()) return false;

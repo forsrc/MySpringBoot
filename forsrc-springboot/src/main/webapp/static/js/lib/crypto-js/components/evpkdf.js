@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function () {
     // Shortcuts
     var C = CryptoJS;
@@ -26,7 +26,7 @@ code.google.com/p/crypto-js/wiki/License
          * @property {number} iterations The number of iterations to perform. Default: 1
          */
         cfg: Base.extend({
-            keySize: 128/32,
+            keySize: 128 / 32,
             hasher: MD5,
             iterations: 1
         }),

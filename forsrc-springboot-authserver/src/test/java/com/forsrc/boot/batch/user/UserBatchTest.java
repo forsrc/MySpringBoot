@@ -1,6 +1,5 @@
 package com.forsrc.boot.batch.user;
 
-import org.junit.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;

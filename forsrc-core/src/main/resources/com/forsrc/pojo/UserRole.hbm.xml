@@ -51,7 +51,7 @@
         <query-param name="userId" type="java.lang.String"/>
         <return alias="obj" class="com.forsrc.pojo.UserRole"/>
     </sql-query>
-    
+
     <sql-query name="sql_user_role_init" read-only="false">
         <![CDATA[
             INSERT INTO t_user_role (id, user_id, role_id, version, status) VALUES (1, 1, 1, 0, 1);

@@ -20,7 +20,7 @@
         <property name="name" type="java.lang.String">
             <column name="name" not-null="true" length="30"/>
         </property>
-        
+
         <property name="parentId" type="java.lang.Long">
             <column name="parent_id"/>
         </property>
@@ -53,7 +53,7 @@
          ]]>
         <return alias="obj" class="com.forsrc.pojo.Role"/>
     </sql-query>
-    
+
     <sql-query name="sql_role_init" read-only="false">
         <![CDATA[
             INSERT INTO t_role (id, name, version, status) VALUES (1, 'ROLE_ADMIN', 0, 1);

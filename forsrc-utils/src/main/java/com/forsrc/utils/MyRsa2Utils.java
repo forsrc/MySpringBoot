@@ -16,10 +16,9 @@
  */
 package com.forsrc.utils;
 
-import javax.crypto.*;
-
 import org.apache.commons.codec.binary.Base64;
 
+import javax.crypto.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.*;

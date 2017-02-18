@@ -1,11 +1,11 @@
 package com.forsrc.tools;
 
 //import com.opensymphony.xwork2.ActionContext;
+
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -58,7 +58,7 @@ public class WebUtils {
     /**
      * Sets content type.
      *
-     * @param request the request
+     * @param request  the request
      * @param response the response
      */
     public static void setContentType(HttpServletRequest request, HttpServletResponse response) {

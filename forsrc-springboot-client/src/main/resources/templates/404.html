@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>oops! 404 Not Found</title>
-    </head>
-    <body>
-    <h2>oops! 404 Not Found</h2>
-    <span sec:authorize="isAuthenticated()" th:inline="text"><span sec:authentication="name"/></span>
-    Dear &nbsp;<span sec:authentication="name" style="color:green;"/>:
-    <div th:inline="text">this [[${url}]] is not found.</div>
-    <div>
-        <a href="Javascript:history.back();">back</a>
-        <a sec:authorize="isAuthenticated()" href="/logout">logout</a>
-        <a sec:authorize="not isAuthenticated()" href="/login">login</a>
-    </div>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>oops! 404 Not Found</title>
+</head>
+<body>
+<h2>oops! 404 Not Found</h2>
+<span sec:authorize="isAuthenticated()" th:inline="text"><span sec:authentication="name"/></span>
+Dear &nbsp;<span sec:authentication="name" style="color:green;"/>:
+<div th:inline="text">this [[${url}]] is not found.</div>
+<div>
+    <a href="Javascript:history.back();">back</a>
+    <a sec:authorize="isAuthenticated()" href="/logout">logout</a>
+    <a sec:authorize="not isAuthenticated()" href="/login">login</a>
+</div>
+</body>
 </html>

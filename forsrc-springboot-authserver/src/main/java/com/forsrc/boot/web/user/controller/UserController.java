@@ -2,9 +2,6 @@ package com.forsrc.boot.web.user.controller;
 
 import com.forsrc.boot.web.user.service.UserService;
 import com.forsrc.pojo.User;
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
 
 //@RestController
 @Controller

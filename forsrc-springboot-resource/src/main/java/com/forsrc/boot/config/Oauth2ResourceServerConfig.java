@@ -13,8 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER + 1)
 public class Oauth2ResourceServerConfig extends //WebSecurityConfigurerAdapter //
-ResourceServerConfigurerAdapter
-{
+        ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

@@ -25,6 +25,7 @@ public class UserPrivacy implements java.io.Serializable {
     private int status; // 0: delete; 1: OK; 2: NG
 
     // Constructors
+
     /**
      * default constructor
      */
@@ -47,6 +48,7 @@ public class UserPrivacy implements java.io.Serializable {
     }
 
     // Property accessors
+
     /**
      * Gets id.
      *

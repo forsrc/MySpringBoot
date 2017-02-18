@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd
+
+
+
+
        http://www.springframework.org/schema/batch
-       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
-       ">
+       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
 
 
     <bean id="userItemProcessor" class="com.forsrc.boot.batch.user.UserItemProcessor"></bean>
     <bean id="userItemWriter" class="com.forsrc.boot.batch.user.UserItemWriter"></bean>
     <bean id="userCsvFlatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-        <property name="resource" value="classpath:data/csv/user.csv" />
+        <property name="resource" value="classpath:data/csv/user.csv"/>
         <property name="lineMapper">
             <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
                 <property name="lineTokenizer">
@@ -28,57 +25,58 @@
                 </property>
                 <property name="fieldSetMapper">
                     <bean class="com.forsrc.boot.batch.user.UserFieldSetMapper"/>
-                </property>  
+                </property>
             </bean>
         </property>
     </bean>
-    
-    <batch:job id="userJob">  
-        <batch:step id="step-user-1">  
-            <batch:tasklet>  
-                <batch:chunk reader="userCsvFlatFileItemReader" writer="userItemWriter" processor="userItemProcessor" commit-interval="10">
-                </batch:chunk>  
-            </batch:tasklet>  
+
+    <batch:job id="userJob">
+        <batch:step id="step-user-1">
+            <batch:tasklet>
+                <batch:chunk reader="userCsvFlatFileItemReader" writer="userItemWriter" processor="userItemProcessor"
+                             commit-interval="10">
+                </batch:chunk>
+            </batch:tasklet>
         </batch:step>
     </batch:job>
- 
+
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-        <property name="jobRepository" ref="jobRepository" />
+        <property name="jobRepository" ref="jobRepository"/>
     </bean>
-    
+
     <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager" />
+        <property name="transactionManager" ref="transactionManager"/>
     </bean>
-    
-<!--    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />-->
+
+    <!--    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />-->
 
     <bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
-        <property name="jobRegistry" ref="jobRegistry" />
+        <property name="jobRegistry" ref="jobRegistry"/>
     </bean>
-    
-    <bean id="jobRegistry"  class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
-    
+
+    <bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-                <property name="jobDetail" ref="jobDetail" />
-                <property name="cronExpression" value="0 0/5 * * * ?" />
+                <property name="jobDetail" ref="jobDetail"/>
+                <property name="cronExpression" value="0 0/5 * * * ?"/>
             </bean>
         </property>
     </bean>
 
     <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.forsrc.boot.batch.user.UserQuartzJobBean" />
-        <property name="group" value="quartz-batch" />
+        <property name="jobClass" value="com.forsrc.boot.batch.user.UserQuartzJobBean"/>
+        <property name="group" value="quartz-batch"/>
         <property name="jobDataAsMap">
             <map>
-                <entry key="jobName" value="userJob" />
-                <entry key="jobLocator" value-ref="jobRegistry" />
-                <entry key="jobLauncher" value-ref="jobLauncher" />
-                <entry key="param1" value="value1" />
-                <entry key="param2" value="value2" />
+                <entry key="jobName" value="userJob"/>
+                <entry key="jobLocator" value-ref="jobRegistry"/>
+                <entry key="jobLauncher" value-ref="jobLauncher"/>
+                <entry key="param1" value="value1"/>
+                <entry key="param2" value="value2"/>
             </map>
         </property>
     </bean>
-  
+
 </beans>

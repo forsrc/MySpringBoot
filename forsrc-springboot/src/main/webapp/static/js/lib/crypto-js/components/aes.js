@@ -1,9 +1,9 @@
 /*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+ CryptoJS v3.1.2
+ code.google.com/p/crypto-js
+ (c) 2009-2013 by Jeff Mott. All rights reserved.
+ code.google.com/p/crypto-js/wiki/License
+ */
 (function () {
     // Shortcuts
     var C = CryptoJS;
@@ -54,14 +54,14 @@ code.google.com/p/crypto-js/wiki/License
             var t = (d[sx] * 0x101) ^ (sx * 0x1010100);
             SUB_MIX_0[x] = (t << 24) | (t >>> 8);
             SUB_MIX_1[x] = (t << 16) | (t >>> 16);
-            SUB_MIX_2[x] = (t << 8)  | (t >>> 24);
+            SUB_MIX_2[x] = (t << 8) | (t >>> 24);
             SUB_MIX_3[x] = t;
 
             // Compute inv sub bytes, inv mix columns tables
             var t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100);
             INV_SUB_MIX_0[sx] = (t << 24) | (t >>> 8);
             INV_SUB_MIX_1[sx] = (t << 16) | (t >>> 16);
-            INV_SUB_MIX_2[sx] = (t << 8)  | (t >>> 24);
+            INV_SUB_MIX_2[sx] = (t << 8) | (t >>> 24);
             INV_SUB_MIX_3[sx] = t;
 
             // Compute next counter
@@ -134,7 +134,7 @@ code.google.com/p/crypto-js/wiki/License
                     invKeySchedule[invKsRow] = t;
                 } else {
                     invKeySchedule[invKsRow] = INV_SUB_MIX_0[SBOX[t >>> 24]] ^ INV_SUB_MIX_1[SBOX[(t >>> 16) & 0xff]] ^
-                                               INV_SUB_MIX_2[SBOX[(t >>> 8) & 0xff]] ^ INV_SUB_MIX_3[SBOX[t & 0xff]];
+                        INV_SUB_MIX_2[SBOX[(t >>> 8) & 0xff]] ^ INV_SUB_MIX_3[SBOX[t & 0xff]];
                 }
             }
         },
@@ -162,7 +162,7 @@ code.google.com/p/crypto-js/wiki/License
             var nRounds = this._nRounds;
 
             // Get input, add round key
-            var s0 = M[offset]     ^ keySchedule[0];
+            var s0 = M[offset] ^ keySchedule[0];
             var s1 = M[offset + 1] ^ keySchedule[1];
             var s2 = M[offset + 2] ^ keySchedule[2];
             var s3 = M[offset + 3] ^ keySchedule[3];
@@ -192,13 +192,13 @@ code.google.com/p/crypto-js/wiki/License
             var t3 = ((SBOX[s3 >>> 24] << 24) | (SBOX[(s0 >>> 16) & 0xff] << 16) | (SBOX[(s1 >>> 8) & 0xff] << 8) | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++];
 
             // Set output
-            M[offset]     = t0;
+            M[offset] = t0;
             M[offset + 1] = t1;
             M[offset + 2] = t2;
             M[offset + 3] = t3;
         },
 
-        keySize: 256/32
+        keySize: 256 / 32
     });
 
     /**
