@@ -38,8 +38,6 @@ public class MySpringBootApplication {
         try {
             System.setProperty("javax.net.ssl.trustStore", new ClassPathResource("/truststore.keystore").getFile().getAbsolutePath());
             System.setProperty("javax.net.ssl.trustStorePassword", "apache");
-            System.setProperty("javax.net.ssl.keyStore", new ClassPathResource("/server.jks").getFile().getAbsolutePath());
-            System.setProperty("javax.net.ssl.keyStorePassword", "apache");
         } catch (IOException e) {
             e.printStackTrace();
         }

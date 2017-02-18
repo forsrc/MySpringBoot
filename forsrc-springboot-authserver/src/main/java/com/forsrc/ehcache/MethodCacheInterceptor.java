@@ -1,6 +1,6 @@
 package com.forsrc.ehcache;
 
-import com.forsrc.constant.KeyConstants;
+import com.forsrc.core.constant.KeyConstants;
 import com.forsrc.tools.SessionUtils;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;

@@ -1,6 +1,6 @@
 package com.forsrc.boot.web.init.dao.impl;
 
-import com.forsrc.boot.base.dao.impl.BaseDaoImpl;
+import com.forsrc.core.base.dao.impl.BaseDaoImpl;
 import com.forsrc.boot.web.init.dao.InitDao;
 import org.springframework.stereotype.Repository;
 

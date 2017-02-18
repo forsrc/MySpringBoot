@@ -1,7 +1,7 @@
 package com.forsrc.boot.config;
 
-import com.forsrc.boot.web.security.MyAuthenticationHandler;
-import com.forsrc.boot.web.security.MyUserDetailsService;
+import com.forsrc.core.web.security.MyAuthenticationHandler;
+import com.forsrc.core.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
