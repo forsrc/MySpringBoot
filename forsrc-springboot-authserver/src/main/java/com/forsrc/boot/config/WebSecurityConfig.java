@@ -86,12 +86,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) throws Exception {
         final HttpSecurity http = getHttp();
-        web.postBuildAction(new Runnable() {
-            @Override
-            public void run() {
-                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
-            }
-        });
+//        web.postBuildAction(new Runnable() {
+//            @Override
+//            public void run() {
+//                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
+//            }
+//        });
     }
 
     @Bean

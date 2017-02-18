@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 
-@Configuration
+//@Configuration
 public class HttpsConfig {
 
     @Resource
