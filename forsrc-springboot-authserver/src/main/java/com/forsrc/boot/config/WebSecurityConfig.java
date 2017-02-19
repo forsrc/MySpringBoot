@@ -3,12 +3,11 @@ package com.forsrc.boot.config;
 import com.forsrc.core.web.security.MyAuthenticationHandler;
 import com.forsrc.core.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,20 +16,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-//@EnableAuthorizationServer()
+@Order(-777)
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@EnableAuthorizationServer
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 //@Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
-@Primary
+//@Primary
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -45,10 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
                 .permitAll()
-        // oauth2
-        //.and()
-        //.requestMatchers()
-        //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
         //.and()
         //.csrf()
         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
@@ -78,12 +80,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) throws Exception {
         final HttpSecurity http = getHttp();
-//        web.postBuildAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
-//            }
-//        });
+        web.postBuildAction(new Runnable() {
+            @Override
+            public void run() {
+                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
+            }
+        });
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean()
+            throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean

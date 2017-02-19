@@ -220,12 +220,7 @@
         </dependency>
         <dependency>
             <groupId>com.atomikos</groupId>
-            <artifactId>transactions-hibernate2</artifactId>
-            <version>${atomikos.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-hibernate3</artifactId>
+            <artifactId>transactions-hibernate4</artifactId>
             <version>${atomikos.version}</version>
         </dependency>
         <dependency>
@@ -438,6 +433,17 @@
             </pluginRepository>
     </pluginRepositories-->
     <build>
+        <resources>
+            <resource>
+                <directory>../forsrc-utils/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-tools/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-core/src/main/java</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -449,6 +455,7 @@
                     <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
                     </dependency>
                 </dependencies>
             </plugin>

@@ -1,6 +1,8 @@
 package com.forsrc.boot.config;
 
 
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -9,7 +11,8 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 
 @Configuration
-//@EnableOAuth2Sso
+@EnableOAuth2Sso
+//@EnableZuulProxy
 public class Oauth2UiConfig {
 
     @Bean

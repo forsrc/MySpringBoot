@@ -42,6 +42,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <!--<version>2.0.12.RELEASEs</version>-->
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <!--<exclusions>-->
@@ -55,10 +60,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-oauth2</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.security</groupId>-->
+            <!--<artifactId>spring-security-jwt</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zuul</artifactId>
@@ -88,10 +97,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -225,12 +234,7 @@
         </dependency>
         <dependency>
             <groupId>com.atomikos</groupId>
-            <artifactId>transactions-hibernate2</artifactId>
-            <version>${atomikos.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-hibernate3</artifactId>
+            <artifactId>transactions-hibernate4</artifactId>
             <version>${atomikos.version}</version>
         </dependency>
         <dependency>
@@ -454,10 +458,23 @@
                     <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
                     </dependency>
                 </dependencies>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>../forsrc-utils/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-tools/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-core/src/main/java</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>

@@ -1,22 +1,16 @@
 package com.forsrc;
 
-//import de.codecentric.boot.admin.config.EnableAdminServer;
-
 import org.apache.catalina.filters.RequestDumperFilter;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import java.io.IOException;
 
-@EnableResourceServer
 @SpringBootApplication
 @ComponentScan
-@EnableAutoConfiguration
 public class MySpringBootApplication {
 
     static {
