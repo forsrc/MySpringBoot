@@ -403,11 +403,11 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>*.*</include>
+                    <include>**</include>
                 </includes>
-                <excludes>
+                <!--<excludes>
                     <exclude>application.properties</exclude>
-                </excludes>
+                </excludes>-->
             </resource>
         </resources>
     </build>

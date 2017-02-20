@@ -16,7 +16,7 @@
     </bean>
 
 
-    <context:component-scan base-package="com.forsrc.boot"/>
+    <context:component-scan base-package="com.forsrc.core"/>
 
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>

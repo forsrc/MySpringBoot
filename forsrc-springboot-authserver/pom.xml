@@ -447,7 +447,27 @@
             </pluginRepository>
     </pluginRepositories-->
     <build>
-        <plugins>
+        <resources>
+            <resource>
+                <directory>../forsrc-utils/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-tools/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-core/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <!--<excludes>
+                    <exclude>application.properties</exclude>
+                </excludes>-->
+            </resource>
+        </resources>
+                <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -463,19 +483,6 @@
                 </dependencies>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>../forsrc-utils/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../forsrc-tools/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../forsrc-core/src/main/java</directory>
-            </resource>
-        </resources>
     </build>
-
 </project>
 

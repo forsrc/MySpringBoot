@@ -21,13 +21,8 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 @Order(-777)
 @Configuration
@@ -38,7 +33,6 @@ import javax.servlet.ServletException;
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
 //@Primary
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,10 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
                 .permitAll()
-        //.and()
-        //.csrf()
-        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
+                .and()
+                .csrf()
+                .csrfTokenRepository(csrfTokenRepository());
         ;
         // @formatter:on
     }
@@ -100,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new SpringSecurityDialect();
     }
 
-    //@Bean
+    @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");

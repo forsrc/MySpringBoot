@@ -1,6 +1,6 @@
 package com.forsrc.boot.batch.user;
 
-import com.forsrc.boot.web.user.dao.UserDao;
+import com.forsrc.core.web.user.dao.UserDao;
 import com.forsrc.pojo.User;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;

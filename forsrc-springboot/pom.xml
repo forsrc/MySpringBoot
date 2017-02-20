@@ -1,40 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project [
-        <!ELEMENT project (modelVersion|groupId|artifactId|version|packaging|name|description|properties|parent|dependencies|dependencyManagement|build)*>
-        <!ATTLIST project
-                xmlns CDATA #REQUIRED
-                xmlns:xsi CDATA #REQUIRED
-                xsi:schemaLocation CDATA #REQUIRED>
-        <!ELEMENT modelVersion (#PCDATA)>
-        <!ELEMENT groupId (#PCDATA)>
-        <!ELEMENT artifactId (#PCDATA)>
-        <!ELEMENT version (#PCDATA)>
-        <!ELEMENT packaging (#PCDATA)>
-        <!ELEMENT name (#PCDATA)>
-        <!ELEMENT description (#PCDATA)>
-        <!ELEMENT properties (project.build.sourceEncoding|project.reporting.outputEncoding|java.version|atomikos.version|springboot.version)*>
-        <!ELEMENT project.build.sourceEncoding (#PCDATA)>
-        <!ELEMENT project.reporting.outputEncoding (#PCDATA)>
-        <!ELEMENT java.version (#PCDATA)>
-        <!ELEMENT atomikos.version (#PCDATA)>
-        <!ELEMENT springboot.version (#PCDATA)>
-        <!ELEMENT parent (groupId|artifactId|version|relativePath)*>
-        <!ELEMENT relativePath (#PCDATA)>
-        <!ELEMENT dependencies (dependency)*>
-        <!ELEMENT dependency (groupId|artifactId|version|optional|scope|type)*>
-        <!ELEMENT optional (#PCDATA)>
-        <!ELEMENT scope (#PCDATA)>
-        <!ELEMENT dependencyManagement (dependencies)*>
-        <!ELEMENT type (#PCDATA)>
-        <!ELEMENT build (plugins)*>
-        <!ELEMENT plugins (plugin)*>
-        <!ELEMENT plugin (groupId|artifactId|version|configuration|dependencies)*>
-        <!ELEMENT configuration (source|target|encoding|fork)*>
-        <!ELEMENT source (#PCDATA)>
-        <!ELEMENT target (#PCDATA)>
-        <!ELEMENT encoding (#PCDATA)>
-        <!ELEMENT fork (#PCDATA)>
-        ]>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -175,10 +139,10 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
@@ -453,6 +417,15 @@
             </resource>
             <resource>
                 <directory>../forsrc-core/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <!--<excludes>
+                    <exclude>application.properties</exclude>
+                </excludes>-->
             </resource>
         </resources>
 

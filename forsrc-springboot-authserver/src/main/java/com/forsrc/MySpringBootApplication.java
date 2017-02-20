@@ -8,9 +8,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
+@ComponentScan
+@EnableAutoConfiguration
 public class MySpringBootApplication {
 
     static {

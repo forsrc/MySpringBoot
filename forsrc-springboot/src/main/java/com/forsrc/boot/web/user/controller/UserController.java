@@ -1,6 +1,6 @@
 package com.forsrc.boot.web.user.controller;
 
-import com.forsrc.boot.web.user.service.UserService;
+import com.forsrc.core.web.user.service.UserService;
 import com.forsrc.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
