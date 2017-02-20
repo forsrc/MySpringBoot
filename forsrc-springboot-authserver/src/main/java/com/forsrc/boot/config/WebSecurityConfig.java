@@ -29,7 +29,7 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-@Order(-777)
+@Order(-20)
 @Configuration
 @EnableWebSecurity
 @EnableAuthorizationServer
@@ -51,6 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
                 .permitAll()
+                .and()
+                .requestMatchers()
+                .antMatchers("/oauth/token_key", "/oauth/authorize", "/oauth/confirm_access")
         //.and()
         //.csrf()
         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
