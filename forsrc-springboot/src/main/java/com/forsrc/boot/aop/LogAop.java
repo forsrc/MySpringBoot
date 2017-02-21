@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import org.springframework.context.annotation.Primary;
 
 @Aspect
 @Component
+@Primary
 public class LogAop {
 
     @Before("execution(public * com.forsrc..*.*Controller.*(..))")

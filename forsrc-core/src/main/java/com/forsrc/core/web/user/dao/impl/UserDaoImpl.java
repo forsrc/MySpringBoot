@@ -2,12 +2,11 @@ package com.forsrc.core.web.user.dao.impl;
 
 import com.forsrc.core.base.dao.impl.BaseDaoImpl;
 import com.forsrc.core.web.user.dao.UserDao;
-
 import com.forsrc.pojo.User;
-import java.util.List;
-import javax.persistence.Query;
-
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {

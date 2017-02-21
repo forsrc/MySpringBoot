@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Iterator;
+import org.springframework.context.annotation.Primary;
 
 @Aspect
 @Component
+@Primary
 public class EhcacheAop {
 
     private static final Logger LOGGER = Logger.getLogger(EhcacheAop.class);

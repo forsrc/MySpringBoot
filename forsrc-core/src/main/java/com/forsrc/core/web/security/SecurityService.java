@@ -6,9 +6,10 @@ import com.forsrc.core.web.user.service.UserService;
 import com.forsrc.pojo.Role;
 import com.forsrc.pojo.UserPrivacy;
 import com.forsrc.pojo.UserRole;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SecurityService {

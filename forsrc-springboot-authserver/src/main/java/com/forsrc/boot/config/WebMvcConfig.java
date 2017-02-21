@@ -7,6 +7,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -14,15 +19,26 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Configuration
 //@EnableWebMvc
+
+@Controller
+@SessionAttributes("authorizationRequest")
+//@EnableResourceServer
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @RequestMapping("/u")
+    @ResponseBody
+    public Principal user(Principal user) {
+        return user;
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("/login");
         registry.addViewController("/home").setViewName("/home");
-        registry.addViewController("/").setViewName("/home");
         registry.addViewController("/404").setViewName("/404");
         registry.addViewController("/403").setViewName("/403");
         registry.addViewController("/502").setViewName("/502");

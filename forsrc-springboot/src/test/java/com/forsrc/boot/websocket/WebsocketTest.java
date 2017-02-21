@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 //@SpringBootTest
 public class WebsocketTest {
 
-    @Test
+    //@Test
     public void test() throws Exception {
 
         //System.setProperty("javax.net.debug", "all");

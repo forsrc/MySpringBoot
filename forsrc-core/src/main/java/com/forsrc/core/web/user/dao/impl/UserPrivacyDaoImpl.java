@@ -3,8 +3,6 @@ package com.forsrc.core.web.user.dao.impl;
 import com.forsrc.core.base.dao.impl.BaseDaoImpl;
 import com.forsrc.core.web.user.dao.UserPrivacyDao;
 import com.forsrc.pojo.UserPrivacy;
-
-
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
