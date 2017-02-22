@@ -27,9 +27,9 @@ public class Oauth2ResourceServerConfig extends //WebSecurityConfigurerAdapter /
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").access("#oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("#oauth2.hasScope('write')")
-                .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //.and()
+                //.csrf()
+                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
     }
 

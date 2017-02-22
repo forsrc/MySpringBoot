@@ -35,10 +35,14 @@ public class MyAuthenticationHandler extends SavedRequestAwareAuthenticationSucc
 
         HttpSession session = request.getSession();
         SecurityContext sc = SecurityContextHolder.getContext();
+        Object principal = sc.getAuthentication().getPrincipal();
+        if(principal instanceof MyUserDetails){
         MyUserDetails myUserDetails = (MyUserDetails) sc.getAuthentication().getPrincipal();
-        User user = userService.get(myUserDetails.getUserPrivacy().getUserId());
+            User user = userService.get(myUserDetails.getUserPrivacy().getUserId());
+            session.setAttribute("USER", user);
+        }
         System.out.println(String.format("--> onAuthenticationSuccess(): %s", sc.getAuthentication().getName()));
-        session.setAttribute("USER", user);
+      
         //clearAuthenticationAttributes(request);
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);

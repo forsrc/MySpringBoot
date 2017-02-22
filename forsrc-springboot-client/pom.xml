@@ -37,6 +37,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.forsrc</groupId>
+            <artifactId>forsrc-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <!--<exclusions>-->
@@ -89,10 +94,17 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-security</artifactId>
+        </dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -441,6 +453,12 @@
             </resource>
             <resource>
                 <directory>../forsrc-core/src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>../forsrc-core/src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>

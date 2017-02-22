@@ -23,13 +23,11 @@ import java.security.Principal;
 
 @Configuration
 //@EnableWebMvc
-
 @Controller
-@SessionAttributes("authorizationRequest")
-//@EnableResourceServer
+//@SessionAttributes("authorizationRequest")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @RequestMapping("/u")
+    @RequestMapping(value = "/me")
     @ResponseBody
     public Principal user(Principal user) {
         return user;
@@ -44,7 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/502").setViewName("/502");
     }
 
-    @Bean
+    //@Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(
                 dispatcherServlet);
@@ -52,7 +50,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return registration;
     }
 
-    @Bean
+    //@Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
     }
@@ -65,7 +63,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return filter;
     }
 
-    @Bean
+    //@Bean
     public ObjectMapper jsonMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
@@ -77,8 +75,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return objectMapper;
     }
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
 }

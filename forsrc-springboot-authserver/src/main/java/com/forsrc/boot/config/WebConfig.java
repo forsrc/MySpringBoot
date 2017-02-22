@@ -11,13 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 
-@Order(100)
-@Configuration
-@ComponentScan
-@EnableAutoConfiguration
+//@Order(100)
+//@Configuration
 public class WebConfig {
 
-    @Bean
+    //@Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
 
         return new EmbeddedServletContainerCustomizer() {

@@ -24,11 +24,9 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-
 @Order(-20)
 @Configuration
 @EnableWebSecurity
-@EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 //@Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
@@ -40,17 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // @formatter:off
         http
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
                 .and()
-                .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
-                .permitAll()
+                .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll()
                 .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
-        ;
+                //.requestMatchers()
+                //.antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access")
+                //.and()
+                .authorizeRequests()
+                .anyRequest().authenticated();
         // @formatter:on
     }
 
@@ -72,16 +68,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new MyAuthenticationHandler();
     }
 
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        final HttpSecurity http = getHttp();
-        web.postBuildAction(new Runnable() {
-            @Override
-            public void run() {
-                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
-            }
-        });
-    }
+//    @Override
+//    public void configure(final WebSecurity web) throws Exception {
+//        final HttpSecurity http = getHttp();
+//        web.postBuildAction(new Runnable() {
+//            @Override
+//            public void run() {
+//                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
+//            }
+//        });
+//    }
 
     @Override
     @Bean

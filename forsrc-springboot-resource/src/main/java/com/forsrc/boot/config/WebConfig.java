@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @Configuration
 public class WebConfig {
 
-    @Bean
+    //@Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
 
         return new EmbeddedServletContainerCustomizer() {
