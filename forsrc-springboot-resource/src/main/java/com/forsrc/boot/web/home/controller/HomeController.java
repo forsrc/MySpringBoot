@@ -8,6 +8,6 @@ public class HomeController {
 
     @RequestMapping(value = "/home")
     public String login() throws Exception {
-        return "/web/home";
+        return "/home";
     }
 }

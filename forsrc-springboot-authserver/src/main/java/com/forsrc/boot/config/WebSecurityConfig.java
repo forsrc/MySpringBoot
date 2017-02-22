@@ -26,7 +26,7 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Order(-20)
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 //@Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
@@ -42,11 +42,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll()
                 .and()
-                //.requestMatchers()
-                //.antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access")
-                //.and()
+                .requestMatchers()
+                .antMatchers("/oauth/authorize", "/oauth/confirm_access")
+                .and()
                 .authorizeRequests()
                 .anyRequest().authenticated();
+                ;
         // @formatter:on
     }
 

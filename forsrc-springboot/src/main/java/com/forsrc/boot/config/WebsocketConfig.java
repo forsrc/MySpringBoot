@@ -32,7 +32,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/websocket/ws").withSockJS();
     }
 
-    @Bean
+    //@Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }

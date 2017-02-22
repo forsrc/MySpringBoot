@@ -170,13 +170,13 @@
             </resource>
             <resource>
                 <directory>../forsrc-core/src/main/java</directory>
-            </resource>
+            </resource>-->
             <resource>
                 <directory>../forsrc-core/src/main/resources</directory>
                 <includes>
                     <include>**</include>
                 </includes>
-            </resource>-->
+            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>

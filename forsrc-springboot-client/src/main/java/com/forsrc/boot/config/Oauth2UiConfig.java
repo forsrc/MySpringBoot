@@ -31,9 +31,10 @@ public class Oauth2UiConfig //extends WebSecurityConfigurerAdapter
                 .logout().and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
-                .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                //.and()
+                //.csrf()
+                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        ;
         // @formatter:on
     }
 }

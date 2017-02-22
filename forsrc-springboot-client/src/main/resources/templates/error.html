@@ -12,7 +12,7 @@
 <div th:if="${exception} != null">Exception at -->
     <div th:text="${url}"></div>
 </div>
-<div th:text="${exception} != null ? ${exception.getClass().getName()}"></div>
+<div th:text="${exception} != null and ${exception.getClass()} != null ? ${exception.getClass().getName()}"></div>
 <div th:text="${exception} != null ? ${exception.message}"></div>
 <div>
     <a href="Javascript:history.back();">back</a>
