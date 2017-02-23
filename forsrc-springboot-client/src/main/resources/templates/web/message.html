@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>OAuth2 SSO Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/css/uikit.gradient.min.css"/>
+    </head>
+
+    <body>
+
+        <div class="uk-grid">
+            <div class="uk-width-1-5"></div>
+            <div class="uk-width-3-5">
+                <h1>Demo</h1>
+
+                <form th:action="@{/messages}" class="uk-panel uk-panel-box uk-form" method="post"
+                      onsubmit="return postMessage(this);">
+                    <input class="uk-form-large" type="text" name="text" placeholder="Message"/>
+                    <button class="uk-button uk-button-primary uk-button-large">Send</button>
+                </form>
+                <h2>Messages</h2>
+                <div id="messages"></div>
+            </div>
+            <div class="uk-width-1-5"></div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.js"></script>
+            <script>
+                          var request = window.superagent;
+                          document.addEventListener('DOMContentLoaded', function() {
+                              request.get('/api/messages')
+                                      .end(function(err, res) {
+                                  document.getElementById('messages').innerHTML = res.body.map(rowTemplate).join('');
+                              });
+                          }, false);
+
+                          function postMessage(form) {
+                              request.post('/api/messages')
+                                      .set('X-CSRF-TOKEN', form._csrf.value)
+                                      .send({text: form.text.value})
+                                      .end(function(err, res) {
+                                  var current = document.getElementById('messages').innerHTML;
+                                  document.getElementById('messages').innerHTML = rowTemplate(res.body) + current;
+                                  form.text.value = '';
+                              });
+                              return false;
+                          }
+
+                          function rowTemplate(message) {
+                              return '<div class="uk-panel uk-panel-box"><h3 class="uk-panel-title">' + message.username + ' @ ' + message.createdAt + ' -> ' + new Date().getTimezoneOffset() + '</h3>' + message.text + '</div><br />';
+                          }
+            </script>
+        </div>
+    </body>
+</html>

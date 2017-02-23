@@ -26,14 +26,14 @@ public class MessageController {
     @Value("${messages.url:https://localhost:8076}/api")
     String messagesUrl;
 
-    @RequestMapping("/message")
+    @RequestMapping("/web/message")
     String message(Model model) {
         List<Message> messages = Arrays.asList(restTemplate.getForObject(messagesUrl + "/messages", Message[].class));
         model.addAttribute("messages", messages);
-        return "web/message";
+        return "/web/message";
     }
 
-    @RequestMapping("/messages")
+    @RequestMapping("/api/messages")
     @ResponseBody
     List<Message> messages(Model model) {
         List<Message> messages = Arrays.asList(restTemplate.getForObject(messagesUrl + "/messages", Message[].class));
@@ -47,7 +47,7 @@ public class MessageController {
         restTemplate.exchange(RequestEntity
                 .post(UriComponentsBuilder.fromHttpUrl(messagesUrl).pathSegment("messages").build().toUri())
                 .body(message), Message.class);
-        return "redirect:/message";
+        return "redirect:/web/message";
     }
 
 

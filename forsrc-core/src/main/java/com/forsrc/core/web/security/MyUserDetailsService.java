@@ -18,15 +18,20 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserPrivacy user = this.getUserByUsername(username);
+        System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is : %s", username));
+        Map<Long, Role> roles = getRoles();
+        MyUserDetails myUserDetails = new MyUserDetails(securityService, user, roles);
+        return myUserDetails;
+    }
+
+    public UserPrivacy getUserByUsername(String username) throws UsernameNotFoundException {
         UserPrivacy user = securityService.findByUsername(username);
         if (user == null) {
             System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is not exist: %s", username));
             throw new UsernameNotFoundException(String.format("User is not exist: %s", username));
         }
-        System.out.println(String.format("--> MyUserDetailsService.loadUserByUsername() --> User is : %s", username));
-        Map<Long, Role> roles = getRoles();
-        MyUserDetails myUserDetails = new MyUserDetails(securityService, user, roles);
-        return myUserDetails;
+        return user;
     }
 
     private Map<Long, Role> getRoles() {
