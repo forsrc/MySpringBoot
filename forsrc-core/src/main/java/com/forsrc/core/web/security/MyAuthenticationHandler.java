@@ -63,6 +63,7 @@ public class MyAuthenticationHandler extends SavedRequestAwareAuthenticationSucc
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException ae) throws IOException, ServletException {
         SecurityContext sc = SecurityContextHolder.getContext();
         System.out.println(String.format("--> onAuthenticationFailure(): %s", sc.getAuthentication().getName()));
+        SecurityContextHolder.clearContext();
     }
 
     @Override
@@ -72,5 +73,7 @@ public class MyAuthenticationHandler extends SavedRequestAwareAuthenticationSucc
             return;
         }
         System.out.println(String.format("--> logout(): %s", sc.getAuthentication().getName()));
+        SecurityContextHolder.clearContext();
+        clearAuthenticationAttributes(request);
     }
 }

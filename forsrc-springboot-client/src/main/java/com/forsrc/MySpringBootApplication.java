@@ -13,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 
 @SpringBootApplication
-@ComponentScan
+@ComponentScan(basePackages = "com.forsrc")
 @EnableAutoConfiguration
 public class MySpringBootApplication {
 
