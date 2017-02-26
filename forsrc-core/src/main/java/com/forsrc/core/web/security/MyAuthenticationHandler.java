@@ -72,6 +72,9 @@ public class MyAuthenticationHandler extends SavedRequestAwareAuthenticationSucc
         if (sc == null) {
             return;
         }
+        if(sc.getAuthentication() == null){
+            return;
+        }
         System.out.println(String.format("--> logout(): %s", sc.getAuthentication().getName()));
         SecurityContextHolder.clearContext();
         clearAuthenticationAttributes(request);

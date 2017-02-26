@@ -1,5 +1,6 @@
 package com.forsrc;
 
+import com.forsrc.boot.adminserver.config.LoginWebSecurityConfig;
 import org.apache.catalina.filters.RequestDumperFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.forsrc")
@@ -45,5 +48,13 @@ public class MySpringBootApplication {
     //@Bean
     RequestDumperFilter requestDumperFilter() {
         return new RequestDumperFilter();
+    }
+
+    public static class SpringWebMvcInitializer extends AbstractSecurityWebApplicationInitializer {
+
+        public SpringWebMvcInitializer(){
+            super(LoginWebSecurityConfig.class);
+        }
+
     }
 }

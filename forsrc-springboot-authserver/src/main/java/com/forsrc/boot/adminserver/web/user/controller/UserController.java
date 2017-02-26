@@ -16,8 +16,8 @@ public class UserController {
 
     @RequestMapping(path = "/me")
     @ResponseBody
-    //@PreAuthorize("isAuthenticated()")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     public Principal user(Principal user) {
         if(!(user instanceof UsernamePasswordAuthenticationToken)){
             return user;

@@ -23,31 +23,32 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration
+//@Configuration
 @Order(-20)
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
+                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/oauth/token_key").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
+                    .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
                 .and()
-                .logout().deleteCookies("remove").invalidateHttpSession(false).addLogoutHandler(myAuthenticationHandler()).logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
+                    .logout().deleteCookies("remove").invalidateHttpSession(false).addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/login?authorization_error=true")
+                    .exceptionHandling().accessDeniedPage("/login?authorization_error=true")
                 .and()
-                .requestMatchers().antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access")
-                .and()
-                .sessionManagement().maximumSessions(1).expiredUrl("/login?expired")
+                    .sessionManagement().maximumSessions(1).expiredUrl("/login?expired")
                 .and()
                 .and()
-                .x509()
+                    .httpBasic()
                 .and()
-                .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
+                    .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
 
         ;
     }
