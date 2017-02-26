@@ -57,9 +57,11 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 ;
     }
 
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess());
+        security.tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess())
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Bean

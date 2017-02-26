@@ -50,11 +50,4 @@ public class MySpringBootApplication {
         return new RequestDumperFilter();
     }
 
-    public static class SpringWebMvcInitializer extends AbstractSecurityWebApplicationInitializer {
-
-        public SpringWebMvcInitializer(){
-            super(LoginWebSecurityConfig.class);
-        }
-
-    }
 }

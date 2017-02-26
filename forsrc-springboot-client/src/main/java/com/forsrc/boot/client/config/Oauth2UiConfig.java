@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableOAuth2Sso
@@ -28,12 +29,14 @@ public class Oauth2UiConfig //extends WebSecurityConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                .logout().and()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                //.and()
-                //.csrf()
-                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .logout().deleteCookies("remove").invalidateHttpSession(false).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/?logout").permitAll()
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/", "/login").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
         // @formatter:on
     }

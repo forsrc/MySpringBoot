@@ -23,7 +23,7 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-//@Configuration
+@Configuration
 @Order(-20)
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -34,7 +34,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/oauth/token_key").permitAll()
+                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
