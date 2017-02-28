@@ -1,0 +1,3 @@
+[submodule "forsrc-lib"]
+	path = forsrc-lib
+	url = https://github.com/forsrc/forsrc-lib

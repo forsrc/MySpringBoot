@@ -60,6 +60,32 @@
             <version>1.4.6</version>
         </dependency>
         <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-login</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-turbine</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-security</artifactId>
         </dependency>
@@ -169,16 +195,16 @@
     <build>
         <resources>
             <resource>
-                <directory>../forsrc-utils/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-utils/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-tools/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-tools/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-core/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-core/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-core/src/main/resources</directory>
+                <directory>../forsrc-lib/forsrc-core/src/main/resources</directory>
                 <includes>
                     <include>**</include>
                 </includes>

@@ -27,9 +27,7 @@
     </parent>
 
     <modules>
-        <module>forsrc-utils</module>
-        <module>forsrc-tools</module>
-        <module>forsrc-core</module>
+        <module>forsrc-lib</module>
         <module>forsrc-springboot-authserver</module>
         <module>forsrc-springboot-client</module>
         <module>forsrc-springboot-resource</module>

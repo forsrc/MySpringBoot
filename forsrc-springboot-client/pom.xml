@@ -165,13 +165,13 @@
     <build>
         <resources>
             <resource>
-                <directory>../forsrc-utils/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-utils/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-tools/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-tools/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-core/src/main/java</directory>
+                <directory>../forsrc-lib/forsrc-core/src/main/java</directory>
             </resource>
             <resource>
                 <directory>../forsrc-core/src/main/resources</directory>
