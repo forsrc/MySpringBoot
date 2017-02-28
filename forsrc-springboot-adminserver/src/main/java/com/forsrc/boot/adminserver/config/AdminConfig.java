@@ -1,6 +1,5 @@
 package com.forsrc.boot.adminserver.config;
 
-
 import de.codecentric.boot.admin.config.EnableAdminServer;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
@@ -27,19 +26,17 @@ import java.io.IOException;
 @EnableAdminServer
 @EnableOAuth2Sso
 public class AdminConfig extends WebSecurityConfigurerAdapter {
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/applications").permitAll()//
-                    .antMatchers("/mgmt/*").permitAll()//
+                    .antMatchers(HttpMethod.POST, "/api/applications").permitAll()
+                    .antMatchers("/mgmt/health").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/?logout").permitAll()
-                .and()
                     .csrf().ignoringAntMatchers("/api/**", "/mgmt/**")
-                    .csrfTokenRepository(csrfTokenRepository())
-                .and()
+                    .csrfTokenRepository(csrfTokenRepository()).and()
                     .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
 
@@ -47,7 +44,7 @@ public class AdminConfig extends WebSecurityConfigurerAdapter {
         return new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request,
-                                            HttpServletResponse response, FilterChain filterChain)
+                    HttpServletResponse response, FilterChain filterChain)
                     throws ServletException, IOException {
                 CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
                 if (csrf != null) {
@@ -69,5 +66,4 @@ public class AdminConfig extends WebSecurityConfigurerAdapter {
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
-
 }

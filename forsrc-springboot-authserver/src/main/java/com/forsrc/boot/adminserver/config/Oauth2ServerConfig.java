@@ -22,11 +22,13 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.sql.DataSource;
 import java.util.concurrent.TimeUnit;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 
 @Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties({AuthorizationServerProperties.class})
 public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
+
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
@@ -50,18 +52,27 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
-                .accessTokenConverter(jwtAccessTokenConverter())
-                //.authorizationCodeServices(authorizationCodeServices())
+                .accessTokenConverter(jwtAccessTokenConverter()) //.authorizationCodeServices(authorizationCodeServices())
                 //.tokenStore(tokenStore())
                 //.approvalStore(approvalStore())
                 ;
     }
 
-
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess())
-                .checkTokenAccess("isAuthenticated()");
+        security
+                .allowFormAuthenticationForClients()
+                .tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess())
+                .checkTokenAccess("isAuthenticated()")
+                .addTokenEndpointAuthenticationFilter(checkTokenEndpointFilter());
+    }
+
+    @Bean
+    public ClientCredentialsTokenEndpointFilter checkTokenEndpointFilter() {
+        ClientCredentialsTokenEndpointFilter filter = new ClientCredentialsTokenEndpointFilter("/oauth/check_token");
+        filter.setAuthenticationManager(authenticationManager);
+        filter.setAllowOnlyPost(true);
+        return filter;
     }
 
     @Bean
@@ -69,7 +80,6 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     JwtAccessTokenConverter jwtAccessTokenConverter() {
         return new JwtAccessTokenConverter();
     }
-
 
     @Bean
     public JdbcTokenStore tokenStore() {
@@ -87,6 +97,4 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         tokenApprovalStore.setTokenStore(tokenStore());
         return tokenApprovalStore;
     }
-
-
 }

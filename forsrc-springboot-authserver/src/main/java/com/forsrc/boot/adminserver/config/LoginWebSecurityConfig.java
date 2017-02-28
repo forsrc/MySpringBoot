@@ -34,7 +34,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access").permitAll()
+                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/mgmt/health").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
@@ -48,8 +48,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .httpBasic()
                 .and()
-                    .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
-
+                    .csrf().ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**")
         ;
     }
 
@@ -57,7 +56,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("forsrc").password("forsrc").roles("ADMIN");
+                .withUser("forsrc").password("forsrc").roles("ADMIN", "ACTUATOR");
         auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
         //auth.authenticationProvider(myAuthenticationProvider());
     }
