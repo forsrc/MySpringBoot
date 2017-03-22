@@ -117,19 +117,15 @@
                                     </div>
                                 </md-input-container>
                             </div>
+                            <#if Session['SPRING_SECURITY_LAST_EXCEPTION']??>
+                            <div class="alert alert-danger ng-scope">
+                                <strong>Login failed: </strong>
+                                <span class="ng-binding">${Session['SPRING_SECURITY_LAST_EXCEPTION']}</span>
+                            </div>
+                            </#if>
                             <div class="padding">
                                 <button ngclick="toLogin(user)" ng-disabled="loginForm.$invalid" class="button button-full button-assertive ink">Login</button>
                                 <input type="hidden" th:if="${_csrf} != null" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            </div>
-                            <div class="button-bar social-login">
-                                <#if Session['SPRING_SECURITY_LAST_EXCEPTION']??>
-                                <div md-colors="{background: 'deep-orange-500'}"  md-justified="column" class="primary line">
-                                    <span>Login failed</span>
-                                    <div md-justified >
-                                        <span>${Session['SPRING_SECURITY_LAST_EXCEPTION']}</span>
-                                    </div>
-                                </div>
-                                </#if>
                             </div>
 
                         </div>
