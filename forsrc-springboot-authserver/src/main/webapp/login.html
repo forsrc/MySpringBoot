@@ -1,138 +1,140 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Login</title>
-        <link href="static/css/ionic.css" rel="stylesheet">
-        <link href="static/css/ionic.app.css" rel="stylesheet">
-        <link href="static/css/bootstrap.css" rel="stylesheet">
-        <link href="static/css/angular-material.css" rel="stylesheet">
-        <link href="static/css/angular-material-icons.css" rel="stylesheet">
-        <link href="static/css/login.css" rel="stylesheet">
-        <!--        <script type="text/javascript" src="cordova.js"></script>-->
-        <!--        <script type="text/javascript" src="static/js/lib/require/require.js" data-main="app/config.js"></script>-->
-        <script type="text/javascript" src="static/js/lib/angular/angular.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/require/angular-require.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-aria.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-animate.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-sanitize.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-messages.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-message-format.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-resource.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-route.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-cookies.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-loader.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular/angular-touch.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular-material/angular-material.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/angular-material/angular-material-icons.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ionic/ionic.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ionic/ionic-angular.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ionic/ionic.material.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ng/angular-ui-router.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ng/ng-cordova.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/ng/ngStorage.min.js"></script>
-        <script type="text/javascript">
-            angular.element(window.document).ready(function() {
-                var angularModule = angular.module("app", ['ng', 'ngRequire', 'ngResource', 'ui.router', 'ionic', 'ngMaterial', 'ngCordova',
-                    'ngStorage', 'ngAnimate', 'ngSanitize', 'ngMdIcons', "ngAria", 'ngMessages', "ngRoute"
-                ]);
-                angularModule.run(function($ionicPlatform) {
-                    console.debug("app.js --> run()");
-                    $ionicPlatform.ready(function() {
-                        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-                        // for form inputs)
-                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-                            cordova.plugins.Keyboard.disableScroll(true);
-                        }
-                        if (window.StatusBar) {
-                            // org.apache.cordova.statusbar required
-                            StatusBar.styleDefault();
-                        }
-                    });
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Login</title>
+    <link href="static/css/ionic.css" rel="stylesheet">
+    <link href="static/css/ionic.app.css" rel="stylesheet">
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <link href="static/css/angular-material.css" rel="stylesheet">
+    <link href="static/css/angular-material-icons.css" rel="stylesheet">
+    <link href="static/css/login.css" rel="stylesheet">
+    <!--        <script type="text/javascript" src="cordova.js"></script>-->
+    <!--        <script type="text/javascript" src="static/js/lib/require/require.js" data-main="app/config.js"></script>-->
+    <script type="text/javascript" src="static/js/lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/require/angular-require.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-aria.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-animate.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-messages.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-message-format.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-resource.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-route.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-loader.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular/angular-touch.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular-material/angular-material.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/angular-material/angular-material-icons.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ionic/ionic.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ionic/ionic-angular.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ionic/ionic.material.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ng/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ng/ng-cordova.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/ng/ngStorage.min.js"></script>
+    <script type="text/javascript">
+        angular.element(window.document).ready(function() {
+            var angularModule = angular.module("app", ['ng', 'ngRequire', 'ngResource', 'ui.router', 'ionic', 'ngMaterial', 'ngCordova',
+                'ngStorage', 'ngAnimate', 'ngSanitize', 'ngMdIcons', "ngAria", 'ngMessages', "ngRoute"
+            ]);
+            angularModule.run(function($ionicPlatform) {
+                console.debug("app.js --> run()");
+                $ionicPlatform.ready(function() {
+                    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                    // for form inputs)
+                    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                        cordova.plugins.Keyboard.disableScroll(true);
+                    }
+                    if (window.StatusBar) {
+                        // org.apache.cordova.statusbar required
+                        StatusBar.styleDefault();
+                    }
                 });
-                angularModule.config(function($mdThemingProvider, $mdGestureProvider) { // Angular-Material Color Theming
-                    $mdGestureProvider.skipClickHijack();
+            });
+            angularModule.config(function($mdThemingProvider, $mdGestureProvider) { // Angular-Material Color Theming
+                $mdGestureProvider.skipClickHijack();
 
-                    $mdThemingProvider.theme('default')
-                            .primaryPalette('red')
-                            .accentPalette('blue');
-                });
-                angularModule.controller('loginController', function($scope) {
-
-                });
-                angular.bootstrap(window.document, ["app"]);
+                $mdThemingProvider.theme('default')
+                    .primaryPalette('red')
+                    .accentPalette('blue');
+            });
+            angularModule.controller('loginController', function($scope) {
 
             });
-        </script>
-    </head>
-    <body ngapp="app">
-    <ion-view view-title="Login" align-title="left" ngcontroller="loginController" ng-init="ionNavNar.enable=true;">
-        <ion-nav-bar class="bar-positive" ngif="ionNavNar.enable">
-            <ion-nav-back-button>
-            </ion-nav-back-button>
-        </ion-nav-bar>
-        <ion-content>
-            <md-content layout-padding>
-                <form name="loginForm" action="/login" method="POST" novalidate>
-                    <div class="login-div">
-                        <div class="login-box">
-                            <div class="hero no-header flat">
-                                <div class="content">
-                                    <div class="app-icon"></div>
-                                    <h1>
-                                        Jredmine<img ng-init="dataLoading = true;" ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="list inputdeErrors">
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label>Username</label>
-                                    <input name="username" ng-model="user.username" minlength="6" md-maxlength="30" required/>
-                                    <div class="hint" ng-if="!loginForm.username.$touched && !loginForm.username.$valid">
-                                        Please enter your <code>username</code>.
-                                    </div>
-                                    <div class="hint" ng-if="loginForm.username.$valid">
-                                        Welcome <code>{{user.username}}</code>.
-                                    </div>
-                                    <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
-                                        <div ng-message="required">Userame is required.</div>
-                                        <div ng-message="minlength">The username has to be more than 6 characters long.</div>
-                                        <div ng-message="md-maxlength">The username has to be less than 30 characters long.</div>
-                                    </div>
-                                </md-input-container>
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label>Password</label>
-                                    <input type="password" name="password" ng-model="user.password" minlength="6" md-maxlength="30" required/>
-                                    <div class="hint" ng-if="!loginForm.password.$touched && !loginForm.password.$valid">
-                                        Please enter your <code>password</code>.
-                                    </div>
-                                    <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
-                                        <div ng-message="required">Password is required.</div>
-                                        <div ng-message="minlength">The password has to be more than 6 characters long.</div>
-                                        <div ng-message="md-maxlength">
-                                            The password has to be less than 30 characters long.
-                                        </div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                            <#if Session['SPRING_SECURITY_LAST_EXCEPTION']??>
-                            <div class="alert alert-danger ng-scope">
-                                <strong>Login failed: </strong>
-                                <span class="ng-binding">${Session['SPRING_SECURITY_LAST_EXCEPTION']}</span>
-                            </div>
-                            </#if>
-                            <div class="padding">
-                                <button ngclick="toLogin(user)" ng-disabled="loginForm.$invalid" class="button button-full button-assertive ink">Login</button>
-                                <input type="hidden" th:if="${_csrf} != null" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            </div>
+            angular.bootstrap(window.document, ["app"]);
 
+        });
+    </script>
+</head>
+<body ngapp="app">
+<ion-nav-bar title="Login" class="bar-positive">
+    <ion-nav-title>
+        Login
+    </ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+</ion-nav-bar>
+<ion-view view-title="Login" align-title="left" ngcontroller="loginController">
+    <ion-content class="has-header">
+        <md-content layout-padding>
+            <form name="loginForm" action="/login" method="POST" novalidate>
+                <div class="login-div">
+                    <div class="login-box">
+                        <div class="hero no-header flat">
+                            <div class="content">
+                                <div class="app-icon"></div>
+                                <h1>
+                                    Login<img ng-init="dataLoading = true;" ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="list inputdeErrors">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Username</label>
+                                <input name="username" ng-model="user.username" minlength="6" md-maxlength="30" required/>
+                                <div class="hint" ng-if="!loginForm.username.$touched && !loginForm.username.$valid">
+                                    Please enter your <code>username</code>.
+                                </div>
+                                <div class="hint" ng-if="loginForm.username.$valid">
+                                    Welcome <code>{{user.username}}</code>.
+                                </div>
+                                <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+                                    <div ng-message="required">Userame is required.</div>
+                                    <div ng-message="minlength">The username has to be more than 6 characters long.</div>
+                                    <div ng-message="md-maxlength">The username has to be less than 30 characters long.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Password</label>
+                                <input type="password" name="password" ng-model="user.password" minlength="6" md-maxlength="30" required/>
+                                <div class="hint" ng-if="!loginForm.password.$touched && !loginForm.password.$valid">
+                                    Please enter your <code>password</code>.
+                                </div>
+                                <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+                                    <div ng-message="required">Password is required.</div>
+                                    <div ng-message="minlength">The password has to be more than 6 characters long.</div>
+                                    <div ng-message="md-maxlength">
+                                        The password has to be less than 30 characters long.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div class="padding">
+                            <button ngclick="toLogin(user)" ng-disabled="loginForm.$invalid" class="button button-full button-assertive ink">Login</button>
+                            <input type="hidden" th:if="${_csrf} != null" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </div>
                     </div>
-                </form>
-            </md-content>
-        </ion-content>
-    </ion-view>
+                </div>
+            </form>
+            <#if Session['SPRING_SECURITY_LAST_EXCEPTION']??>
+                <div class="alert alert-danger ng-scope" layout-padding>
+                    <strong>Login failed: </strong>
+                    <span class="ng-binding">${Session['SPRING_SECURITY_LAST_EXCEPTION']}</span>
+                </div>
+            </#if>
+        </md-content>
+    </ion-content>
+</ion-view>
 </body>
 </html>
