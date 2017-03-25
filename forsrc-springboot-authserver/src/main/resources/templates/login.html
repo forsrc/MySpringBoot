@@ -121,7 +121,7 @@
                             </md-input-container>
                         </div>
                         <div class="padding">
-                            <button ngclick="toLogin(user)" ng-disabled="loginForm.$invalid" class="button button-full button-assertive ink">Login</button>
+                            <button ng-click="dataLoading=true;" ng-disabled="loginForm.$invalid" class="button button-full button-assertive ink">Login</button>
                             <input type="hidden" th:if="${_csrf} != null" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </div>
                     </div>
