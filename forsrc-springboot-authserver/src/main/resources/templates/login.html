@@ -38,7 +38,6 @@
                 'ngStorage', 'ngAnimate', 'ngSanitize', 'ngMdIcons', "ngAria", 'ngMessages', "ngRoute"
             ]);
             angularModule.run(function($ionicPlatform) {
-                console.debug("app.js --> run()");
                 $ionicPlatform.ready(function() {
                     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                     // for form inputs)
@@ -92,7 +91,7 @@
                         <div class="list inputdeErrors">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Username</label>
-                                <input name="username" ng-model="user.username" minlength="6" md-maxlength="30" required/>
+                                <input type="text" name="username" ng-model="user.username" minlength="6" md-maxlength="30" ng-trim="true" required/>
                                 <div class="hint" ng-if="!loginForm.username.$touched && !loginForm.username.$valid">
                                     Please enter your <code>username</code>.
                                 </div>
