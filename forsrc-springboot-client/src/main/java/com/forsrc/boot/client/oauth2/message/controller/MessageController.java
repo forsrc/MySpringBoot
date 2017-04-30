@@ -1,5 +1,8 @@
 package com.forsrc.boot.client.oauth2.message.controller;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 
 @Controller
 public class MessageController {
@@ -49,7 +47,6 @@ public class MessageController {
                 .body(message), Message.class);
         return "redirect:/web/message";
     }
-
 
     public static class Message {
         public String text;

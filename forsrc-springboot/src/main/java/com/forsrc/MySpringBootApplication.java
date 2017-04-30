@@ -10,10 +10,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-//@EnableAdminServer
+// @EnableAdminServer
 @ComponentScan
 @EnableAutoConfiguration
-//@EnableJms
+// @EnableJms
 public class MySpringBootApplication {
 
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class MySpringBootApplication {
     }
 
     @Profile("!cloud")
-        //@Bean
+    // @Bean
     RequestDumperFilter requestDumperFilter() {
         return new RequestDumperFilter();
     }

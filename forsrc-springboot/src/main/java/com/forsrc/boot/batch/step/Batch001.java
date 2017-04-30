@@ -1,8 +1,9 @@
 package com.forsrc.boot.batch.step;
 
+import java.util.List;
 
-import com.forsrc.boot.batch.user.UserItemProcessor;
-import com.forsrc.pojo.User;
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -21,8 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.sql.DataSource;
-import java.util.List;
+import com.forsrc.boot.batch.user.UserItemProcessor;
+import com.forsrc.pojo.User;
 
 @Configuration
 @EnableBatchProcessing
@@ -33,14 +34,20 @@ public class Batch001 {
         FlatFileItemReader<User> reader = new FlatFileItemReader<User>();
 
         reader.setResource(new ClassPathResource("data/csv/user.csv"));
-        reader.setLineMapper(new DefaultLineMapper<User>() {{
-            setLineTokenizer(new DelimitedLineTokenizer() {{
-                setNames(new String[]{"username", "email"});
-            }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<User>() {{
-                setTargetType(User.class);
-            }});
-        }});
+        reader.setLineMapper(new DefaultLineMapper<User>() {
+            {
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+                        setNames(new String[] { "username", "email" });
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<User>() {
+                    {
+                        setTargetType(User.class);
+                    }
+                });
+            }
+        });
         return reader;
     }
 
@@ -51,10 +58,11 @@ public class Batch001 {
 
     @Bean // 3
     public ItemWriter<User> writer(DataSource dataSource) {
-//        JdbcBatchItemWriter<User> writer = new JdbcBatchItemWriter<User>();
-//        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<User>());
-//        writer.setSql("");
-//        writer.setDataSource(dataSource);
+        // JdbcBatchItemWriter<User> writer = new JdbcBatchItemWriter<User>();
+        // writer.setItemSqlParameterSourceProvider(new
+        // BeanPropertyItemSqlParameterSourceProvider<User>());
+        // writer.setSql("");
+        // writer.setDataSource(dataSource);
         ItemWriter<User> writer = new ItemWriter<User>() {
             @Override
             public void write(List<? extends User> list) throws Exception {
@@ -68,22 +76,14 @@ public class Batch001 {
 
     @Bean
     public Job importUserJob(JobBuilderFactory jobs, Step batch001, JobExecutionListener listener) {
-        return jobs.get("importUserJob")
-                .incrementer(new RunIdIncrementer())
-                .listener(listener)
-                .flow(batch001)
-                .end()
+        return jobs.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener).flow(batch001).end()
                 .build();
     }
 
     @Bean
-    public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<User> reader,
-                      ItemWriter<User> writer, ItemProcessor<User, User> processor) {
-        return stepBuilderFactory.get("batch001")
-                .<User, User>chunk(10)
-                .reader(reader)
-                .processor(processor)
-                .writer(writer)
-                .build();
+    public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<User> reader, ItemWriter<User> writer,
+            ItemProcessor<User, User> processor) {
+        return stepBuilderFactory.get("batch001").<User, User>chunk(10).reader(reader).processor(processor)
+                .writer(writer).build();
     }
 }

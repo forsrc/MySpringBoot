@@ -1,7 +1,12 @@
 package com.forsrc.boot.solr.base.repository.impl;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.List;
 
-import com.forsrc.boot.solr.base.repository.BaseSolr;
+import javax.annotation.Resource;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -10,11 +15,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.util.List;
+import com.forsrc.boot.solr.base.repository.BaseSolr;
 
 public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSolr<E, PK> {
 
@@ -23,7 +24,7 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
 
     public HttpSolrClient getHttpSolrClient() throws MalformedURLException, IllegalStateException {
         String url = env.getRequiredProperty("solr.host") + getSolrName();
-        //System.out.println("---> " + url);
+        // System.out.println("---> " + url);
         return new HttpSolrClient(url);
     }
 
@@ -52,7 +53,6 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
         });
     }
 
-
     @Override
     public <T> T exec(SolrHandler<T> solrHandler) throws IOException, SolrServerException {
         HttpSolrClient httpSolrClient = null;
@@ -73,7 +73,8 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
     }
 
     @Override
-    public SolrDocumentList findByQuery(final String query, final Pageable pageable) throws IOException, SolrServerException {
+    public SolrDocumentList findByQuery(final String query, final Pageable pageable)
+            throws IOException, SolrServerException {
         return exec(new SolrHandler<SolrDocumentList>() {
             @Override
             public SolrDocumentList handle(HttpSolrClient httpSolrClient) throws IOException, SolrServerException {
@@ -87,7 +88,6 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
             }
         });
     }
-
 
     @Override
     public List<E> getByQuery(final String query, final Pageable pageable) throws IOException, SolrServerException {
@@ -104,4 +104,3 @@ public abstract class BaseSolrImpl<E, PK extends Serializable> implements BaseSo
         });
     }
 }
-

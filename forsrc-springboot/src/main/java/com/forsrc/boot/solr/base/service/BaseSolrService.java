@@ -1,6 +1,5 @@
 package com.forsrc.boot.solr.base.service;
 
-
 import java.io.Serializable;
 
 public interface BaseSolrService<T, PK extends Serializable> {

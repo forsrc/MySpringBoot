@@ -1,7 +1,9 @@
 package com.forsrc.boot.aop;
 
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.Iterator;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,12 +12,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.Iterator;
-import org.springframework.context.annotation.Primary;
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
 
 @Aspect
 @Component
@@ -44,7 +45,8 @@ public class EhcacheAop {
         long start = System.nanoTime();
         Object obj = this.ehcache(proceedingJoinPoint).getObjectValue();
         long end = System.nanoTime() - start;
-        System.out.println(MessageFormat.format("[{0}] EhcacheAop --> Around {1} : {2}ns ", new Date(), proceedingJoinPoint, end));
+        System.out.println(
+                MessageFormat.format("[{0}] EhcacheAop --> Around {1} : {2}ns ", new Date(), proceedingJoinPoint, end));
         return obj;
     }
 
@@ -71,10 +73,10 @@ public class EhcacheAop {
 
     private String getCacheKey(String className, String methodName, Object[] arguments) {
 
-        StringBuffer sb = new StringBuffer(className.length() + methodName.length() + 10
-                + (arguments == null ? 0 : arguments.length * 7));
+        StringBuffer sb = new StringBuffer(
+                className.length() + methodName.length() + 10 + (arguments == null ? 0 : arguments.length * 7));
         sb.append(className).append('.').append(methodName);
-        if (arguments != null && arguments.length >= 0) {
+        if (arguments != null && arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
                 sb.append(".").append(arguments[i]);
             }

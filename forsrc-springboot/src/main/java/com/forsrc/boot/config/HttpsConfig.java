@@ -1,5 +1,10 @@
 package com.forsrc.boot.config;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.annotation.Resource;
+
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
@@ -11,10 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.io.IOException;
 
 @Configuration
 public class HttpsConfig {
@@ -52,14 +53,14 @@ public class HttpsConfig {
         return connector;
     }
 
-    //@Bean
+    // @Bean
     public Connector httpsConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("https");
         int port = Integer.parseInt(env.getProperty("server.https.port"));
         connector.setPort(port);
         connector.setSecure(true);
-        //connector.setRedirectPort(port);
+        // connector.setRedirectPort(port);
         try {
             File keystore = new ClassPathResource("server.jks").getFile();
             File truststore = new ClassPathResource("client.jks").getFile();

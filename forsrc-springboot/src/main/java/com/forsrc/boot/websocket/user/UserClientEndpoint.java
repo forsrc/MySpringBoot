@@ -1,14 +1,22 @@
 package com.forsrc.boot.websocket.user;
 
-import org.springframework.stereotype.Component;
-
-import javax.websocket.*;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.websocket.ClientEndpoint;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @ClientEndpoint

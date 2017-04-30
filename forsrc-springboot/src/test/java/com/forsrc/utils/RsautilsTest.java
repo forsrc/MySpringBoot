@@ -1,10 +1,9 @@
 package com.forsrc.utils;
 
+import java.io.IOException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class RsautilsTest {
 

@@ -1,13 +1,12 @@
 package com.forsrc.constant;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 import com.forsrc.utils.MyAesUtils;
 import com.forsrc.utils.MyDesUtils;
 import com.forsrc.utils.MyRsaUtils;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * The type My token.
@@ -37,7 +36,7 @@ public class MyToken implements Serializable {
         this.tokenTime = new Date().getTime();
         this.aesKey = new MyAesUtils.AesKey();
         this.desKey = new MyDesUtils.DesKey();
-        //this.rsaKey4Client = new MyRsaUtils.RsaKey();
+        // this.rsaKey4Client = new MyRsaUtils.RsaKey();
         this.rsaKey4Server = new MyRsaUtils.RsaKey();
         this.loginToken = UUID.randomUUID().toString();
         this.loginTokenTime = new Date().getTime();
@@ -109,7 +108,8 @@ public class MyToken implements Serializable {
     /**
      * Sets rsa key 4 server.
      *
-     * @param rsaKey4Server the rsa key 4 server
+     * @param rsaKey4Server
+     *            the rsa key 4 server
      */
     public void setRsaKey4Server(MyRsaUtils.RsaKey rsaKey4Server) {
         this.rsaKey4Server = rsaKey4Server;
@@ -127,7 +127,8 @@ public class MyToken implements Serializable {
     /**
      * Sets rsa key 4 client.
      *
-     * @param rsaKey4Client the rsa key 4 client
+     * @param rsaKey4Client
+     *            the rsa key 4 client
      */
     public void setRsaKey4Client(MyRsaUtils.RsaKey rsaKey4Client) {
         this.rsaKey4Client = rsaKey4Client;

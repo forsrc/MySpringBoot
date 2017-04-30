@@ -91,7 +91,7 @@
                         <div class="list inputdeErrors">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Username</label>
-                                <input type="text" name="username" ng-model="user.username" minlength="6" md-maxlength="30" ng-trim="true" required/>
+                                <input type="text" name="username" ng-model="user.username" minlength="4" md-maxlength="30" ng-trim="true" required/>
                                 <div class="hint" ng-if="!loginForm.username.$touched && !loginForm.username.$valid">
                                     Please enter your <code>username</code>.
                                 </div>
@@ -100,7 +100,7 @@
                                 </div>
                                 <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
                                     <div ng-message="required">Userame is required.</div>
-                                    <div ng-message="minlength">The username has to be more than 6 characters long.</div>
+                                    <div ng-message="minlength">The username has to be more than 4 characters long.</div>
                                     <div ng-message="md-maxlength">The username has to be less than 30 characters long.</div>
                                 </div>
                             </md-input-container>

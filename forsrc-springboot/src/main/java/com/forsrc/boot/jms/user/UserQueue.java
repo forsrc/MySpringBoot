@@ -1,7 +1,14 @@
 package com.forsrc.boot.jms.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.Queue;
+import javax.jms.Session;
+
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +20,8 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.jms.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 //@Component
 public class UserQueue {
@@ -50,23 +57,22 @@ public class UserQueue {
         jmsTemplate.send(userQueueBean, messageCreator);
     }
 
-    //    @Bean(name = "queueDefaultMessageListenerContainer")
-//    public DefaultMessageListenerContainer queueDefaultMessageListenerContainer() {
-//        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-//        container.setPubSubDomain(false);
-//        container.setConnectionFactory(queueConnectionFactory);
-//        container.setupMessageListener(new UserQueueReceiver());
-//        container.setDestination(userQueueBean);
-//        return container;
-//    }
+    // @Bean(name = "queueDefaultMessageListenerContainer")
+    // public DefaultMessageListenerContainer
+    // queueDefaultMessageListenerContainer() {
+    // DefaultMessageListenerContainer container = new
+    // DefaultMessageListenerContainer();
+    // container.setPubSubDomain(false);
+    // container.setConnectionFactory(queueConnectionFactory);
+    // container.setupMessageListener(new UserQueueReceiver());
+    // container.setDestination(userQueueBean);
+    // return container;
+    // }
     @Bean(name = "userQueueDefaultMessageListenerContainer")
     public DefaultMessageListenerContainer UserQueueDefaultMessageListenerContainer(
-            @Autowired
-            @Qualifier("queueConnectionFactory") ConnectionFactory connectionFactory,
-            @Autowired
-            @Qualifier("userQueueReceiver") MessageListener messageListener,
-            @Autowired
-            @Qualifier("userQueueBean") Destination destination) {
+            @Autowired @Qualifier("queueConnectionFactory") ConnectionFactory connectionFactory,
+            @Autowired @Qualifier("userQueueReceiver") MessageListener messageListener,
+            @Autowired @Qualifier("userQueueBean") Destination destination) {
         DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
         container.setPubSubDomain(false);
         container.setConnectionFactory(connectionFactory);

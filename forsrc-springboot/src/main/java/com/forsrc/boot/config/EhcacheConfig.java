@@ -1,6 +1,5 @@
 package com.forsrc.boot.config;
 
-import net.sf.ehcache.Ehcache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -8,6 +7,8 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+
+import net.sf.ehcache.Ehcache;
 
 @Configuration
 @EnableCaching

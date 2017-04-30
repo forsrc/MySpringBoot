@@ -1,7 +1,9 @@
 package com.forsrc.boot.web.user.controller;
 
-import com.forsrc.core.web.user.service.UserService;
-import com.forsrc.pojo.User;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -10,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.List;
+import com.forsrc.core.web.user.service.UserService;
+import com.forsrc.pojo.User;
 
 //@RestController
 @Controller
@@ -22,19 +23,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "", method = {RequestMethod.GET})
+    @RequestMapping(value = "", method = { RequestMethod.GET })
     @ResponseBody
     public List<User> get() throws Exception {
         try {
             List<User> list = userService.get(0, 10);
-            //System.out.println("---> " + ((Object[])(list.get(0)))[0]);
+            // System.out.println("---> " + ((Object[])(list.get(0)))[0]);
             return list;
         } catch (Exception e) {
             throw e;
         }
     }
 
-    @RequestMapping(value = "/add", method = {RequestMethod.GET})
+    @RequestMapping(value = "/add", method = { RequestMethod.GET })
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_USER')")
     public User add(String username, String password, String email) throws Exception {
@@ -49,7 +50,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/", method = { RequestMethod.PUT })
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_USER')")
     public User save(String username, String email) throws Exception {
@@ -65,10 +66,10 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{id}", method = { RequestMethod.DELETE })
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN') and #id > 0")
-    //@PreAuthorize("#id > 0")
+    // @PreAuthorize("#id > 0")
     public User delete(@PathVariable("id") Long id) throws Exception {
         System.out.println(MessageFormat.format("delete({0}) --> {1}", id, new Date().toString()));
         try {
@@ -80,7 +81,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{id}", method = { RequestMethod.GET })
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_USER') and #id > 0")
     public User get(@PathVariable("id") Long id) {
@@ -90,9 +91,9 @@ public class UserController {
         return user;
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
+    @RequestMapping(value = "/{id}", method = { RequestMethod.PATCH, RequestMethod.PUT })
     @ResponseBody
-    //@PreAuthorize("hasRole('ROLE_USER')")
+    // @PreAuthorize("hasRole('ROLE_USER')")
     @PreAuthorize("principal.username.equals(#username)")
     public User update(@PathVariable("id") Long id, String username, String email) throws Exception {
         System.out.println(MessageFormat.format("update({0}) --> {1}", id, new Date().toString()));

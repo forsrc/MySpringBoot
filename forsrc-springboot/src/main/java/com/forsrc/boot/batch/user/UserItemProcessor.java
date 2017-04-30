@@ -1,7 +1,8 @@
 package com.forsrc.boot.batch.user;
 
-import com.forsrc.pojo.User;
 import org.springframework.batch.item.ItemProcessor;
+
+import com.forsrc.pojo.User;
 
 public class UserItemProcessor implements ItemProcessor<User, User> {
 

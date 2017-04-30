@@ -1,16 +1,18 @@
 package com.forsrc.boot.base.dao.impl;
 
-import com.forsrc.boot.base.dao.BaseDao;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.forsrc.boot.base.dao.BaseDao;
 
 @Repository
 public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao<E, PK> {
@@ -50,8 +52,7 @@ public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao
 
     @Override
     public List<E> get(String hql, Map<String, Object> params, int start, int size) {
-        Query query = entityManager.createQuery(hql)
-                .setFirstResult(start < 0 ? 0 : start)
+        Query query = entityManager.createQuery(hql).setFirstResult(start < 0 ? 0 : start)
                 .setMaxResults(size > SIZE_MAX ? SIZE_MAX : size);
         if (params == null) {
             return query.getResultList();
@@ -76,10 +77,11 @@ public abstract class BaseDaoImpl<E, PK extends Serializable> implements BaseDao
     }
 
     @Override
-    public <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start, int size) {
-        Query query = (cls != null ? entityManager.createNamedQuery(namedQuery, cls) : entityManager.createNamedQuery(namedQuery))
-                .setFirstResult(start < 0 ? 0 : start)
-                .setMaxResults(size > SIZE_MAX ? SIZE_MAX : size);
+    public <T> List<T> createNamedQuery(String namedQuery, Class<T> cls, Map<String, Object> params, int start,
+            int size) {
+        Query query = (cls != null ? entityManager.createNamedQuery(namedQuery, cls)
+                : entityManager.createNamedQuery(namedQuery)).setFirstResult(start < 0 ? 0 : start)
+                        .setMaxResults(size > SIZE_MAX ? SIZE_MAX : size);
 
         if (params == null) {
             return query.getResultList();

@@ -1,11 +1,20 @@
 package com.forsrc.bytecode;
 
-import com.forsrc.bytecode.pojo.Pojo;
-import javassist.*;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
+
+import org.junit.Test;
+
+import com.forsrc.bytecode.pojo.Pojo;
+
+import javassist.ClassClassPath;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.CtNewMethod;
+import javassist.Modifier;
 
 public class BytecodeTest {
 
@@ -26,27 +35,29 @@ public class BytecodeTest {
         ctClass.addMethod(CtNewMethod.setter("setUsername", username));
 
         /*
-         CtField id = new CtField(classPool.getCtClass("java.lang.Long"), "id", ctClass);
-         username.setModifiers(Modifier.PRIVATE);
-         ctClass.addField(id);
-         ctClass.addMethod(CtNewMethod.getter("getId", id));
-         ctClass.addMethod(CtNewMethod.setter("setId", id));
+         * CtField id = new CtField(classPool.getCtClass("java.lang.Long"),
+         * "id", ctClass); username.setModifiers(Modifier.PRIVATE);
+         * ctClass.addField(id); ctClass.addMethod(CtNewMethod.getter("getId",
+         * id)); ctClass.addMethod(CtNewMethod.setter("setId", id));
          */
 
-        CtConstructor ctConstructor = new CtConstructor(new CtClass[]{}, ctClass);
-        //ctConstructor.setBody("{this.id = new Long(0L); this.username = \"77\";}");
-        ctConstructor.setBody(MessageFormat.format("'{'this.id = new Long({0}L); this.username = \"{1}\";'}'", 0, "77"));
+        CtConstructor ctConstructor = new CtConstructor(new CtClass[] {}, ctClass);
+        // ctConstructor.setBody("{this.id = new Long(0L); this.username =
+        // \"77\";}");
+        ctConstructor
+                .setBody(MessageFormat.format("'{'this.id = new Long({0}L); this.username = \"{1}\";'}'", 0, "77"));
         ctClass.addConstructor(ctConstructor);
 
-        CtMethod printMethod = new CtMethod(CtClass.voidType, "print", new CtClass[]{}, ctClass);
-        printMethod.setBody(String.format("{System.out.println(this.id  + \" -1-> \" + this.username); System.out.println(this.getId()  + \" -2-> \" + this.getUsername());}"));
+        CtMethod printMethod = new CtMethod(CtClass.voidType, "print", new CtClass[] {}, ctClass);
+        printMethod.setBody(String.format(
+                "{System.out.println(this.id  + \" -1-> \" + this.username); System.out.println(this.getId()  + \" -2-> \" + this.getUsername());}"));
         ctClass.addMethod(printMethod);
 
         ctClass.writeFile();
 
         Class<?> clazz = ctClass.toClass();
         Object obj = clazz.newInstance();
-        obj.getClass().getMethod("print", new Class[]{}).invoke(obj, new Object[]{});
+        obj.getClass().getMethod("print", new Class[] {}).invoke(obj, new Object[] {});
 
         byte[] bytecode = ctClass.toBytecode();
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -19,7 +19,8 @@ public class UserWebsocketController implements Runnable {
     @SendTo("/topic/user")
     public UserWebsocketMessage oMessage(UserWebsocketMessage message) throws Exception {
         System.out.println(String.format("--> oMessage(): %s", message.getName()));
-        template.convertAndSend("/topic/user", new UserWebsocketMessage(-4L, String.valueOf(System.currentTimeMillis())));
+        template.convertAndSend("/topic/user",
+                new UserWebsocketMessage(-4L, String.valueOf(System.currentTimeMillis())));
         return new UserWebsocketMessage(-1L, String.format("Hello, %s", message.getName()));
     }
 
@@ -34,7 +35,8 @@ public class UserWebsocketController implements Runnable {
     @Override
     public void run() {
         for (int i = 10; i < 10; i++) {
-            template.convertAndSend("/topic/user", new UserWebsocketMessage(-3L, String.valueOf(System.currentTimeMillis())));
+            template.convertAndSend("/topic/user",
+                    new UserWebsocketMessage(-3L, String.valueOf(System.currentTimeMillis())));
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.forsrc.boot.client.config;
 
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +17,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
-import java.util.Properties;
-
 @Configuration
 @EnableTransactionManagement
 public class DatabaseConfig {
@@ -27,8 +28,8 @@ public class DatabaseConfig {
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-    //@Bean(name = "dataSource")
-    //@Primary
+    // @Bean(name = "dataSource")
+    // @Primary
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -41,13 +42,11 @@ public class DatabaseConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory =
-                new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 
         entityManagerFactory.setDataSource(dataSource);
 
-        entityManagerFactory.setPackagesToScan(
-                env.getProperty("entitymanager.packagesToScan"));
+        entityManagerFactory.setPackagesToScan(env.getProperty("entitymanager.packagesToScan"));
 
         String persistenceXmlLocation = env.getProperty("entitymanager.persistenceXmlLocation");
         if (persistenceXmlLocation != null) {
@@ -58,78 +57,54 @@ public class DatabaseConfig {
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
 
         Properties properties = new Properties();
-        properties.put(
-                "hibernate.dialect",
-                env.getProperty("hibernate.dialect"));
-        properties.put(
-                "hibernate.show_sql",
-                env.getProperty("hibernate.show_sql"));
-        properties.put(
-                "hibernate.hbm2ddl.auto",
-                env.getProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
-        properties.put(
-                "hibernate.format_sql",
-                env.getProperty("hibernate.format_sql"));
+        properties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
         String mappingResources = env.getProperty("hibernate.mappingResources");
         if (mappingResources != null) {
-            //entityManagerFactory.setMappingResources(DatabaseConfig.class.getResource(mappingResources).toString());
+            // entityManagerFactory.setMappingResources(DatabaseConfig.class.getResource(mappingResources).toString());
         }
         entityManagerFactory.setJpaProperties(properties);
         return entityManagerFactory;
     }
 
     /*
-     @Bean
-     public LocalSessionFactoryBean sessionFactory() throws IOException {
-     LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-     String mappingResources = env.getProperty("hibernate.mappingResources");
-     Properties properties = new Properties();
-     properties.put(
-     "hibernate.dialect",
-     env.getProperty("hibernate.dialect"));
-     properties.put(
-     "hibernate.show_sql",
-     env.getProperty("hibernate.show_sql"));
-     properties.put(
-     "hibernate.hbm2ddl.auto",
-     env.getProperty("hibernate.hbm2ddl.auto"));
-
-     properties.put(
-     "hibernate.format_sql",
-     env.getProperty("hibernate.format_sql"));
-     if (mappingResources != null) {
-     
-     }
-
-     sessionFactoryBean.setHibernateProperties(properties);
-     return sessionFactoryBean;
-     }
+     * @Bean public LocalSessionFactoryBean sessionFactory() throws IOException
+     * { LocalSessionFactoryBean sessionFactoryBean = new
+     * LocalSessionFactoryBean(); String mappingResources =
+     * env.getProperty("hibernate.mappingResources"); Properties properties =
+     * new Properties(); properties.put( "hibernate.dialect",
+     * env.getProperty("hibernate.dialect")); properties.put(
+     * "hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+     * properties.put( "hibernate.hbm2ddl.auto",
+     * env.getProperty("hibernate.hbm2ddl.auto"));
+     * 
+     * properties.put( "hibernate.format_sql",
+     * env.getProperty("hibernate.format_sql")); if (mappingResources != null) {
+     * 
+     * }
+     * 
+     * sessionFactoryBean.setHibernateProperties(properties); return
+     * sessionFactoryBean; }
      */
     /*
-     @Bean(name = "jpaTransactionManager")
-     //@Qualifier("jpaTransactionManager")
-     public JpaTransactionManager jpaTransactionManager() {
-     JpaTransactionManager transactionManager =
-     new JpaTransactionManager();
-     transactionManager.setEntityManagerFactory(
-     entityManagerFactory.getObject());
-     return transactionManager;
-     }
-
-     @Bean(name = "txManager02")
-     //@Qualifier(value = "txManager02")
-     public PlatformTransactionManager txManager02() {
-     return new DataSourceTransactionManager(dataSource);
-     }
+     * @Bean(name = "jpaTransactionManager")
+     * //@Qualifier("jpaTransactionManager") public JpaTransactionManager
+     * jpaTransactionManager() { JpaTransactionManager transactionManager = new
+     * JpaTransactionManager(); transactionManager.setEntityManagerFactory(
+     * entityManagerFactory.getObject()); return transactionManager; }
+     * 
+     * @Bean(name = "txManager02") //@Qualifier(value = "txManager02") public
+     * PlatformTransactionManager txManager02() { return new
+     * DataSourceTransactionManager(dataSource); }
      */
     @Bean(name = "transactionManager")
-    //@Primary
+    // @Primary
     public PlatformTransactionManager txManager01() {
-        JpaTransactionManager transactionManager =
-                new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(
-                entityManagerFactory.getObject());
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
         return transactionManager;
     }
 
@@ -138,8 +113,8 @@ public class DatabaseConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    //@Bean(name = "jdbcTemplate")
-    //@Primary
+    // @Bean(name = "jdbcTemplate")
+    // @Primary
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);

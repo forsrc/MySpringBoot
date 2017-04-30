@@ -1,8 +1,5 @@
 package com.forsrc.boot.adminserver.config;
 
-import com.forsrc.core.web.security.MyAuthenticationHandler;
-import com.forsrc.core.web.security.MyAuthenticationProvider;
-import com.forsrc.core.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +20,10 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.forsrc.core.web.security.MyAuthenticationHandler;
+import com.forsrc.core.web.security.MyAuthenticationProvider;
+import com.forsrc.core.web.security.MyUserDetailsService;
+
 @Configuration
 @Order(-20)
 @EnableWebSecurity
@@ -33,38 +34,30 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .authorizeRequests()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/token", "/oauth/confirm_access", "/mgmt/health").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                    .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
-                .and()
-                    .logout().deleteCookies("remove").invalidateHttpSession(false).addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll()
-                .and()
-                    .exceptionHandling().accessDeniedPage("/login?authorization_error=true")
-                .and()
-                    .sessionManagement().maximumSessions(1).expiredUrl("/login?expired")
-                .and()
-                .and()
-                    .httpBasic()
-                .and()
-                    .csrf().ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**")
-        ;
+        http.authorizeRequests()
+                .antMatchers("/", "/login", "/oauth/authorize", "/oauth/token", "/oauth/confirm_access", "/mgmt/health",
+                        "/init/db")
+                .permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login")
+                .failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler())
+                .permitAll().and().logout().deleteCookies("remove").invalidateHttpSession(false)
+                .addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
+                .accessDeniedPage("/login?authorization_error=true").and().sessionManagement().maximumSessions(1)
+                .expiredUrl("/login?expired").and().and().httpBasic().and().csrf()
+                .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**");
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("forsrc").password("forsrc").roles("ADMIN", "ACTUATOR");
+        auth.inMemoryAuthentication().withUser("forsrc").password("forsrc").roles("ADMIN", "ACTUATOR");
         auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
-        //auth.authenticationProvider(myAuthenticationProvider());
+        // auth.authenticationProvider(myAuthenticationProvider());
     }
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/webjars/**", "/images/**", "/oauth/uncache_approvals", "/oauth/cache_approvals", "/static/**");
+        web.ignoring().antMatchers("/webjars/**", "/images/**", "/oauth/uncache_approvals", "/oauth/cache_approvals",
+                "/static/**");
         final HttpSecurity http = getHttp();
         web.postBuildAction(new Runnable() {
             @Override
@@ -89,19 +82,19 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new MyAuthenticationHandler();
     }
 
-    //@Bean
+    // @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
 
-//    @Bean
-//    public SpringSecurityDialect securityDialect() {
-//        return new SpringSecurityDialect();
-//    }
+    // @Bean
+    // public SpringSecurityDialect securityDialect() {
+    // return new SpringSecurityDialect();
+    // }
 
-    //@Bean
+    // @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }

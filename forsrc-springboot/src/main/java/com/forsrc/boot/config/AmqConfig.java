@@ -1,5 +1,8 @@
 package com.forsrc.boot.config;
 
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,9 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
-
-import javax.annotation.Resource;
-import javax.jms.ConnectionFactory;
 
 @Configuration
 public class AmqConfig {
@@ -37,7 +37,8 @@ public class AmqConfig {
     @Bean(name = "queueJmsTemplate")
     @Primary
     public JmsTemplate queueJmsTemplate() {
-        //ConnectionFactory queueConnectionFactory = new ActiveMQConnectionFactory(queueHost);
+        // ConnectionFactory queueConnectionFactory = new
+        // ActiveMQConnectionFactory(queueHost);
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(queueConnectionFactory);
         jmsTemplate.setPubSubDomain(false);
@@ -46,7 +47,8 @@ public class AmqConfig {
 
     @Bean(name = "topicJmsTemplate")
     public JmsTemplate topicJmsTemplate() {
-        //ConnectionFactory topicConnectionFactory = new ActiveMQConnectionFactory(topicHost);
+        // ConnectionFactory topicConnectionFactory = new
+        // ActiveMQConnectionFactory(topicHost);
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(topicConnectionFactory);
         jmsTemplate.setPubSubDomain(true);
@@ -58,7 +60,8 @@ public class AmqConfig {
             DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setPubSubDomain(false);
-        // This provides all boot's default to this factory, including the message converter
+        // This provides all boot's default to this factory, including the
+        // message converter
         configurer.configure(factory, queueConnectionFactory);
         // You could still override some of Boot's default if necessary.
         return factory;
@@ -69,7 +72,8 @@ public class AmqConfig {
             DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setPubSubDomain(true);
-        // This provides all boot's default to this factory, including the message converter
+        // This provides all boot's default to this factory, including the
+        // message converter
         configurer.configure(factory, topicConnectionFactory);
         // You could still override some of Boot's default if necessary.
         return factory;
@@ -107,11 +111,12 @@ public class AmqConfig {
             Config.topicHost = topicHost;
         }
     }
-//    @Bean // Serialize message content to json using TextMessage
-//    public MessageConverter jacksonJmsMessageConverter() {
-//        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-//        //converter.setTargetType(MessageType.TEXT);
-//        //converter.setTypeIdPropertyName("_type");
-//        return converter;
-//    }
+    // @Bean // Serialize message content to json using TextMessage
+    // public MessageConverter jacksonJmsMessageConverter() {
+    // MappingJackson2MessageConverter converter = new
+    // MappingJackson2MessageConverter();
+    // //converter.setTargetType(MessageType.TEXT);
+    // //converter.setTypeIdPropertyName("_type");
+    // return converter;
+    // }
 }

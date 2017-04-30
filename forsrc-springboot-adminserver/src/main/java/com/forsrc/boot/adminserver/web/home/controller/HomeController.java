@@ -1,4 +1,4 @@
-package com.forsrc.adminserver.web.home.controller;
+package com.forsrc.boot.adminserver.web.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

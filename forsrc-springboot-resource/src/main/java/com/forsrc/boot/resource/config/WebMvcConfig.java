@@ -1,9 +1,7 @@
 package com.forsrc.boot.resource.config;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +10,13 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.io.IOException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 @Configuration
-//@EnableWebMvc
+// @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -25,15 +26,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/502").setViewName("/502");
     }
 
-    //@Bean
+    // @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
-        ServletRegistrationBean registration = new ServletRegistrationBean(
-                dispatcherServlet);
+        ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return registration;
     }
 
-    //@Bean
+    // @Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
     }
@@ -46,7 +46,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return filter;
     }
 
-    //@Bean
+    // @Bean
     public ObjectMapper jsonMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {

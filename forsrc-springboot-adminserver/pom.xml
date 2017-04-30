@@ -74,11 +74,11 @@
             <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
             <version>1.4.6</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui-login</artifactId>
             <version>1.4.6</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>de.codecentric</groupId>

@@ -1,9 +1,11 @@
 package com.forsrc.ehcache;
 
-import com.forsrc.constant.KeyConstants;
-import com.forsrc.tools.SessionUtils;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
+import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
@@ -12,11 +14,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.lang.reflect.Method;
-import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import com.forsrc.constant.KeyConstants;
+import com.forsrc.tools.SessionUtils;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
 
 /**
  * The type Method cache interceptor.
@@ -37,7 +39,8 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     /**
      * Sets cache.
      *
-     * @param cache the cache
+     * @param cache
+     *            the cache
      */
     public void setCache(Cache cache) {
         this.cache = cache;
@@ -46,13 +49,11 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
 
-
         return this.ehcache(invocation).getObjectValue();
     }
 
     @Override
-    public void afterReturning(Object object, Method arg1, Object[] objects, Object obj)
-            throws Throwable {
+    public void afterReturning(Object object, Method arg1, Object[] objects, Object obj) throws Throwable {
 
         this.removeByClassName(obj.getClass().getName());
     }
@@ -67,12 +68,13 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     /**
      * [AOP] doAround()
      *
-     * @param proceedingJoinPoint the proceedingJoinPoint
+     * @param proceedingJoinPoint
+     *            the proceedingJoinPoint
      * @return the cached object
-     * @throws Throwable the throwable
+     * @throws Throwable
+     *             the throwable
      */
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint)
-            throws Throwable {
+    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         return this.ehcache(proceedingJoinPoint).getObjectValue();
     }
@@ -80,7 +82,8 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
     /**
      * [AOP] doAfter()
      *
-     * @param joinPoint the joinPoint
+     * @param joinPoint
+     *            the joinPoint
      */
     public void doAfter(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
@@ -144,10 +147,10 @@ public class MethodCacheInterceptor implements MethodInterceptor, AfterReturning
 
     private String getCacheKeyWithoutUsername(String className, String methodName, Object[] arguments) {
 
-        StringBuffer sb = new StringBuffer(className.length() + methodName.length() + 10
-                + (arguments == null ? 0 : arguments.length * 7));
+        StringBuffer sb = new StringBuffer(
+                className.length() + methodName.length() + 10 + (arguments == null ? 0 : arguments.length * 7));
         sb.append(className).append('.').append(methodName);
-        if (arguments != null && arguments.length >= 0) {
+        if (arguments != null && arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
                 sb.append(".").append(arguments[i]);
             }

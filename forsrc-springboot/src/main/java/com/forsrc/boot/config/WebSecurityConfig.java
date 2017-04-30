@@ -1,7 +1,5 @@
 package com.forsrc.boot.config;
 
-import com.forsrc.core.web.security.MyAuthenticationHandler;
-import com.forsrc.core.web.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,17 +22,18 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
+import com.forsrc.core.web.security.MyAuthenticationHandler;
+import com.forsrc.core.web.security.MyUserDetailsService;
 
 @EnableAuthorizationServer()
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//@Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
+// @Order(SecurityProperties.BASIC_AUTH_ORDER + 1)
 @ComponentScan(basePackages = "org.thymeleaf.extras.springsecurity4")
 @Primary
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,9 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("forsrc").password("forsrc").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("forsrc").password("forsrc").roles("ADMIN");
         auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
     }
 
@@ -93,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new SpringSecurityDialect();
     }
 
-    //@Bean
+    // @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");

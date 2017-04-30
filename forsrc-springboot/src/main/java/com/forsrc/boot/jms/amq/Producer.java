@@ -1,15 +1,16 @@
 package com.forsrc.boot.jms.amq;
 
+import java.util.Date;
+
+import javax.annotation.Resource;
+import javax.jms.Queue;
+import javax.jms.Topic;
+
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-
-import javax.annotation.Resource;
-import javax.jms.Queue;
-import javax.jms.Topic;
-import java.util.Date;
 
 //@Component
 public class Producer {

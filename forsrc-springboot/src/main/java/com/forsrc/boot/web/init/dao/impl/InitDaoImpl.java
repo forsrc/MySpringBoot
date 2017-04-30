@@ -1,10 +1,11 @@
 package com.forsrc.boot.web.init.dao.impl;
 
-import com.forsrc.boot.base.dao.impl.BaseDaoImpl;
-import com.forsrc.boot.web.init.dao.InitDao;
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
+import com.forsrc.boot.base.dao.impl.BaseDaoImpl;
+import com.forsrc.boot.web.init.dao.InitDao;
 
 @Repository
 public class InitDaoImpl extends BaseDaoImpl<Object, Long> implements InitDao {

@@ -1,11 +1,11 @@
-package com.forsrc.boot.web.init.service.impl;
+package com.forsrc.boot.web.init.service;
 
-import com.forsrc.boot.web.init.dao.InitDao;
-import com.forsrc.boot.web.init.service.InitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.forsrc.boot.web.init.dao.InitDao;
 
 @Service
 @Transactional

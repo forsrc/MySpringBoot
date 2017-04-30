@@ -1,8 +1,13 @@
 package com.forsrc.boot.jms.amq;
 
-import com.forsrc.boot.jms.user.UserMessage;
-import com.forsrc.boot.jms.user.UserQueue;
-import com.forsrc.boot.jms.user.UserTopic;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resource;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +16,9 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import com.forsrc.boot.jms.user.UserMessage;
+import com.forsrc.boot.jms.user.UserQueue;
+import com.forsrc.boot.jms.user.UserTopic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
