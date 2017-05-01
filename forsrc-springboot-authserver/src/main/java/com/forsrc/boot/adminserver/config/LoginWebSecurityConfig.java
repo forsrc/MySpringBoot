@@ -50,8 +50,8 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("forsrc").password("forsrc").roles("ADMIN", "ACTUATOR");
-        auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
-        // auth.authenticationProvider(myAuthenticationProvider());
+        //auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(myAuthenticationProvider());
     }
 
     @Override
