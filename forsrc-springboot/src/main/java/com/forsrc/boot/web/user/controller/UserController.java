@@ -43,7 +43,7 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             user.setEmail(email);
-            userService.save(user, password.toCharArray());
+            userService.save(user, password.getBytes());
             return user;
         } catch (Exception ex) {
             throw ex;
