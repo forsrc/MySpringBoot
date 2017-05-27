@@ -106,14 +106,14 @@
            timeToLiveSeconds="3600"
            overflowToDisk="true"/>
 
-    <cache name="ehcache_pojp"
+    <cache name="ehcache_pojo"
            maxElementsInMemory="10240"
            eternal="false"
            timeToIdleSeconds="3"
            timeToLiveSeconds="3"
            overflowToDisk="false"/>
 
-    <cache name="ehcache_pojp_aop"
+    <cache name="ehcache_pojo_aop"
            maxElementsInMemory="10240"
            eternal="false"
            timeToIdleSeconds="3"

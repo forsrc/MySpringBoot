@@ -19,7 +19,7 @@ public class EhcacheConfig {
 
     @Bean
     public org.springframework.cache.Cache cache() {
-        return ehCacheCacheManager.getCache("ehcache_pojp_aop");
+        return ehCacheCacheManager.getCache("ehcache_pojo_aop");
     }
 
     @Bean
@@ -38,7 +38,7 @@ public class EhcacheConfig {
 
     @Bean
     public Ehcache ehcache(EhCacheCacheManager ehCacheCacheManager) {
-        Ehcache ehcache = ehCacheCacheManager.getCacheManager().getEhcache("ehcache_pojp_aop");
+        Ehcache ehcache = ehCacheCacheManager.getCacheManager().getEhcache("ehcache_pojo_aop");
         return ehcache;
     }
 }

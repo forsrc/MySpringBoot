@@ -15,7 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@CacheConfig(cacheNames = "ehcache_pojp")
+@CacheConfig(cacheNames = "ehcache_pojo")
 public interface BaseDao<E, PK extends Serializable> {
 
     int SIZE_MAX = 100;

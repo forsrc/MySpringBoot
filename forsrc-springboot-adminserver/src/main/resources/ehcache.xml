@@ -78,6 +78,13 @@
            timeToLiveSeconds="3"
            overflowToDisk="false"/>
 
+    <cache name="ehcache_10s"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="10"
+           overflowToDisk="false"/>
+
     <cache name="ehcache_1m"
            maxElementsInMemory="10240"
            eternal="false"
@@ -106,18 +113,18 @@
            timeToLiveSeconds="3600"
            overflowToDisk="true"/>
 
-    <cache name="ehcache_pojp"
+    <cache name="ehcache_pojo"
            maxElementsInMemory="10240"
            eternal="false"
            timeToIdleSeconds="3"
-           timeToLiveSeconds="3"
+           timeToLiveSeconds="10"
            overflowToDisk="false"/>
 
-    <cache name="ehcache_pojp_aop"
+    <cache name="ehcache_pojo_aop"
            maxElementsInMemory="10240"
            eternal="false"
            timeToIdleSeconds="3"
-           timeToLiveSeconds="3"
+           timeToLiveSeconds="10"
            overflowToDisk="false"/>
 
 
