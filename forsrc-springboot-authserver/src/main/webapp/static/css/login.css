@@ -75,3 +75,7 @@ md-input-container label {
 md-input-container.md-input-has-value:not(.md-input-invalid) label {
     color: rgb(84, 22, 29);
 }
+
+.scroll-content {
+    background-color: rgb(250,250,250);
+}
