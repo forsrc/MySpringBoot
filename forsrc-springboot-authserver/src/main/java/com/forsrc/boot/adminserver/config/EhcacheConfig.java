@@ -1,50 +1,37 @@
 package com.forsrc.boot.adminserver.config;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.cache.interceptor.SimpleKeyGenerator;
+import org.springframework.cache.interceptor.SimpleCacheErrorHandler;
+import org.springframework.cache.interceptor.SimpleCacheResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import net.sf.ehcache.Ehcache;
-
 @Configuration
-@EnableCaching
+@EnableCaching(proxyTargetClass = true)
 public class EhcacheConfig extends CachingConfigurerSupport {
 
-    @Autowired
-    private EhCacheCacheManager ehCacheCacheManager;
-
     @Bean
-    public org.springframework.cache.Cache cache() {
-        return ehCacheCacheManager.getCache("ehcache_pojo");
-    }
+    @Override
+    public CacheManager cacheManager() {
 
-    @Bean
-    public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean) {
-        return new EhCacheCacheManager(bean.getObject());
-    }
-
-    @Bean
-    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-        cacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
-        cacheManagerFactoryBean.setShared(true);
-        return cacheManagerFactoryBean;
-
-    }
-
-    @Bean
-    public Ehcache ehcache(EhCacheCacheManager ehCacheCacheManager) {
-        Ehcache ehcache = ehCacheCacheManager.getCacheManager().getEhcache("ehcache_pojo");
-        return ehcache;
+        try {
+            net.sf.ehcache.CacheManager ehcacheCacheManager = new net.sf.ehcache.CacheManager(
+                    new ClassPathResource("ehcache.xml").getInputStream());
+            EhCacheCacheManager cacheCacheManager = new EhCacheCacheManager(ehcacheCacheManager);
+            return cacheCacheManager;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
@@ -55,14 +42,34 @@ public class EhcacheConfig extends CachingConfigurerSupport {
             @Override
             public Object generate(Object target, Method method, Object... params) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(target.getClass().getName());
-                sb.append(method.getName());
-                for (Object obj : params) {
-                    sb.append(obj.toString());
+                sb.append(target.getClass().getName()).append(".").append(method.getName());
+                if (params == null) {
+                    sb.append("()");
+                    System.out.println("[cache] ----> " + sb.toString());
+                    return sb.toString();
                 }
-                System.out.println("---->" + sb.toString());
+                sb.append("(");
+                for (Object obj : params) {
+                    sb.append(obj.toString()).append(", ");
+                }
+                int length = sb.length();
+                sb.delete(length - 2, length);
+                sb.append(")");
+                System.out.println("[cache] ----> " + sb.toString());
                 return sb.toString();
             }
         };
+    }
+
+    @Bean
+    @Override
+    public CacheResolver cacheResolver() {
+        return new SimpleCacheResolver(cacheManager());
+    }
+
+    @Bean
+    @Override
+    public CacheErrorHandler errorHandler() {
+        return new SimpleCacheErrorHandler();
     }
 }
