@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(path = "/me")
+    @RequestMapping(path = "/me", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
@@ -47,14 +48,16 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/testuser/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/testuser/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
     public ResponseEntity<Void> get(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(id).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/users/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
@@ -66,7 +69,8 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/user/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
@@ -83,7 +87,8 @@ public class UserController {
         return new ResponseEntity<>(message, hsHttpStatus);
     }
 
-    @RequestMapping(value = "/users", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/users", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
@@ -92,7 +97,8 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/users/", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")

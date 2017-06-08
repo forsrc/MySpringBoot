@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@Scope(scopeName = "singleton")
 public class DatabaseConfig {
 
     @Autowired
@@ -42,6 +44,9 @@ public class DatabaseConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        if (entityManagerFactory != null) {
+            return entityManagerFactory;
+        }
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 
         entityManagerFactory.setDataSource(dataSource);

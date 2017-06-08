@@ -1,12 +1,13 @@
 package com.forsrc.boot.adminserver.config;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -14,24 +15,25 @@ import org.springframework.cache.interceptor.SimpleCacheErrorHandler;
 import org.springframework.cache.interceptor.SimpleCacheResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
+@Scope(scopeName = "singleton")
 @EnableCaching(proxyTargetClass = true)
 public class EhcacheConfig extends CachingConfigurerSupport {
 
     @Bean
-    @Override
     public CacheManager cacheManager() {
+        return new EhCacheCacheManager(getEhCacheFactory().getObject());
+    }
 
-        try {
-            net.sf.ehcache.CacheManager ehcacheCacheManager = new net.sf.ehcache.CacheManager(
-                    new ClassPathResource("ehcache.xml").getInputStream());
-            EhCacheCacheManager cacheCacheManager = new EhCacheCacheManager(ehcacheCacheManager);
-            return cacheCacheManager;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Bean
+    public EhCacheManagerFactoryBean getEhCacheFactory() {
+        EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+        factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        factoryBean.setShared(true);
+        return factoryBean;
     }
 
     @Bean
