@@ -114,4 +114,15 @@ public class UserController {
         message.put("reason", HttpStatus.OK.getReasonPhrase());
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/testcache/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public ResponseEntity<User> testCache(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
+        User user = userService.get(id);
+        if (user == null) {
+            return new ResponseEntity<>(new User(), HttpStatus.EXPECTATION_FAILED);
+        }
+        userService.cacheClear();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

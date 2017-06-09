@@ -3,6 +3,7 @@ package com.forsrc.boot.adminserver.config;
 import java.lang.reflect.Method;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,9 +21,12 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @Scope(scopeName = "singleton")
-@EnableCaching(proxyTargetClass = true)
+//@EnableCaching(proxyTargetClass = true)
 public class EhcacheConfig extends CachingConfigurerSupport {
 
+    @Autowired
+    private CacheManager cacheManager;
+    
     @Bean
     public CacheManager cacheManager() {
         return new EhCacheCacheManager(getEhCacheFactory().getObject());
@@ -74,4 +78,5 @@ public class EhcacheConfig extends CachingConfigurerSupport {
     public CacheErrorHandler errorHandler() {
         return new SimpleCacheErrorHandler();
     }
+
 }
