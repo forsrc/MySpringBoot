@@ -1,4 +1,4 @@
-package com.forsrc.boot.resource.web.home.controller;
+package com.forsrc.boot.web.home.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

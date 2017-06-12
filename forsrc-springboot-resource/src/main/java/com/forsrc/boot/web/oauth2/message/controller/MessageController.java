@@ -1,4 +1,4 @@
-package com.forsrc.boot.resource.oauth2.message.controller;
+package com.forsrc.boot.web.oauth2.message.controller;
 
 import java.security.Principal;
 import java.util.Collections;
