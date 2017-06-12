@@ -14,7 +14,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.forsrc.MySpringBootApplication;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MySpringBootApplication.class)
 @WebAppConfiguration()
@@ -23,10 +22,13 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @Test
     public void testGet() {
         assertNotNull(userService);
         assertThat(userService.get(1L).getUsername(), is("admin"));
+        roleService.getRoles().forEach((role) -> System.out.println(role));
     }
 }

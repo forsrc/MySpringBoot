@@ -27,23 +27,10 @@ import com.forsrc.pojo.User;
         "management.security.enabled = false", "management.health.db.enabled = false", "security.require-ssl = false",
         "server.ssl.enabled = false" })
 @AutoConfigureMockMvc(secure = false)
-@WithMockUser(username = "forsrc", password = "forsrc", roles = { "ADMIN", "USER" })
-
+//@WithMockUser(username = "forsrc", password = "forsrc", roles = { "ADMIN", "USER" })
 public class UserControllerTest {
 
-    @Rule
-    public OAuth2ContextSetup context = OAuth2ContextSetup.standard(new RestTemplateHolder() {
 
-        @Override
-        public void setRestTemplate(RestOperations paramRestOperations) {
-        }
-
-        @Override
-        public RestOperations getRestTemplate() {
-            return testRestTemplate.getRestTemplate();
-        }
-
-    });
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -58,28 +45,13 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "forsrc", password = "forsrc", roles = { "ADMIN", "USER" })
-    // @OAuth2ContextConfiguration(UserDetails.class)
+    //@WithMockUser(username = "forsrc", password = "forsrc", roles = { "ADMIN", "USER" })
     public void userTest() {
         System.out.println(port);
-        ResponseEntity<User> user = this.testRestTemplate.withBasicAuth("forsrc", "forsrc").getForEntity("/user/1",
+        ResponseEntity<User> user = this.testRestTemplate.withBasicAuth("forsrc", "forsrc").getForEntity("/users/1",
                 User.class);
 
         System.out.println(user);
-    }
-
-    public static class UserDetails extends ResourceOwnerPasswordResourceDetails {
-        public UserDetails(final Object obj) {
-            this();
-        }
-
-        public UserDetails() {
-            setAccessTokenUri("https://127.0.0.1:" + port + "/oauth/token");
-            setClientId("forsrc");
-            setUsername("forsrc");
-            setPassword("forsrc");
-            setClientSecret("forsrc");
-        }
     }
 
 }
