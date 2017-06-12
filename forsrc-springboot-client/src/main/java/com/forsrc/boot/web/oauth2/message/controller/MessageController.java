@@ -1,4 +1,4 @@
-package com.forsrc.boot.client.oauth2.message.controller;
+package com.forsrc.boot.web.oauth2.message.controller;
 
 import java.util.Arrays;
 import java.util.Date;

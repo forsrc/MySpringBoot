@@ -1,4 +1,4 @@
-package com.forsrc.boot.client.web.home.controller;
+package com.forsrc.boot.web.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
