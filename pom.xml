@@ -35,6 +35,8 @@
         <module>forsrc-springboot-adminserver</module>
         <module>forsrc-springcloud-config-server</module>
         <module>forsrc-springcloud-eureka-server</module>
+        <module>forsrc-springcloud-eureka-client</module>
+
     </modules>
 
     <dependencyManagement>
