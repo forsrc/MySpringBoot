@@ -33,7 +33,7 @@
         <module>forsrc-springboot-resource</module>
         <module>forsrc-springboot</module>
         <module>forsrc-springboot-adminserver</module>
-        <module>forsrc-springboot-config-server</module>
+        <module>forsrc-springcloud-config-server</module>
     </modules>
 
     <dependencyManagement>

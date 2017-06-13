@@ -1,0 +1,13 @@
+server:
+  port: 8076
+spring:
+  application:
+    name: forsrc-springcloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/forsrc/MySpringBoot/
+          search-paths: forsrc-springcloud-config-repo
+          username:
+          password:
