@@ -1,8 +1,6 @@
 package com.forsrc.boot.web.aop;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,6 +11,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
@@ -27,6 +27,8 @@ import org.springframework.stereotype.Component;
 @Scope(scopeName = "singleton")
 @Primary
 public class CacheAop {
+
+    protected static final Logger LOGGER = LoggerFactory.getLogger(CacheAop.class);
 
     @Autowired
     private CacheManager cacheManager;
@@ -43,8 +45,7 @@ public class CacheAop {
 
     @Before("execution(public * com.forsrc..*.*Service.*(..))")
     public void before(JoinPoint joinPoint) throws Throwable {
-        System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Before] {1}({2})", new Date(),
-                joinPoint.getSignature(), Arrays.toString(joinPoint.getArgs())));
+        LOGGER.info("[CacheAop] --> [Before] {}({})", joinPoint.getSignature(), Arrays.toString(joinPoint.getArgs()));
     }
 
     @Around("execution(" + "public * com.forsrc..*.*Service.*delete*(..))"
@@ -52,8 +53,8 @@ public class CacheAop {
             + " or execution(public * com.forsrc..*.*Service.*save*(..))"
             + " or execution(public * com.forsrc..*.*Service.cacheClear())")
     public Object aroundClear(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Clear]  {1}({2})", new Date(),
-                proceedingJoinPoint.getSignature(), Arrays.toString(proceedingJoinPoint.getArgs())));
+        LOGGER.info("[CacheAop] --> [Clear]  {}({})", proceedingJoinPoint.getSignature(),
+                Arrays.toString(proceedingJoinPoint.getArgs()));
         Object obj = proceedingJoinPoint.proceed();
         // this.cache10s.clear();
         Class<?> targetClass = proceedingJoinPoint.getTarget().getClass();
@@ -69,8 +70,8 @@ public class CacheAop {
         long start = System.nanoTime();
         Object obj = this.cache(proceedingJoinPoint);
         long end = System.nanoTime() - start;
-        System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Around] {1}({2}) : {3}ns ", new Date(),
-                proceedingJoinPoint.getSignature(), Arrays.toString(proceedingJoinPoint.getArgs()), end));
+        LOGGER.info("[CacheAop] --> [Around] {}({}) : {}ns ", proceedingJoinPoint.getSignature(),
+                Arrays.toString(proceedingJoinPoint.getArgs()), end);
         return obj;
     }
 
@@ -85,17 +86,16 @@ public class CacheAop {
 
         ValueWrapper valueWrapper = this.cache10s.get(key);
 
-        System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Get]    {1} -> {2} @ {3}({4})", new Date(), key,
-                valueWrapper == null ? null : valueWrapper.get(), proceedingJoinPoint.getSignature(),
-                Arrays.toString(proceedingJoinPoint.getArgs())));
+        LOGGER.info("[CacheAop] --> [Get]    {} -> {} @ {}({})", key, valueWrapper == null ? null : valueWrapper.get(),
+                proceedingJoinPoint.getSignature(), Arrays.toString(proceedingJoinPoint.getArgs()));
         Object result = valueWrapper == null ? null : valueWrapper.get();
 
         if (result == null) {
             result = proceedingJoinPoint.proceed(arguments);
             this.cache10s.put(key, result);
             this.put(targetClass, key);
-            System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Put]    {1} -> {2} @ {3} ({4})", new Date(),
-                    key, result, proceedingJoinPoint.getSignature(), Arrays.toString(proceedingJoinPoint.getArgs())));
+            LOGGER.info("[CacheAop] --> [Put]    {} -> {} @ {} ({})", key, result, proceedingJoinPoint.getSignature(),
+                    Arrays.toString(proceedingJoinPoint.getArgs()));
         }
         return result;
     }
@@ -140,8 +140,7 @@ public class CacheAop {
         }
         for (String key : set) {
             this.cache10s.evict(key);
-            System.out.println(MessageFormat.format("[{0}] [CacheAop] --> [Evict]  {1} -> {2}", new Date(), key,
-                    targetClass, key));
+            LOGGER.info("[CacheAop] --> [Evict]  {} -> {}", key, targetClass, key);
         }
     }
 }
