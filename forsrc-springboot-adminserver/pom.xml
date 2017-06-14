@@ -15,16 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <atomikos.version>4.0.4</atomikos.version>
-        <springboot.version>1.5.1.RELEASE</springboot.version>
-        <adminserver.version>1.5.0</adminserver.version>
     </properties>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.1.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.forsrc</groupId>
+        <artifactId>MySpringBoot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
