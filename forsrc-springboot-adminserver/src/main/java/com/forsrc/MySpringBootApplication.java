@@ -28,16 +28,16 @@ public class MySpringBootApplication {
     }
 
     public static void main(String[] args) {
-        try {
-            System.setProperty("javax.net.ssl.trustStore",
-                    new ClassPathResource("/client.jks").getFile().getAbsolutePath());
-            System.setProperty("javax.net.ssl.trustStorePassword", "apache");
-            System.setProperty("javax.net.ssl.keyStore",
-                    new ClassPathResource("/server.jks").getFile().getAbsolutePath());
-            System.setProperty("javax.net.ssl.keyStorePassword", "apache");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            System.setProperty("javax.net.ssl.trustStore",
+//                    new ClassPathResource("/client.jks").getFile().getAbsolutePath());
+//            System.setProperty("javax.net.ssl.trustStorePassword", "apache");
+//            System.setProperty("javax.net.ssl.keyStore",
+//                    new ClassPathResource("/server.jks").getFile().getAbsolutePath());
+//            System.setProperty("javax.net.ssl.keyStorePassword", "apache");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         SpringApplication.run(MySpringBootApplication.class, args);
     }
 

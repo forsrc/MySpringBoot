@@ -37,8 +37,8 @@ public class TestController {
         return new ResponseEntity<>("hello world. " + (name == null ? "" : name), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/evn")
-    public ResponseEntity<String> evn(String key) {
+    @RequestMapping(value = "/evn/{key}")
+    public ResponseEntity<String> evn(@PathVariable("key") String key) {
         return new ResponseEntity<>("Environment: " + environment.getProperty(key), HttpStatus.OK);
     }
 }
