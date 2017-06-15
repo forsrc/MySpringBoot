@@ -1,4 +1,4 @@
-package com.forsrc.boot.authserver.config;
+package com.forsrc.boot.client.config;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary", transactionManagerRef = "transactionManagerPrimary", basePackages = {
-        "com.forsrc..dao" })
+        "com.forsrc.core.dao", "com.forsrc..dao" })
 public class JpaConfig {
 
     @Autowired
@@ -42,17 +42,17 @@ public class JpaConfig {
     @Bean(name = "primaryDataSource")
     @Qualifier("primaryDataSource")
     @Primary
-    @ConfigurationProperties(prefix = "spring.primary.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "secondaryDataSource")
-    @Qualifier("secondaryDataSource")
-    @ConfigurationProperties(prefix = "spring.secondary.datasource")
-    public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
+//    @Bean(name = "secondaryDataSource")
+//    @Qualifier("secondaryDataSource")
+//    @ConfigurationProperties(prefix = "spring.secondary.datasource")
+//    public DataSource secondaryDataSource() {
+//        return DataSourceBuilder.create().build();
+//    }
 
     @Bean(name = "entityManagerPrimary")
     @Primary

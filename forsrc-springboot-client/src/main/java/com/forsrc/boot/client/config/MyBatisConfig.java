@@ -1,4 +1,4 @@
-package com.forsrc.boot.authserver.config;
+package com.forsrc.boot.client.config;
 
 import javax.sql.DataSource;
 
@@ -14,12 +14,12 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 @Configuration
 @MapperScan("com.forsrc..dao.mapper")
 public class MyBatisConfig {
-    
+
     @Autowired
     @Qualifier("primaryDataSource")
     private DataSource primaryDataSource;
 
-    //@Bean
+    // @Bean
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
 
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();

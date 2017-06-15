@@ -21,14 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.forsrc.core.web.security.MyUserDetails;
+import com.forsrc.core.web.user.service.RoleService;
+import com.forsrc.core.web.user.service.UserRoleService;
 import com.forsrc.core.web.user.service.UserService;
+import com.forsrc.pojo.Role;
 import com.forsrc.pojo.User;
+import com.forsrc.pojo.UserPrivacy;
+import com.forsrc.pojo.UserRole;
 
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(path = "/me", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
@@ -123,6 +132,26 @@ public class UserController {
             return new ResponseEntity<>(new User(), HttpStatus.EXPECTATION_FAILED);
         }
         userService.cacheClear();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/test/new", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+            MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public ResponseEntity<User> testNew(UriComponentsBuilder ucBuilder) {
+        User user = new User();
+        long time = System.currentTimeMillis();
+        String username = "test/" + time;
+        user.setUsername(username);
+        user.setEmail(username + "@forsrc.com");
+        userService.save(user, "123456".getBytes());
+        Role role = new Role();
+        role.setName("TEST_" + time);
+        roleService.save(role);
+        UserRole userRole = new UserRole();
+        userRole.setRoleId(role.getId());
+        userRole.setUserId(user.getId());
+        userRoleService.save(userRole);
+        user = userService.get(user.getId());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

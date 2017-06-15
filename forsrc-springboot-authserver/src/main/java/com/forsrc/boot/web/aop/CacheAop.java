@@ -48,7 +48,7 @@ public class CacheAop {
         LOGGER.info("[CacheAop] --> [Before] {}({})", joinPoint.getSignature(), Arrays.toString(joinPoint.getArgs()));
     }
 
-    @Around("execution(" + "public * com.forsrc..*.*Service.*delete*(..))"
+    @Around("      execution(public * com.forsrc..*.*Service.*delete*(..))"
             + " or execution(public * com.forsrc..*.*Service.*update*(..))"
             + " or execution(public * com.forsrc..*.*Service.*save*(..))"
             + " or execution(public * com.forsrc..*.*Service.cacheClear())")
@@ -62,9 +62,10 @@ public class CacheAop {
         return obj;
     }
 
-    @Around("execution(public * com.forsrc..*..service..*Service.*(..))"
-            + " not (execution(public * com.forsrc..*.*Service.*update*(..))"
-            + "      or execution(public * com.forsrc..*.*Service.*save*(..)))")
+    @Around("           execution(public * com.forsrc..*.*Service.*(..))"
+            + " and not execution(public * com.forsrc..*.*Service.*update*(..))"
+            + " and not execution(public * com.forsrc..*.*Service.*save*(..))"
+            + " and not execution(public * com.forsrc..*.*Service.*delete*(..))")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         long start = System.nanoTime();
