@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -41,7 +45,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
                         )
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+                .hasAnyRole("ADMIN", "USER", "TEST")
             .and()
                 .formLogin()
                 .loginPage("/login")
@@ -51,8 +55,8 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
             .and()
                 .logout()
-                .deleteCookies("remove")
-                .invalidateHttpSession(false)
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
                 .addLogoutHandler(myAuthenticationHandler())
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout").permitAll()
@@ -68,8 +72,12 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
             .and()
                 .csrf()
+                .csrfTokenRepository(csrfTokenRepository())
                 .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**", "/h2-console*", "/h2-console/**")
-             ;
+            .and()
+                .headers()
+                .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
+            ;
       //@formatter:on
     }
 
@@ -123,5 +131,11 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
     // @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

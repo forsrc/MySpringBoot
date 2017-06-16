@@ -62,7 +62,9 @@ public class CacheAop {
         return obj;
     }
 
-    @Around("           execution(public * com.forsrc..*.*Service.*(..))"
+    @Around("           execution(public * com.forsrc..*.*Service.*find*(..))"
+            + " and     execution(public * com.forsrc..*.*Service.*get*(..))"
+            + " and     execution(public * com.forsrc..*.*Service.*load*(..))"
             + " and not execution(public * com.forsrc..*.*Service.*update*(..))"
             + " and not execution(public * com.forsrc..*.*Service.*save*(..))"
             + " and not execution(public * com.forsrc..*.*Service.*delete*(..))")
