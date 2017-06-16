@@ -37,7 +37,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/", "/login", "/init/db",
                             "/oauth/authorize", "/oauth/token", "/oauth/confirm_access",
-                            "/mgmt/health"
+                            "/mgmt/health", "/h2-console*", "/h2-console/**"
                         )
                 .permitAll()
                 .anyRequest()
@@ -68,7 +68,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
             .and()
                 .csrf()
-                .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**")
+                .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**", "/h2-console*", "/h2-console/**")
              ;
       //@formatter:on
     }
@@ -83,7 +83,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/webjars/**", "/images/**", "/oauth/uncache_approvals", "/oauth/cache_approvals",
-                "/static/**");
+                "/static/**", "/h2-console*", "/h2-console/**");
         final HttpSecurity http = getHttp();
         web.postBuildAction(new Runnable() {
             @Override
@@ -108,7 +108,7 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new MyAuthenticationHandler();
     }
 
-    // @Bean
+    @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
