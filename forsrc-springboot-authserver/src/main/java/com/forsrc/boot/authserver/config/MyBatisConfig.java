@@ -12,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 @Configuration
-@MapperScan("com.forsrc..dao.mapper")
+@MapperScan("com.forsrc.**.dao.mapper")
 public class MyBatisConfig {
     
     @Autowired
