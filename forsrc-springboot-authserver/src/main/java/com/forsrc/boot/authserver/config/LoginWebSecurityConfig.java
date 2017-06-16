@@ -32,18 +32,45 @@ public class LoginWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/", "/login", "/oauth/authorize", "/oauth/token", "/oauth/confirm_access", "/mgmt/health",
-                        "/init/db")
-                .permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login")
-                .failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler())
-                .permitAll().and().logout().deleteCookies("remove").invalidateHttpSession(false)
-                .addLogoutHandler(myAuthenticationHandler()).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
-                .accessDeniedPage("/login?authorization_error=true").and().sessionManagement().maximumSessions(1)
-                .expiredUrl("/login?expired").and().and().httpBasic().and().csrf()
-                .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**");
+        // @formatter:off
+        http
+            .authorizeRequests()
+                .antMatchers("/", "/login", "/init/db",
+                            "/oauth/authorize", "/oauth/token", "/oauth/confirm_access",
+                            "/mgmt/health"
+                        )
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+            .and()
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login?error")
+                .defaultSuccessUrl("/home")
+                .successHandler(myAuthenticationHandler())
+                .permitAll()
+            .and()
+                .logout()
+                .deleteCookies("remove")
+                .invalidateHttpSession(false)
+                .addLogoutHandler(myAuthenticationHandler())
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll()
+            .and()
+                .exceptionHandling()
+                .accessDeniedPage("/login?authorization_error=true")
+            .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .expiredUrl("/login?expired")
+            .and()
+            .and()
+                .httpBasic()
+            .and()
+                .csrf()
+                .ignoringAntMatchers("/oauth/authorize", "/mgmt/**", "/oauth/**")
+             ;
+      //@formatter:on
     }
 
     @Autowired

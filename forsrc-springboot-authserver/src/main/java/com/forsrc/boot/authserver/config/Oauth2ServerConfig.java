@@ -38,26 +38,42 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // @formatter:off
         clients
-                // .jdbc(dataSource)
-                .inMemory().withClient("forsrc").secret("forsrc")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-                .scopes("read", "write").accessTokenValiditySeconds((int) TimeUnit.MINUTES.toSeconds(30))
-                .autoApprove(true);
+            // .jdbc(dataSource)
+            .inMemory()
+            .withClient("forsrc")
+            .secret("forsrc")
+            .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
+            .scopes("read", "write")
+            .accessTokenValiditySeconds((int) TimeUnit.MINUTES.toSeconds(30))
+            .autoApprove(true);
+       // @formatter:on
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager).accessTokenConverter(jwtAccessTokenConverter()) // .authorizationCodeServices(authorizationCodeServices())
-        // .tokenStore(tokenStore())
-        // .approvalStore(approvalStore())
+        // @formatter:off
+        endpoints
+            .authenticationManager(authenticationManager)
+            .accessTokenConverter(jwtAccessTokenConverter())
+            // .authorizationCodeServices(authorizationCodeServices())
+            // .tokenStore(tokenStore())
+            // .approvalStore(approvalStore())
         ;
+        // @formatter:on
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.allowFormAuthenticationForClients().tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess())
-                .checkTokenAccess("isAuthenticated()").addTokenEndpointAuthenticationFilter(checkTokenEndpointFilter());
+        // @formatter:off
+        security
+            .allowFormAuthenticationForClients()
+            .tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess())
+            .checkTokenAccess("isAuthenticated()")
+            .addTokenEndpointAuthenticationFilter(checkTokenEndpointFilter())
+            ;
+        // @formatter:on
     }
 
     @Bean
