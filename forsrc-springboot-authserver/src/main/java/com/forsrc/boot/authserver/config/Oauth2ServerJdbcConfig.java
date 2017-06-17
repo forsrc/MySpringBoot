@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-//@Configuration
+@Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties({ AuthorizationServerProperties.class })
 @Order(77)
@@ -130,7 +130,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
         return populator;
     }
 
-    @Bean
+    @Bean("jdbcTokenServices")
     @Primary
     public DefaultTokenServices jdbcTokenServices() {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
@@ -141,6 +141,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
 
     @Bean
     public TokenEnhancer tokenEnhancer() {
+        // return new CustomTokenEnhancer();
         return new TokenEnhancer() {
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -172,7 +173,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
     @FrameworkEndpoint
     public static class RevokeTokenEndpoint {
         @Resource(name = "jdbcTokenServices")
-        private ConsumerTokenServices tokenServices;
+        private ConsumerTokenServices jdbcTokenServices;
 
         @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token")
         @ResponseBody
@@ -180,15 +181,15 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
             String authorization = request.getHeader("Authorization");
             if (authorization != null && authorization.contains("Bearer")) {
                 String tokenId = authorization.substring("Bearer".length() + 1);
-                tokenServices.revokeToken(tokenId);
+                jdbcTokenServices.revokeToken(tokenId);
             }
         }
     }
 
     @Bean
     public ClientDetailsService myClientDetailsService() throws Exception {
-        final JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
         return new ClientDetailsService() {
+            private final JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
 
             @Override
             public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
