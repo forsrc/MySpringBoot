@@ -49,15 +49,15 @@ INSERT INTO t_user_role (id, user_id, role_id, version, status) SELECT * FROM (S
 ----
 INSERT INTO CLIENTDETAILS 
     (APPID, RESOURCEIDS, APPSECRET , SCOPE, GRANTTYPES, REDIRECTURL, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY, ADDITIONALINFORMATION, AUTOAPPROVESCOPES)
-    SELECT * FROM (SELECT 'forsrc' APPID, 'forsrc' RESOURCEIDS, 'forsrc' APPSECRET, 'read, write' SCOPE, 'password, authorization_code, refresh_token, implicit' GRANTTYPES,
-        '/' REDIRECTURL, 'ROLE_USER, ROLE_ADMIN' AUTHORITIES, 36000 ACCESS_TOKEN_VALIDITY, 36000 REFRESH_TOKEN_VALIDITY, '' ADDITIONALINFORMATION, '' AUTOAPPROVESCOPES) AS T
+    SELECT * FROM (SELECT 'forsrc' APPID, 'forsrc' RESOURCEIDS, 'forsrc' APPSECRET, 'read,write' SCOPE, 'password,authorization_code,refresh_token,implicit,client_credentials' GRANTTYPES,
+        null REDIRECTURL, 'ROLE_USER,ROLE_ADMIN' AUTHORITIES, 36000 ACCESS_TOKEN_VALIDITY, 36000 REFRESH_TOKEN_VALIDITY, null ADDITIONALINFORMATION, null AUTOAPPROVESCOPES) AS T
     WHERE NOT EXISTS (SELECT APPID FROM CLIENTDETAILS WHERE APPID = 'forsrc')
 ;
 
 INSERT INTO oauth_client_details
     (client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove)
-    SELECT * FROM (SELECT 'forsrc' client_id, 'forsrc' resource_ids, 'forsrc' client_secret, 'read, write' SCOPE, 'password, authorization_code, refresh_token, implicit' authorized_grant_types, null web_server_redirect_uri,
-        'ROLE_USER, ROLE_ADMIN' authorities, 36000 access_token_validity, 36000 refresh_token_validity, null additional_information, true autoapprove) AS T
+    SELECT * FROM (SELECT 'forsrc' client_id, 'forsrc' resource_ids, 'forsrc' client_secret, 'read,write' SCOPE, 'password,authorization_code,refresh_token,implicit,client_credentials' authorized_grant_types, null web_server_redirect_uri,
+        'ROLE_USER,ROLE_ADMIN' authorities, 36000 access_token_validity, 36000 refresh_token_validity, null additional_information, true autoapprove) AS T
     WHERE NOT EXISTS (SELECT client_id FROM oauth_client_details WHERE client_id = 'forsrc')
 ;
 

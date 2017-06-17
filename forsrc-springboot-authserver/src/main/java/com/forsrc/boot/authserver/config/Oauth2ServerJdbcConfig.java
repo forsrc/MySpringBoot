@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-//@Configuration
+@Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties({ AuthorizationServerProperties.class })
 @Order(77)
@@ -87,10 +87,10 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
         // @formatter:off
         endpoints
-            .authorizationCodeServices(jdbcAuthorizationCodeServices())
+            .authorizationCodeServices(authorizationCodeServices())
             .tokenEnhancer(tokenEnhancerChain)
-            .tokenStore(jdbcTokenStore())
-            .approvalStore(jdbcApprovalStore())
+            .tokenStore(tokenStore())
+            .approvalStore(approvalStore())
             .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
             .authenticationManager(authenticationManager)
         ;
@@ -130,11 +130,11 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
         return populator;
     }
 
-    @Bean("jdbcTokenServices")
+    @Bean("tokenServices")
     @Primary
-    public DefaultTokenServices jdbcTokenServices() {
+    public DefaultTokenServices tokenServices() {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(jdbcTokenStore());
+        defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
     }
@@ -154,26 +154,26 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
     }
 
     @Bean
-    public JdbcTokenStore jdbcTokenStore() {
+    public JdbcTokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
     }
 
     @Bean
-    public AuthorizationCodeServices jdbcAuthorizationCodeServices() {
+    public AuthorizationCodeServices authorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
 
     @Bean
-    public ApprovalStore jdbcApprovalStore() {
+    public ApprovalStore approvalStore() {
         TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
-        tokenApprovalStore.setTokenStore(jdbcTokenStore());
+        tokenApprovalStore.setTokenStore(tokenStore());
         return tokenApprovalStore;
     }
 
-    //@FrameworkEndpoint
+    @FrameworkEndpoint
     public static class RevokeTokenEndpoint {
-        @Resource(name = "jdbcTokenServices")
-        private ConsumerTokenServices jdbcTokenServices;
+        @Resource(name = "tokenServices")
+        private ConsumerTokenServices tokenServices;
 
         @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token")
         @ResponseBody
@@ -181,7 +181,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
             String authorization = request.getHeader("Authorization");
             if (authorization != null && authorization.contains("Bearer")) {
                 String tokenId = authorization.substring("Bearer".length() + 1);
-                jdbcTokenServices.revokeToken(tokenId);
+                tokenServices.revokeToken(tokenId);
             }
         }
     }

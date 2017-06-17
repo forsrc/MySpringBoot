@@ -25,10 +25,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-@Configuration
-@EnableAuthorizationServer
-@EnableConfigurationProperties({ AuthorizationServerProperties.class })
-@Order(77)
+//@Configuration
+//@EnableAuthorizationServer
+//@EnableConfigurationProperties({ AuthorizationServerProperties.class })
+//@Order(77)
 public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -69,26 +69,26 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         // @formatter:on
     }
 
-    @Bean
+    //@Bean
     @ConfigurationProperties("jwt")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         return new JwtAccessTokenConverter();
     }
 
-    @Bean
-    @Primary
+    //@Bean
+    //@Primary
     public DefaultTokenServices jwtTokenServices() {
         final DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(jwtTokenStore());
         return tokenServices;
     }
 
-    @Bean
+    //@Bean
     public TokenStore jwtTokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
-    @Bean
+    //@Bean
     public ApprovalStore jwtApprovalStore() {
         TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
         tokenApprovalStore.setTokenStore(jwtTokenStore());
