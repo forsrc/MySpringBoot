@@ -1,5 +1,7 @@
 package com.forsrc.boot.jms.user;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -11,6 +13,8 @@ import javax.jms.Topic;
 
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +24,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 //@Component
 public class UserTopic {
@@ -51,7 +52,7 @@ public class UserTopic {
                 try {
                     String json = mapper.writeValueAsString(userMessage);
                     return session.createTextMessage(json);
-                } catch (JsonProcessingException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                     return session.createTextMessage(e.getMessage());
                 }

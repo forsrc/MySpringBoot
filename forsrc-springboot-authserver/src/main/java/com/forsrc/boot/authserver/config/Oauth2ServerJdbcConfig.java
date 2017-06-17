@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Configuration
+//@Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties({ AuthorizationServerProperties.class })
 @Order(77)
@@ -170,7 +170,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
         return tokenApprovalStore;
     }
 
-    @FrameworkEndpoint
+    //@FrameworkEndpoint
     public static class RevokeTokenEndpoint {
         @Resource(name = "jdbcTokenServices")
         private ConsumerTokenServices jdbcTokenServices;
