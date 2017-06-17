@@ -18,12 +18,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-@Configuration
+//@Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties({ AuthorizationServerProperties.class })
 @Order(77)
@@ -47,7 +49,7 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
             .accessTokenValiditySeconds((int) TimeUnit.MINUTES.toSeconds(30))
             .autoApprove(true)
             ;
-       // @formatter:on
+         // @formatter:on
     }
 
     @Override
@@ -62,6 +64,7 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
             .tokenStore(jwtTokenStore())
             .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
             .accessTokenConverter(jwtAccessTokenConverter())
+            .approvalStore(jwtApprovalStore())
             .authenticationManager(authenticationManager);
         // @formatter:on
     }
@@ -85,4 +88,10 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
+    @Bean
+    public ApprovalStore jwtApprovalStore() {
+        TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
+        tokenApprovalStore.setTokenStore(jwtTokenStore());
+        return tokenApprovalStore;
+    }
 }

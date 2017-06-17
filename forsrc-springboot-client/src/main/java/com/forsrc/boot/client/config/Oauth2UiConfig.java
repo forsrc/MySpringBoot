@@ -29,11 +29,17 @@ public class Oauth2UiConfig // extends WebSecurityConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                .logout().deleteCookies("remove").invalidateHttpSession(false).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/?logout").permitAll()
+                .logout()
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(false)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/?logout").permitAll()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/login").permitAll()
-                    .anyRequest().authenticated()
+                    .antMatchers("/", "/login")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
                 .and()
                     .csrf()
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
