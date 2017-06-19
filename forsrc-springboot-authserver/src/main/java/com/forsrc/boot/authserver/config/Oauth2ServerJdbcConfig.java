@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -95,8 +96,11 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
 //            .authenticationManager(authenticationManager)
 //        ;
         endpoints
-            .tokenStore(tokenStore())
             .tokenEnhancer(tokenEnhancerChain)
+            .tokenStore(tokenStore())
+            .approvalStore(approvalStore())
+            .tokenEnhancer(tokenEnhancerChain)
+            .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
             .authenticationManager(authenticationManager);
         // @formatter:on
     }
@@ -151,7 +155,7 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 final Map<String, Object> additionalInfo = new HashMap<>();
                 additionalInfo.put("username",authentication.getName());
-                additionalInfo.put("organization", String.format("%s/$s", authentication.getName(), UUID.randomUUID()));
+                additionalInfo.put("organization", String.format("%s/%s", authentication.getName(), UUID.randomUUID()));
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 return accessToken;
             }
