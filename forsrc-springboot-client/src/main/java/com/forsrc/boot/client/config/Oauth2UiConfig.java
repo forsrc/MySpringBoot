@@ -1,22 +1,29 @@
 package com.forsrc.boot.client.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.context.request.RequestContextListener;
 
 @Configuration
-@EnableOAuth2Sso
-@EnableZuulProxy
+@EnableOAuth2Client
 public class Oauth2UiConfig // extends WebSecurityConfigurerAdapter
 {
+
+    @Autowired
+    @Qualifier("oauth2RestTemplate")
+    private OAuth2RestTemplate oauth2RestTemplate;
 
     @Bean
     @Primary
@@ -45,5 +52,10 @@ public class Oauth2UiConfig // extends WebSecurityConfigurerAdapter
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
         // @formatter:on
+    }
+
+    @Bean
+    public RequestContextListener requestContextListener() {
+        return new RequestContextListener();
     }
 }

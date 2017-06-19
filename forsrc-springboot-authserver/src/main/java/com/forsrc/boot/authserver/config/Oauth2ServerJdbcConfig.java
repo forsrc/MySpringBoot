@@ -86,14 +86,18 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
         final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
         // @formatter:off
+//        endpoints
+//            .authorizationCodeServices(authorizationCodeServices())
+//            .tokenEnhancer(tokenEnhancerChain)
+//            .tokenStore(tokenStore())
+//            .approvalStore(approvalStore())
+//            .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+//            .authenticationManager(authenticationManager)
+//        ;
         endpoints
-            .authorizationCodeServices(authorizationCodeServices())
-            .tokenEnhancer(tokenEnhancerChain)
             .tokenStore(tokenStore())
-            .approvalStore(approvalStore())
-            .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-            .authenticationManager(authenticationManager)
-        ;
+            .tokenEnhancer(tokenEnhancerChain)
+            .authenticationManager(authenticationManager);
         // @formatter:on
     }
 
