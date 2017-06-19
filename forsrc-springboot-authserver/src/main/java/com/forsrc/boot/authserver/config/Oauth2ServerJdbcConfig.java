@@ -150,7 +150,8 @@ public class Oauth2ServerJdbcConfig extends AuthorizationServerConfigurerAdapter
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 final Map<String, Object> additionalInfo = new HashMap<>();
-                additionalInfo.put("organization", authentication.getName() + UUID.randomUUID());
+                additionalInfo.put("username",authentication.getName());
+                additionalInfo.put("organization", String.format("%s/$s", authentication.getName(), UUID.randomUUID()));
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 return accessToken;
             }
