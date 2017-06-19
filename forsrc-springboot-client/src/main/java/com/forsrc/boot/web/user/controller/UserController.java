@@ -7,21 +7,32 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+import com.forsrc.pojo.User;
+
+@Controller
 public class UserController {
 
     @Autowired
-    OAuth2RestTemplate restTemplate;
-    @Value("${messages.url:https://localhost:8076}/api")
-    String messagesUrl;
+    private OAuth2RestTemplate restTemplate;
 
-    @RequestMapping(path = "/info", method = RequestMethod.GET)
-    public ResponseEntity<Principal>  me(Principal principal) {
-        return new ResponseEntity<>(principal, HttpStatus.OK);
+    @Value("${auth-resource-server:https://localhost:8076}")
+    private String resourceUrl;
+
+    @RequestMapping(path = "/userinfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<User> info() {
+        ResponseEntity<User> user = restTemplate.getForEntity(resourceUrl + "/api/userinfo", User.class);
+        return user;
     }
 
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    
+    public String logout(Principal principal) {
+        return "/";
+    }
 }
