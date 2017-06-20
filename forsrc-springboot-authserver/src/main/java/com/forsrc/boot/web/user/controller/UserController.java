@@ -65,7 +65,7 @@ public class UserController {
         return new ResponseEntity<Void>(headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+    @RequestMapping(value = "/users/{id}", method = { RequestMethod.GET }, produces = {
             MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
@@ -78,7 +78,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+    @RequestMapping(value = "/user/{id}", method = { RequestMethod.GET }, produces = {
             MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseBody
     @PreAuthorize("isAuthenticated()")

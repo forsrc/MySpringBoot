@@ -7,6 +7,7 @@ import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,6 +32,7 @@ import org.springframework.web.filter.CompositeFilter;
 
 @Configuration
 @EnableOAuth2Client
+//@EnableOAuth2Sso
 public class Oauth2UiConfig //extends WebSecurityConfigurerAdapter
 {
 
@@ -107,6 +109,7 @@ public class Oauth2UiConfig //extends WebSecurityConfigurerAdapter
     }
 
     @Bean
+    @Primary
     @ConfigurationProperties("forsrc.resource")
     public ResourceServerProperties forsrcResource() {
         return new ResourceServerProperties();
