@@ -26,10 +26,25 @@ import com.forsrc.core.web.user.service.UserRoleService;
 import com.forsrc.core.web.user.service.UserService;
 import com.forsrc.pojo.Role;
 import com.forsrc.pojo.User;
-import com.forsrc.pojo.UserPrivacy;
 import com.forsrc.pojo.UserRole;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
+
+@Api(value="UserController", description="This is UserController")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+}
+)
 public class UserController {
 
     @Autowired
@@ -43,6 +58,7 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
+    @ApiOperation(value = "View of your principal", response = Iterable.class)
     public ResponseEntity<Principal> user(Principal user) {
         if (!(user instanceof UsernamePasswordAuthenticationToken)) {
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -59,6 +75,10 @@ public class UserController {
 
     @RequestMapping(value = "/testuser/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
             MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @ApiOperation(value = "View a user by id", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", paramType = "path", value = "user id", required = true, dataType = "Long"),
+    })
     public ResponseEntity<Void> get(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(id).toUri());
@@ -70,6 +90,10 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
+    @ApiOperation(value = "View a user by id", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", paramType = "path", value = "user id", required = true, dataType = "Long"),
+    })
     public ResponseEntity<User> user(@PathVariable("id") long id) {
         User user = userService.get(id);
         if (user == null) {
@@ -83,6 +107,10 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
+    @ApiOperation(value = "View a user by id", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", paramType = "path", value = "user id", required = true, dataType = "Long"),
+    })
     public ResponseEntity<Map<String, Object>> userMap(@PathVariable("id") long id) {
         Map<String, Object> message = new HashMap<>();
         User user = userService.get(id);
@@ -101,6 +129,11 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
+    @ApiOperation(value = "View a list of users", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "start", paramType = "query", value = "start", required = true, dataType = "Integer", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", paramType = "query", value = "size", required = true, dataType = "Integer", defaultValue = "100")
+    })
     public ResponseEntity<List<User>> users(@RequestParam("start") int start, @RequestParam("size") int size) {
         List<User> users = userService.get(start, size);
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -111,6 +144,11 @@ public class UserController {
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     // @PreAuthorize("hasRole('ROLE_USER')")
+    @ApiOperation(value = "View a list of users", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "start", paramType = "query", value = "start", required = true, dataType = "Integer", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", paramType = "query", value = "size", required = true, dataType = "Integer", defaultValue = "100")
+    })
     public ResponseEntity<Map<String, Object>> list(@RequestParam("start") int start, @RequestParam("size") int size) {
         Map<String, Object> message = new HashMap<>();
         long count = userService.count();
@@ -126,6 +164,10 @@ public class UserController {
 
     @RequestMapping(value = "/testcache/{id}", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
             MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @ApiOperation(value = "View a user by id", response = ResponseEntity.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", paramType = "path", value = "user id", required = true, dataType = "Long"),
+    })
     public ResponseEntity<User> testCache(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
         User user = userService.get(id);
         if (user == null) {
