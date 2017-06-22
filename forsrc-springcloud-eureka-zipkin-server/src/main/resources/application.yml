@@ -1,0 +1,56 @@
+server:
+  port: 9072
+
+spring:
+  application:
+    name: forsrc-springcloud-zipkin-server
+
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        enabled: true
+        serviceId: forsrc-springcloud-zipkin-server
+
+  datasource:
+    url: jdbc:h2:~/db/mydb.h2/my-spring-boot-zipkin-server;AUTO_SERVER=TRUE;MVCC=TRUE;LOCK_TIMEOUT=3600000;DB_CLOSE_DELAY=-1;ACCESS_MODE_DATA=rws;AUTO_RECONNECT=TRUE;CACHE_SIZE=10240;PAGE_SIZE=1024;
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+    initialize: true
+    continue-on-error: false
+    schema: classpath:zipkin.sql
+
+  h2:
+   console:
+     enabled: true
+     path: /h2-console/
+     settings:
+       web-allow-others: true
+
+
+  jpa:
+    show-sql: true
+
+  sleuth:
+    enabled: false
+
+  zipkin:
+    #base-url: http://localhost:${server.port}
+    storage:
+      StorageComponent: forsrc-springcloud-zipkin-server
+      type: h2
+
+zipkin:
+  storage:
+    #type: h2
+
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8078/eureka/
+

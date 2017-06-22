@@ -1,10 +1,10 @@
-package com.forsrc.boot.eurekacilent.config;
+package com.forsrc.boot.zipkin.config;
 
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableDiscoveryClient
-public class ClientServerConfig {
+//@EnableDiscoveryClient
+public class DiscoveryClientConfig {
 
 }
