@@ -4,8 +4,9 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.forsrc.boot.base.dao.impl.BaseDaoImpl;
+
 import com.forsrc.boot.web.init.dao.InitDao;
+import com.forsrc.core.base.dao.impl.BaseDaoImpl;
 
 @Repository
 public class InitDaoImpl extends BaseDaoImpl<Object, Long> implements InitDao {

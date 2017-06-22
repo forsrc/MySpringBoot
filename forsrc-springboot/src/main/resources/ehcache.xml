@@ -152,4 +152,10 @@
            timeToLiveSeconds="3600"
            overflowToDisk="false"/>
 
+    <cache name="list"
+           maxElementsInMemory="10240"
+           eternal="false"
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="10"
+           overflowToDisk="false"/>
 </ehcache>

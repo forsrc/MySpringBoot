@@ -1,14 +1,5 @@
 package com.forsrc.boot.client.config;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.JsonSerializerProvider;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,17 +53,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return filter;
     }
 
-    // @Bean
-    public ObjectMapper jsonMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
-
-            @Override
-            public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider)
-                    throws IOException, JsonProcessingException {
-                jgen.writeString("");
-            }
-        });
-        return objectMapper;
-    }
 }

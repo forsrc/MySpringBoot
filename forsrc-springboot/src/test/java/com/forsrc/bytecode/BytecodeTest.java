@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 
 import org.junit.Test;
 
-import com.forsrc.bytecode.pojo.Pojo;
+import com.forsrc.boot.bytecode.pojo.Pojo;
 
 import javassist.ClassClassPath;
 import javassist.ClassPool;
