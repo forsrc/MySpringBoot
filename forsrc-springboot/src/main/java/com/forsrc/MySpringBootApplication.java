@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-// @EnableAdminServer
-@ComponentScan
+@ComponentScan("com.forsrc")
 @EnableAutoConfiguration
 // @EnableJms
 public class MySpringBootApplication {

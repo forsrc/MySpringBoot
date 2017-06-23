@@ -29,17 +29,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/502").setViewName("/502");
     }
 
-    @Bean
-    public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
-        ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
-        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-        return registration;
-    }
-
-    @Bean
-    public DispatcherServlet dispatcherServlet() {
-        return new DispatcherServlet();
-    }
 
     @Bean
     public CharacterEncodingFilter characterEncodingFilter() {

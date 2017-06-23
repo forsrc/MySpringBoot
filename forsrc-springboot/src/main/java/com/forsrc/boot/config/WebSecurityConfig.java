@@ -17,10 +17,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+
 
 import com.forsrc.core.web.security.MyAuthenticationHandler;
 import com.forsrc.core.web.security.MyUserDetailsService;
@@ -50,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //.and()
         //.requestMatchers()
         //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
-        //.and()
-        //.csrf()
-        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and()
+                .csrf().ignoringAntMatchers("/demo/**")
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
         ;
         // @formatter:on
@@ -86,11 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SpringSecurityDialect securityDialect() {
-        return new SpringSecurityDialect();
-    }
-
-    // @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
