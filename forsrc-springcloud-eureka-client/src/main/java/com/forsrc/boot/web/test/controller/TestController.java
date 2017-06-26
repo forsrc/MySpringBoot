@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.forsrc.boot.web.test.feignclient.TestFeignClient;
+
 @RestController
 public class TestController {
 
@@ -21,8 +23,11 @@ public class TestController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @Autowired
+    private TestFeignClient testFeignClient;
+
     @RequestMapping("/client/getInstances/{name}")
-    public ResponseEntity<List<ServiceInstance>> getInstances( @PathVariable String name) {
+    public ResponseEntity<List<ServiceInstance>> getInstances(@PathVariable String name) {
         return new ResponseEntity<>(this.discoveryClient.getInstances(name), HttpStatus.OK);
     }
 
@@ -41,4 +46,10 @@ public class TestController {
     public ResponseEntity<String> evn(@PathVariable("key") String key) {
         return new ResponseEntity<>("Environment: " + environment.getProperty(key), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/test/feignclient/confirm/{message}")
+    public ResponseEntity<String> confirm(@PathVariable String message) {
+        return new ResponseEntity<String>(testFeignClient.confirm(message), HttpStatus.OK);
+    }
+
 }

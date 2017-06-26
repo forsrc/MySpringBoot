@@ -1,5 +1,9 @@
 server:
   port: 9071
+
+management:
+  context-path: '/mgt'
+
 spring:
   application:
     name: forsrc-springcloud-eureka-client
@@ -10,9 +14,34 @@ spring:
       discovery:
         enabled: true
         serviceId: forsrc-springcloud-eureka-client
+      loadbalancer:
+      retry:
+        enabled: true
+      fail-fast: true
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2000
+
 eureka:
-  instance:
-    hostname: localhost
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8078/eureka/
+  instance:
+    hostname: localhost
+    metadata-map:
+      cluster: prontera
+      management:
+        port: ${management.port}
+        context-path: ${management.context-path}
+      health:
+        path: ${management.context-path}/health
+    status-page-url-path: ${management.context-path}/info
+    health-check-url-path: ${management.context-path}/health
+    prefer-ip-address: false
