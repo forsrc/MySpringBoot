@@ -1,19 +1,19 @@
 server:
-  port: 9071
+  port: 9072
 
 management:
   context-path: '/mgt'
 
 spring:
   application:
-    name: forsrc-springcloud-eureka-client
+    name: forsrc-springcloud-eureka-ribbon
   cloud:
     config:
       profile: dev
       label: master
       discovery:
         enabled: true
-        serviceId: forsrc-springcloud-eureka-client
+        serviceId: forsrc-springcloud-eureka-ribbon
       loadbalancer:
       retry:
         enabled: true
@@ -37,7 +37,7 @@ eureka:
   instance:
     hostname: localhost
     metadata-map:
-      cluster: forsrc-springcloud-eureka-client/cluster
+      cluster: forsrc-springcloud-eureka-ribbon/cluster
       management:
         port: ${management.port}
         context-path: ${management.context-path}

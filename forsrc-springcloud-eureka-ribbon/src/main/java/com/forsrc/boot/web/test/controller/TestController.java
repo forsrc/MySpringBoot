@@ -12,14 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.forsrc.boot.web.test.feignclient.TestFeignClient;
-
-import feign.Feign;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
 
 @RestController
 public class TestController {
@@ -33,14 +29,16 @@ public class TestController {
     @Autowired
     private TestFeignClient testFeignClient;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @RequestMapping(value = "/client", method = RequestMethod.GET)
-    public ResponseEntity<List<List<ServiceInstance>>> info(@RequestParam Integer a, @RequestParam Integer b) {
+    public ResponseEntity<List<List<ServiceInstance>>> info() {
         List<List<ServiceInstance>> list = new ArrayList<>();
         List<String> services = discoveryClient.getServices();
         for (String service : services) {
             list.add(discoveryClient.getInstances(service));
         }
-        System.out.println("---> forsrc-springcloud-eureka-client");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -65,22 +63,15 @@ public class TestController {
         return new ResponseEntity<>("Environment: " + environment.getProperty(key), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/test/feignclient/confirm/{message}")
-    public ResponseEntity<String> confirm(@PathVariable String message) {
-        return new ResponseEntity<String>(testFeignClient.confirm(message), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/test/feignclient/cancel/{message}")
-    public ResponseEntity<String> cancel(@PathVariable String message) {
-        TestFeignClient feignClient = Feign.builder().encoder(new JacksonEncoder()).decoder(new JacksonDecoder())
-                // .requestInterceptor(new BasicAuthRequestInterceptor("forsrc",
-                // "forsrc"))
-                .target(TestFeignClient.class, "http://localhost:8078");
-        return new ResponseEntity<String>(feignClient.cancel(message), HttpStatus.OK);
-    }
-
     @RequestMapping("/test/feignclient/{name}")
     public ResponseEntity<String> testFeignClient(@PathVariable("name") String name) {
-        return new ResponseEntity<String>("forsrc-springcloud-eureka-client: " + name, HttpStatus.OK);
+        System.out.println("---> forsrc-springcloud-eureka-ribbon");
+        return testFeignClient.testFeignClient(name);
+    }
+
+    @RequestMapping("/test/ribbon/{name}")
+    public ResponseEntity<String> testRiboonClient(@PathVariable("name") String name) {
+        System.out.println("---> forsrc-springcloud-eureka-ribbon");
+        return restTemplate.getForEntity("http://FORSRC-SPRINGCLOUD-EUREKA-CLIENT/test/feignclient/" + name, String.class);
     }
 }

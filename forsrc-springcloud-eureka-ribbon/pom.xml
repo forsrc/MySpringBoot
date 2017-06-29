@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.forsrc</groupId>
-    <artifactId>forsrc-springcloud-eureka-client</artifactId>
+    <artifactId>forsrc-springcloud-eureka-ribbon</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>forsrc-springcloud-eureka-client</name>
-    <description>forsrc-springboot-eureka-client</description>
+    <description>forsrc-springboot-eureka-ribbon</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

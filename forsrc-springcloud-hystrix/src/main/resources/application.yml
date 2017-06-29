@@ -1,7 +1,7 @@
 server:
   port: 8091
 management:
-  port: 9091
+  #port: 9091
   context-path: /mgt
 spring:
   application:

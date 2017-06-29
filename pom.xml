@@ -31,15 +31,16 @@
     <modules>
         <module>forsrc-lib</module>
         <module>forsrc-springboot-authserver</module>
-        <module>forsrc-springboot-client</module>
         <module>forsrc-springboot-resource</module>
+        <module>forsrc-springboot-client</module>
         <module>forsrc-springboot</module>
         <module>forsrc-springboot-adminserver</module>
         <module>forsrc-springcloud-config-server</module>
+        <module>forsrc-springcloud-zipkin-server</module>
         <module>forsrc-springcloud-eureka-server</module>
         <module>forsrc-springcloud-eureka-client</module>
+        <module>forsrc-springcloud-eureka-ribbon</module>
         <module>forsrc-springcloud-hystrix</module>
-        <module>forsrc-springcloud-zipkin-server</module>
 
     </modules>
     <dependencies>
