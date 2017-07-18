@@ -24,6 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 import com.forsrc.core.web.security.MyAuthenticationHandler;
+import com.forsrc.core.web.security.MyAuthenticationProvider;
 import com.forsrc.core.web.security.MyUserDetailsService;
 
 @EnableAuthorizationServer()
@@ -62,7 +63,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("forsrc").password("forsrc").roles("ADMIN");
-        auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+        //auth.userDetailsService(myUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(myAuthenticationProvider());
+    }
+
+    @Bean
+    public MyAuthenticationProvider myAuthenticationProvider() {
+        return new MyAuthenticationProvider(myUserDetailsService());
     }
 
     @Bean

@@ -162,7 +162,7 @@
                 <directory>../forsrc-core/src/main/java</directory>
             </resource>-->
             <resource>
-                <directory>../forsrc-lib/forsrc-core/src/main/resources</directory>
+                <directory>${basedir}/forsrc-lib/forsrc-core/src/main/resources</directory>
                 <includes>
                     <include>**</include>
                 </includes>

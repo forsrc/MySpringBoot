@@ -404,13 +404,13 @@
     <build>
         <resources>
             <resource>
-                <directory>../forsrc-utils/src/main/java</directory>
+                <directory>${basedir}/forsrc-utils/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-tools/src/main/java</directory>
+                <directory>${basedir}/forsrc-tools/src/main/java</directory>
             </resource>
             <resource>
-                <directory>../forsrc-core/src/main/java</directory>
+                <directory>${basedir}/forsrc-core/src/main/java</directory>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
