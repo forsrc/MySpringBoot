@@ -1,8 +1,8 @@
 server:
   port: 8091
-management:
-  #port: 9091
-  context-path: /mgt
+#management:
+#  port: 9091
+#  context-path: /mgt
 spring:
   application:
     name: forsrc-springcloud-hystrix
@@ -23,13 +23,13 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8078/eureka/
-  instance:
-    hostname: localhost
-    metadata-map:
-      management:
-        port: ${management.port}
-        context-path: ${management.context-path}
-      health:
-        path: ${management.context-path}/health
-    status-page-url-path: ${management.context-path}/info
-    health-check-url-path: ${management.context-path}/health
+#  instance:
+#    hostname: localhost
+#    metadata-map:
+#      management:
+#        port: ${management.port}
+#        context-path: ${management.context-path}
+#      health:
+#        path: ${management.context-path}/health
+#    status-page-url-path: ${management.context-path}/info
+#    health-check-url-path: ${management.context-path}/health
