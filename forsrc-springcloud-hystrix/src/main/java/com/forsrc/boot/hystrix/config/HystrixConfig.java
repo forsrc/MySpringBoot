@@ -5,8 +5,8 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableTurbine
-@EnableHystrixDashboard
+//@EnableTurbine
+//@EnableHystrixDashboard
 public class HystrixConfig {
 
 }

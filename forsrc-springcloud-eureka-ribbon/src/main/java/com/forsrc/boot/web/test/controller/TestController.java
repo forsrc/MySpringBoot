@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.forsrc.boot.web.test.feignclient.TestFeignClient;
+import com.forsrc.boot.web.test.feignclient.service.ConsumerService;
 
 @RestController
 public class TestController {
@@ -31,6 +32,9 @@ public class TestController {
 
     @Autowired
     private RestTemplate restTemplate;
+    
+    @Autowired
+    private ConsumerService consumerService;
 
     @RequestMapping(value = "/client", method = RequestMethod.GET)
     public ResponseEntity<List<List<ServiceInstance>>> info() {
@@ -73,5 +77,17 @@ public class TestController {
     public ResponseEntity<String> testRiboonClient(@PathVariable("name") String name) {
         System.out.println("---> forsrc-springcloud-eureka-ribbon");
         return restTemplate.getForEntity("http://FORSRC-SPRINGCLOUD-EUREKA-CLIENT/test/feignclient/" + name, String.class);
+    }
+
+    @RequestMapping("/test/consumer")
+    public ResponseEntity<String> consumer() {
+        System.out.println("---> forsrc-springcloud-eureka-ribbon.consumer()");
+        return new ResponseEntity<>(consumerService.consumer(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/test/noConsumer")
+    public ResponseEntity<String> noConsumer() {
+        System.out.println("---> forsrc-springcloud-eureka-ribbon.noConsumer()");
+        return new ResponseEntity<>(consumerService.noConsumer(), HttpStatus.OK);
     }
 }

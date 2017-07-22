@@ -83,4 +83,9 @@ public class TestController {
     public ResponseEntity<String> testFeignClient(@PathVariable("name") String name) {
         return new ResponseEntity<String>("forsrc-springcloud-eureka-client: " + name, HttpStatus.OK);
     }
+
+    @RequestMapping("/test/consumer/{name}")
+    public ResponseEntity<String> consumer(@PathVariable("name") String name) {
+        return new ResponseEntity<String>("forsrc-springcloud-eureka-client: " + name, HttpStatus.OK);
+    }
 }
