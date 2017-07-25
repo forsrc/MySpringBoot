@@ -1,0 +1,59 @@
+
+server:
+  port: 8090
+
+info:
+  scm-url: "forsrc-springboot-adminserver"
+  build-url: "https://github.com/forsrc"
+  stage: test
+
+logging:
+  file: "target/boot-admin-sample.log"
+
+management:
+  context-path: "/actuator"
+
+spring:
+  application:
+    name: forsrc-springboot-adminserver
+  boot:
+    admin:
+      url: http://localhost:8090
+  profiles:
+    active:
+      - secure
+
+---
+spring:
+  profiles: insecure
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+---
+spring:
+  profiles: secure
+  boot:
+    admin:
+      username: "${security.user.name}"       #These two are needed so that the client
+      password: "${security.user.password}"   #can register at the protected server api
+      client:
+        metadata:
+          user.name: "${security.user.name}"          #These two are needed so that the server
+          user.password:  "${security.user.password}" #can access the proteceted client endpoints
+      turbine:
+        clusters: default
+        url: http://localhost:8091/turbine.stream
+      routes:
+        --endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+
+
+security:
+  user:
+    name: forsrc
+    password: forsrc

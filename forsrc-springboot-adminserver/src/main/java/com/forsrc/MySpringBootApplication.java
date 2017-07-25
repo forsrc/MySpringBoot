@@ -10,9 +10,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 
+import de.codecentric.boot.admin.config.EnableAdminServer;
+
 @SpringBootApplication
 @ComponentScan(basePackages = "com.forsrc")
 @EnableAutoConfiguration
+@EnableAdminServer
 public class MySpringBootApplication {
 
     static {

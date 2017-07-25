@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <atomikos.version>4.0.4</atomikos.version>
         <springboot.version>1.5.3.RELEASE</springboot.version>
-        <adminserver.version>1.5.0</adminserver.version>
+        <adminserver.version>1.5.2</adminserver.version>
         <h2database.version>1.4.196</h2database.version>
     </properties>
 
