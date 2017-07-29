@@ -24,7 +24,7 @@ public class BatchTargetJonConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJonConfig.class);
 
     @Bean
-    public ItemReader<BatchTarget> itemReader(Environment environment, RestTemplate restTemplate) {
+    public ItemReader<BatchTarget> batchTargetItemReader(Environment environment, RestTemplate restTemplate) {
         return new BatchTargetItemReader(environment.getRequiredProperty("api.batch.target.url"), restTemplate);
     }
 
@@ -39,11 +39,11 @@ public class BatchTargetJonConfig {
     }
 
     @Bean
-    public Step batchTargetStep(ItemReader<BatchTarget> batchTargetReader,
-            ItemProcessor<BatchTarget, BatchTarget> batchTargetProcessor, ItemWriter<BatchTarget> batchTargetWriter,
+    public Step batchTargetStep(ItemReader<BatchTarget> batchTargetItemReader,
+            ItemProcessor<BatchTarget, BatchTarget> batchTargetProcessor, ItemWriter<BatchTarget> batchTargetItemWriter,
             StepBuilderFactory stepBuilderFactory) {
-        return stepBuilderFactory.get("batchTargetStep").<BatchTarget, BatchTarget>chunk(1).reader(batchTargetReader)
-                .processor(batchTargetProcessor).writer(batchTargetWriter).build();
+        return stepBuilderFactory.get("batchTargetStep").<BatchTarget, BatchTarget>chunk(1).reader(batchTargetItemReader)
+                .processor(batchTargetProcessor).writer(batchTargetItemWriter).build();
     }
 
     @Bean
