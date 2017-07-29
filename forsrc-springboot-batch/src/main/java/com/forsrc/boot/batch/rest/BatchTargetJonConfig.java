@@ -10,9 +10,12 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -31,6 +34,7 @@ import org.springframework.web.client.RestTemplate;
 import com.forsrc.boot.batch.pojo.BatchTarget;
 
 @Configuration
+@EnableBatchProcessing
 public class BatchTargetJonConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJonConfig.class);
@@ -44,29 +48,25 @@ public class BatchTargetJonConfig {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     @Bean
+    @StepScope
     public ItemReader<BatchTarget> batchTargetItemReader() {
         return new BatchTargetItemReader(environment.getRequiredProperty("api.batch.target.url"), restTemplate);
     }
 
     @Bean
+    @StepScope
     public ItemProcessor<BatchTarget, BatchTarget> batchTargetItemProcessor() {
         return new BatchTargetItemProcessor();
     }
 
     @Bean
+    @StepScope
     public ItemWriter<BatchTarget> batchTargetItemWriter() {
         return new BatchTargetItemWriter();
-    }
-
-    @Bean
-    public JobRepository jobRepository(DataSource dataSource, PlatformTransactionManager transactionManager)
-            throws Exception {
-        JobRepositoryFactoryBean jobRepositoryFactoryBean = new JobRepositoryFactoryBean();
-        jobRepositoryFactoryBean.setDataSource(dataSource);
-        jobRepositoryFactoryBean.setTransactionManager(transactionManager);
-        jobRepositoryFactoryBean.setDatabaseType("h2");
-        return jobRepositoryFactoryBean.getObject();
     }
 
     @Bean

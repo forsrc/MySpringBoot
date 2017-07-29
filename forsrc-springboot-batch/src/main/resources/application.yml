@@ -21,10 +21,10 @@ spring:
     initializer:
       enabled: true
     job:
-      enabled: true
+      enabled: false
 
 api:
   batch:
     target:
       url: http://localhost:9081/api/batch/target
-      cron: "*/10 * * * * ?"
+      cron: "*/20 * * * * ?"

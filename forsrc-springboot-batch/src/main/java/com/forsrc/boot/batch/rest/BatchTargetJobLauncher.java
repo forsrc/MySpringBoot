@@ -10,6 +10,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
@@ -24,12 +25,12 @@ public class BatchTargetJobLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJobLauncher.class);
 
     @Autowired
-   // @Qualifier("batchTargetJob")
-    @Qualifier("job1")
+    @Qualifier("batchTargetJob")
+    //@Qualifier("job1")
     private Job job;
 
     @Autowired
-    private JobLauncher jobLauncher;
+    private SimpleJobLauncher jobLauncher;
 
     @Scheduled(cron = "${api.batch.target.cron}")
     public void doMain() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException,
