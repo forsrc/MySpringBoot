@@ -1,14 +1,13 @@
 package com.forsrc.boot.batch.rest;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameter;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -24,32 +23,31 @@ public class BatchTargetJobLauncher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJobLauncher.class);
 
-    private final Job job;
-
-    private final JobLauncher jobLauncher;
+    @Autowired
+   // @Qualifier("batchTargetJob")
+    @Qualifier("job1")
+    private Job job;
 
     @Autowired
-    public BatchTargetJobLauncher(@Qualifier("batchTargetJob") Job job, JobLauncher jobLauncher) {
-        this.job = job;
-        this.jobLauncher = jobLauncher;
-    }
+    private JobLauncher jobLauncher;
 
     @Scheduled(cron = "${api.batch.target.cron}")
     public void doMain() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException,
             JobInstanceAlreadyCompleteException {
         LOGGER.info("----> START");
-
-        jobLauncher.run(job, newExecution());
-
+        JobExecution jobExecution = jobLauncher.run(job, batchTargetJobParameters());
+        LOGGER.info("{}", jobExecution);
         LOGGER.info("----> END");
     }
 
-    private JobParameters newExecution() {
-        Map<String, JobParameter> parameters = new HashMap<>();
+    private JobParameters batchTargetJobParameters() {
 
-        JobParameter parameter = new JobParameter(new Date());
-        parameters.put("currentTime", parameter);
+        // @formatter:off
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addDate("now", new Date())
+                .toJobParameters();
+        // @formatter:on
 
-        return new JobParameters(parameters);
+        return jobParameters;
     }
 }
