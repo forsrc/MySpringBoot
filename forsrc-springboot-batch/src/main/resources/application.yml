@@ -1,0 +1,30 @@
+server:
+  port: 9081
+
+management:
+  security:
+   enabled: false
+
+spring:
+  application:
+    name: forsrc-springboot-batch
+
+  datasource:
+    url: "jdbc:h2:mem:my-spring-batch"
+    username: sa
+    password: sa
+    test-on-borrow:   true
+    remove-abandoned: true
+    validation-query: SELECT 1;
+
+  batch:
+    initializer:
+      enabled: true
+    job:
+      enabled: true
+
+api:
+  batch:
+    target:
+      url: http://localhost:9081/api/batch/target
+      cron: "*/10 * * * * ?"
