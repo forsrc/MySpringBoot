@@ -3,9 +3,13 @@ package com.forsrc.boot.batch.pojo;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class BatchTarget {
 
     private Long id;
+    @JsonProperty("parent_id")
     private Long parentId;
     private Long[] children;
     private String name;

@@ -1,15 +1,20 @@
 server:
   port: 9081
+  servletPath: /*
 
 management:
   security:
    enabled: false
 
+
 spring:
   application:
     name: forsrc-springboot-batch
+  aop:
+    proxy-target-class: true
 
   datasource:
+    driver: org.h2.Driver
     url: "jdbc:h2:mem:my-spring-batch"
     username: sa
     password: sa
@@ -27,4 +32,6 @@ api:
   batch:
     target:
       url: http://localhost:9081/api/batch/target
-      cron: "*/20 * * * * ?"
+      cron: '*/20 * * * * ?'
+
+ENVIRONMENT: h2

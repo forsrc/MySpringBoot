@@ -14,8 +14,11 @@ public class BatchTargetItemWriter implements ItemWriter<BatchTarget> {
 
     @Override
     public void write(List<? extends BatchTarget> items) throws Exception {
-        items.stream().forEach(item -> LOGGER.info("BatchTargetItemWriter: {}", item));
-
+        // @formatter:off
+        items.stream().forEach(item -> {
+            LOGGER.info("BatchTargetItemWriter: {} -> {}", items.size(), items);
+        });
+     // @formatter:on
     }
 
 }

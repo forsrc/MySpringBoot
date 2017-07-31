@@ -1,7 +1,5 @@
 package com.forsrc.boot.batch.rest;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -15,9 +13,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
@@ -28,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.RestTemplate;
 
 import com.forsrc.boot.batch.pojo.BatchTarget;
@@ -74,7 +69,7 @@ public class BatchTargetJonConfig {
     public Step batchTargetStep() {
         return stepBuilderFactory
                 .get("batchTargetStep")
-                .<BatchTarget, BatchTarget>chunk(1)
+                .<BatchTarget, BatchTarget>chunk(100)
                 .reader(batchTargetItemReader())
                 .processor(batchTargetItemProcessor())
                 .writer(batchTargetItemWriter())
