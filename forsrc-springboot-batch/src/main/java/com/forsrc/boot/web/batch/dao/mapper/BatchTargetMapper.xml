@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.forsrc.boot.web.batch.dao.mapper.BatchTargetMapper">
+
+
+    <insert id="create">
+        CREATE TABLE IF NOT EXISTS t_batch_target (
+            id          bigint,
+            parentId    bigint,
+            children    varchar(1000),
+            name        varchar(100),
+            start       TIMESTAMP,
+            end         TIMESTAMP
+        )
+    </insert>
+    
+</mapper>

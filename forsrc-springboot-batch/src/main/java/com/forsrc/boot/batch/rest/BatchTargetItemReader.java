@@ -52,13 +52,14 @@ public class BatchTargetItemReader implements ItemReader<BatchTarget> {
         BatchTarget[] arr = response.getBody();
         List<BatchTarget> list = Arrays.asList(arr);
         list.stream().forEach(item -> {
-            List<Long> items = list.stream()
+            List<String> items = list.stream()
                     .filter(i -> i.getParentId().equals(item.getId()))
                     .collect(Collectors.toList())
                     .stream()
-                    .map(j -> j.getId())
+                    .map(j -> j.getId().toString())
                     .collect(Collectors.toList());
-            item.setChildren(items.toArray(new Long[items.size()]));
+            
+            item.setChildren(items.stream().collect(Collectors.joining(",")));
         });
         return Arrays.asList(arr);
     }
