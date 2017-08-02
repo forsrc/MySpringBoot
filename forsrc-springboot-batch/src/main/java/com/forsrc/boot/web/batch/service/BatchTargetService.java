@@ -8,6 +8,12 @@ import com.forsrc.boot.batch.pojo.BatchTarget;
 public interface BatchTargetService {
 
     public void create();
-    
+
+    public void delete();
+
     public void save(BatchTarget bean);
+
+    public int count();
+
+    public void insert(BatchTarget bean);
 }

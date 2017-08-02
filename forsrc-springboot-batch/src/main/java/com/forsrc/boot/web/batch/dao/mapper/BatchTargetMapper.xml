@@ -8,12 +8,24 @@
     <insert id="create">
         CREATE TABLE IF NOT EXISTS t_batch_target (
             id          bigint,
-            parentId    bigint,
+            parent_id   bigint,
             children    varchar(1000),
             name        varchar(100),
             start       TIMESTAMP,
             end         TIMESTAMP
         )
     </insert>
-    
+    <delete id="delete">
+        DELETE FROM t_batch_target
+    </delete>
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM t_batch_target;
+    </select>
+    <insert id="insert">
+        INSERT INTO
+            t_batch_target
+            (id, parent_id, children, name, start, end)
+        VALUES
+            (#{bean.id}, #{bean.parentId}, #{bean.children}, #{bean.name}, #{bean.start}, #{bean.end})
+    </insert>
 </mapper>

@@ -1,6 +1,6 @@
 package com.forsrc.boot.web.batch.dao.impl;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManager;import javax.persistence.criteria.CriteriaDelete;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,5 +28,20 @@ public class BatchTargetDaoImpl implements BatchTargetDao {
     @Override
     public void save(BatchTarget bean) {
         entityManager.persist(bean);
+    }
+
+    @Override
+    public void delete() {
+        mapper.delete();
+    }
+
+    @Override
+    public int count() {
+        return mapper.count();
+    }
+
+    @Override
+    public void insert(BatchTarget bean) {
+        mapper.insert(bean);
     }
 }

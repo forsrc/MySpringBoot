@@ -24,9 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.forsrc.boot.batch.pojo.BatchTarget;
+import com.forsrc.boot.web.batch.service.BatchTargetService;
 
 @Configuration
 @EnableBatchProcessing
@@ -69,7 +71,7 @@ public class BatchTargetJonConfig {
     public Step batchTargetStep() {
         return stepBuilderFactory
                 .get("batchTargetStep")
-                .<BatchTarget, BatchTarget>chunk(100)
+                .<BatchTarget, BatchTarget>chunk(Integer.MAX_VALUE)
                 .reader(batchTargetItemReader())
                 .processor(batchTargetItemProcessor())
                 .writer(batchTargetItemWriter())
@@ -79,13 +81,26 @@ public class BatchTargetJonConfig {
 
     @Bean
     public Step stepInit() {
-        return stepBuilderFactory.get("stepInit").tasklet(new Tasklet() {
+        return stepBuilderFactory.get("stepInit").tasklet(deleteTasklet()).build();
+    }
+
+    @Bean
+    @StepScope
+    public Tasklet deleteTasklet() {
+        return new Tasklet() {
+            @Autowired
+            private BatchTargetService service;
+
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
                 LOGGER.info("stepInit execute() --> {}", contribution);
+                service.create();
+                service.count();
+                service.delete();
                 LOGGER.info("stepInit execute() --> {}", chunkContext);
                 return RepeatStatus.FINISHED;
             }
-        }).build();
+        };
+
     }
 
     @Bean

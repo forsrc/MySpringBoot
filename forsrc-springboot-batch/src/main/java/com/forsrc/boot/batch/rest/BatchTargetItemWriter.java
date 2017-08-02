@@ -1,8 +1,10 @@
 package com.forsrc.boot.batch.rest;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +20,31 @@ public class BatchTargetItemWriter implements ItemWriter<BatchTarget> {
 
     @Autowired
     private BatchTargetService service;
+
     @Override
     public void write(List<? extends BatchTarget> items) throws Exception {
         // @formatter:off
-        items.stream().forEach(item -> {
-            service.save(item);
-            LOGGER.info("BatchTargetItemWriter: {} -> {}", items.size(), items);
-        });
+        LOGGER.info("BatchTargetItemWriter: size --> {} -> {}", items.size(), items);
+        for (BatchTarget item : items) {
+            if (item.getId().equals(0L)) {
+                LOGGER.info("Continue: {}", item);
+                continue;
+            }
+            if (item.getId().equals(18L)) {
+                throw new RuntimeException("Test");
+            }
+            service.insert(item);
+        }
      // @formatter:on
     }
 
     @PostConstruct
     public void init() {
-        service.create();
+        // service.create();
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        service.count();
     }
 }

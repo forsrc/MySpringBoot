@@ -9,5 +9,11 @@ public interface BatchTargetDao {
 
     public void create();
 
-    void save(BatchTarget bean);
+    public void delete();
+
+    public void save(BatchTarget bean);
+
+    public int count();
+    
+    public void insert(BatchTarget bean);
 }
