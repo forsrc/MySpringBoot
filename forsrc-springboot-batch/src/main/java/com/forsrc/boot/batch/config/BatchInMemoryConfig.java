@@ -1,10 +1,6 @@
 package com.forsrc.boot.batch.config;
 
-import javax.sql.DataSource;
 
-import org.springframework.batch.admin.annotation.EnableBatchAdmin;
-import org.springframework.batch.admin.service.JobService;
-import org.springframework.batch.admin.service.SimpleJobServiceFactoryBean;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -19,17 +15,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-// @Configuration
-// @EnableBatchAdmin
+@Configuration
+// @EnableBatchProcessing
 public class BatchInMemoryConfig {
 
-    @Bean
+    @Autowired
+    public PlatformTransactionManager transactionManager;
+
+    //@Bean
     public PlatformTransactionManager transactionManager() {
         return new ResourcelessTransactionManager();
     }
 
     @Bean
-    public MapJobRepositoryFactoryBean mapJobRepositoryFactory(PlatformTransactionManager transactionManager)
+    public MapJobRepositoryFactoryBean mapJobRepositoryFactory()
             throws Exception {
         MapJobRepositoryFactoryBean factory = new MapJobRepositoryFactoryBean(transactionManager);
         factory.afterPropertiesSet();
@@ -42,28 +41,18 @@ public class BatchInMemoryConfig {
     }
 
     @Bean
-    public JobExplorer jobExplorer(MapJobRepositoryFactoryBean mapJobRepositoryFactory) {
-        return new SimpleJobExplorer(mapJobRepositoryFactory.getJobInstanceDao(),
-                mapJobRepositoryFactory.getJobExecutionDao(), mapJobRepositoryFactory.getStepExecutionDao(),
-                mapJobRepositoryFactory.getExecutionContextDao());
-    }
-    
-
-    @Bean
-    public JobLauncher jobLauncher(JobRepository jobRepository) {
+    public JobLauncher jobLauncher(JobRepository jobRepository) throws Exception {
         SimpleJobLauncher launcher = new SimpleJobLauncher();
         launcher.setJobRepository(jobRepository);
+        launcher.afterPropertiesSet();
         return launcher;
     }
 
     @Bean
-    public JobService jobService(JobRepository jobRepository, SimpleJobLauncher jobLauncher,
-            PlatformTransactionManager transactionManager) throws Exception {
-        SimpleJobServiceFactoryBean factory = new SimpleJobServiceFactoryBean();
-        factory.setTransactionManager(transactionManager);
-        factory.setJobRepository(jobRepository);
-        factory.setJobLauncher(jobLauncher);
-        return factory.getObject();
+    public JobExplorer jobExplorer(MapJobRepositoryFactoryBean mapJobRepositoryFactory) {
+        return new SimpleJobExplorer(mapJobRepositoryFactory.getJobInstanceDao(),
+                mapJobRepositoryFactory.getJobExecutionDao(), mapJobRepositoryFactory.getStepExecutionDao(),
+                mapJobRepositoryFactory.getExecutionContextDao());
     }
 
     @Bean
@@ -76,4 +65,5 @@ public class BatchInMemoryConfig {
     public JobBuilderFactory jobBuilderFactory(JobRepository jobRepository) {
         return new JobBuilderFactory(jobRepository);
     }
+
 }

@@ -32,9 +32,9 @@ import com.forsrc.boot.web.batch.service.BatchTargetService;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchTargetJonConfig {
+public class BatchTargetJobConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJonConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJobConfig.class);
 
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
@@ -71,7 +71,7 @@ public class BatchTargetJonConfig {
     public Step batchTargetStep() {
         return stepBuilderFactory
                 .get("batchTargetStep")
-                .<BatchTarget, BatchTarget>chunk(Integer.MAX_VALUE)
+                .<BatchTarget, BatchTarget>chunk(15)
                 .reader(batchTargetItemReader())
                 .processor(batchTargetItemProcessor())
                 .writer(batchTargetItemWriter())
