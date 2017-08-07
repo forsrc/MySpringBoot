@@ -1,6 +1,5 @@
 package com.forsrc.boot.batch.rest;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,9 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.forsrc.boot.batch.pojo.BatchTarget;
 import com.forsrc.boot.web.batch.service.BatchTargetService;
+
 
 public class BatchTargetItemWriter implements ItemWriter<BatchTarget> {
 
@@ -22,6 +24,7 @@ public class BatchTargetItemWriter implements ItemWriter<BatchTarget> {
     private BatchTargetService service;
 
     @Override
+    //@Transactional(transactionManager = "transactionManagerPrimary", propagation = Propagation.REQUIRED, rollbackFor = {Exception.class, RuntimeException.class})
     public void write(List<? extends BatchTarget> items) throws Exception {
         // @formatter:off
         LOGGER.info("BatchTargetItemWriter: size --> {} -> {}", items.size(), items);

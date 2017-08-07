@@ -8,7 +8,6 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -24,14 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.forsrc.boot.batch.pojo.BatchTarget;
 import com.forsrc.boot.web.batch.service.BatchTargetService;
 
 @Configuration
-@EnableBatchProcessing
 public class BatchTargetJobConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchTargetJobConfig.class);
@@ -71,7 +68,7 @@ public class BatchTargetJobConfig {
     public Step batchTargetStep() {
         return stepBuilderFactory
                 .get("batchTargetStep")
-                .<BatchTarget, BatchTarget>chunk(15)
+                .<BatchTarget, BatchTarget>chunk(100)
                 .reader(batchTargetItemReader())
                 .processor(batchTargetItemProcessor())
                 .writer(batchTargetItemWriter())
