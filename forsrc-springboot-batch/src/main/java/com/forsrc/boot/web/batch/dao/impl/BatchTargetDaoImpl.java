@@ -17,7 +17,7 @@ public class BatchTargetDaoImpl implements BatchTargetDao {
     private BatchTargetMapper mapper;
 
     @Autowired
-    @Qualifier("entityManagerPrimary")
+    //@Qualifier("entityManagerPrimary")
     private EntityManager entityManager;
     
     @Override
