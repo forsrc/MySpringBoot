@@ -1,9 +1,15 @@
 package com.forsrc.boot.web.batch.service.impl;
 
+import java.util.List;
+
+import javax.transaction.UserTransaction;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.forsrc.boot.batch.pojo.BatchTarget;
 import com.forsrc.boot.web.batch.dao.BatchTargetDao;
@@ -17,6 +23,9 @@ public class BatchTargetServiceImpl implements BatchTargetService {
     @Autowired
     private BatchTargetDao dao;
 
+    @Autowired
+    private UserTransaction userTransaction;
+
     @Override
     public void create() {
         dao.create();
@@ -24,9 +33,21 @@ public class BatchTargetServiceImpl implements BatchTargetService {
     }
 
     @Override
-    public void save(BatchTarget bean) {
-        dao.save(bean);
-        LOGGER.info("Save: {}", bean);
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public void save(List<BatchTarget> list) throws Exception {
+        userTransaction.begin();
+        try {
+            for (BatchTarget bean : list) {
+                LOGGER.info("To save: {}", bean);
+                count();
+                dao.save(bean);
+                count();
+                LOGGER.info("Saved: {}", bean);
+            }
+            userTransaction.commit();
+        } catch (Exception e) {
+            userTransaction.rollback();
+        }
     }
 
     @Override
@@ -43,7 +64,9 @@ public class BatchTargetServiceImpl implements BatchTargetService {
 
     @Override
     public void insert(BatchTarget bean) {
+        count();
         dao.insert(bean);
         LOGGER.info("Insert: {}", bean);
+        count();
     }
 }

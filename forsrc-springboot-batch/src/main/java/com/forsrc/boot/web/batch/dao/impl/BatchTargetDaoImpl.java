@@ -28,6 +28,7 @@ public class BatchTargetDaoImpl implements BatchTargetDao {
     @Override
     public void save(BatchTarget bean) {
         entityManager.persist(bean);
+        entityManager.flush();
     }
 
     @Override

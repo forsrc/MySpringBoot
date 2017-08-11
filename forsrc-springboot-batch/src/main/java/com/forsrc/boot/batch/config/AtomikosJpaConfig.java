@@ -2,6 +2,7 @@ package com.forsrc.boot.batch.config;
 
 import java.util.HashMap;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
@@ -47,12 +48,7 @@ public class AtomikosJpaConfig {
     @Value("${db.primaryPersistenceUnit:primaryPersistenceUnit}")
     private String persistenceUnit;
 
-    @Autowired
-    private JpaProperties jpaProperties;
-
-
-
-    @Bean(name = {"userDataSource", "primaryDataSource"}, initMethod = "init", destroyMethod = "close")
+    @Bean(name = { "dataSource", "userDataSource", "primaryDataSource" }, initMethod = "init", destroyMethod = "close")
     @Primary
     public DataSource userDataSource() {
         JdbcDataSource h2XaDataSource = new JdbcDataSource();
@@ -62,15 +58,19 @@ public class AtomikosJpaConfig {
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(h2XaDataSource);
+        xaDataSource.setMinPoolSize(1);
+        xaDataSource.setMaxPoolSize(5);
+        xaDataSource.setBorrowConnectionTimeout(60);
         xaDataSource.setUniqueResourceName("xads");
         return xaDataSource;
     }
 
     @Bean(name = "userTransaction")
     public UserTransaction userTransaction() throws Throwable {
-        UserTransactionImp userTransactionImp = new UserTransactionImp();
-        userTransactionImp.setTransactionTimeout(10000);
-        return userTransactionImp;
+        UserTransactionImp userTransaction = new UserTransactionImp();
+        userTransaction.setTransactionTimeout(10000);
+        AtomikosJtaPlatform.transaction = userTransaction;
+        return userTransaction;
     }
 
     @Bean(name = "userTransactionManager", initMethod = "init", destroyMethod = "close")
@@ -92,9 +92,8 @@ public class AtomikosJpaConfig {
         return hibernateJpaVendorAdapter;
     }
 
-    @Bean(name = {"userEntityManager", "entityManagerPrimary"})
-    @DependsOn("userTransactionManager")
-    public LocalContainerEntityManagerFactoryBean userEntityManager() throws Throwable {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean() throws Throwable {
 
         HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
@@ -108,19 +107,24 @@ public class AtomikosJpaConfig {
         entityManager.setPackagesToScan(packages);
         entityManager.setPersistenceUnitName(persistenceUnit);
         entityManager.setJpaPropertyMap(properties);
-        
+
         return entityManager;
     }
 
+    @Bean(name = { "entityManager", "userEntityManager", "entityManagerPrimary" })
+    @DependsOn("userTransactionManager")
+    @Primary
+    public EntityManager userEntityManager() throws Throwable {
+
+        return localContainerEntityManagerFactoryBean().getObject().createEntityManager();
+    }
+
     @Bean(name = { "transactionManager", "transactionManagerPrimary" })
-    @DependsOn({ "userTransaction", "atomikosTransactionManager" })
+    @DependsOn({ "userTransaction", "userTransactionManager" })
+    @Primary
     public PlatformTransactionManager jtaTransactionManager() throws Throwable {
-        UserTransaction userTransaction = userTransaction();
 
-        AtomikosJtaPlatform.transaction = userTransaction;
-
-        TransactionManager atomikosTransactionManager = userTransactionManager();
-        return new JtaTransactionManager(userTransaction, atomikosTransactionManager);
+        return new JtaTransactionManager(AtomikosJtaPlatform.transaction, AtomikosJtaPlatform.transactionManager);
     }
 
     public static class AtomikosJtaPlatform extends AbstractJtaPlatform {

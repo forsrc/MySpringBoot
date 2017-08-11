@@ -37,6 +37,7 @@ public class BatchTargetItemWriter implements ItemWriter<BatchTarget> {
                 throw new RuntimeException("Test");
             }
             service.insert(item);
+            //service.save(item);
         }
      // @formatter:on
     }

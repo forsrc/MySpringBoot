@@ -33,7 +33,8 @@ public class BatchTargetJobLauncher {
     @Autowired
     private JobLauncher jobLauncher;
 
-    @Scheduled(cron = "${api.batch.target.cron}")
+    //@Scheduled(cron = "${api.batch.target.cron}")
+    //@Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
     public void doMain() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException,
             JobInstanceAlreadyCompleteException {
         LOGGER.info("----> START");
