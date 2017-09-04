@@ -42,6 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // @formatter:off
         http
+                .authorizeRequests().antMatchers("/myhtmlshell/**").permitAll()
+                .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/home").successHandler(myAuthenticationHandler()).permitAll()
@@ -53,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //.requestMatchers()
         //.antMatchers("/", "/oauth/authorize", "/oauth/confirm_access")
                 .and()
-                .csrf().ignoringAntMatchers("/demo/**")
+                .csrf().ignoringAntMatchers("/demo/**", "/myhtmlshell/**")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
         ;
