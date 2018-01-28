@@ -27,7 +27,16 @@ spring:
             min-partition-count: 1
         bindings:
           output:
-            destination: event-demo
+            destination: springboot-streaming
             content-type: text/plain
             producer:
               partitionCount: 1
+          input:
+            destination: springboot-streaming
+            group: s1
+            consumer:
+              #autoCommitOffset: false
+              concurrency: 1
+              partitioned: false
+
+              
