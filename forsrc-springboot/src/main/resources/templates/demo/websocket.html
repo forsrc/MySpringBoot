@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.IO Chat Example</title>
+</head>
+<body>
+<ul class="pages">
+    <li class="chat page">
+        <div class="chatArea">
+            <ul class="messages"></ul>
+        </div>
+        <input type="text" id="text" class="inputMessage" placeholder="Type here..."/>
+        <input type="button" id="ok" class="inputMessage" value="ok"/>
+        <br>
+        <input type="text" id="textjs" class="inputMessage" placeholder="Type here..."/>
+        <input type="button" id="okjs" class="inputMessage" value="ok"/>
+    </li>
+</ul>
+<script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/js/sockjs-1.0.3.js"></script>
+
+<script type="text/javascript">
+
+var socketURL = location.hostname + ((location.port) ? (':' + location.port) : '');
+
+    $(function () {
+
+
+        var sock = null;
+        sock = sock != null ? sock : new WebSocket('ws://' + socketURL + '/websocket');
+        sock.onopen = function() {
+            console.log('open');
+            sock.send('open');
+            $("#ok").click(function(){
+                sock.send($("#text").val());
+            });
+        };
+        sock.onmessage = function(e) {
+            console.log('message', e.data);
+        };
+        sock.onclose = function() {
+            console.log('close');
+        };
+        var sockJs = null;
+        sockJs = sockJs != null ? sockJs : new SockJS('https://' + socketURL +'/sockjs');
+        sockJs.onopen = function() {
+            sockJs.send('open js');
+            console.log('open js');
+            $("#okjs").click(function(){
+                sockJs.send($("#textjs").val() + " js");
+            });
+        };
+        sockJs.onmessage = function(e) {
+            console.log('message js', e.data);
+        };
+        sockJs.onclose = function() {
+            console.log('close js');
+        };
+
+        //sock.close();
+    });
+</script>
+
+</body>
+</html>
