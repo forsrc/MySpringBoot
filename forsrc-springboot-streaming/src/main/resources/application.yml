@@ -39,4 +39,6 @@ spring:
               concurrency: 1
               partitioned: false
 
+kafka:
+  url: localhost:9092
               
