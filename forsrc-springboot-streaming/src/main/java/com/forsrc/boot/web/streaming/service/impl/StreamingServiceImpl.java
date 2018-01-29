@@ -20,10 +20,10 @@ public class StreamingServiceImpl implements StreamingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StreamingServiceImpl.class);
 
-    @Autowired
+    //@Autowired
     private SourceService sourceService;
 
-    @Autowired
+    //@Autowired
     private SinkService sinkService;
 
     @Autowired
@@ -31,11 +31,11 @@ public class StreamingServiceImpl implements StreamingService {
 
     @Override
     public void send(String payload) {
-      LOGGER.info("sending payload='{}' to topic='kafka/topic/test'", payload);
-      kafkaTemplate.send("kafka/topic/test", payload);
+      LOGGER.info("sending payload='{}' to topic='kafka.topic.test'", payload);
+      kafkaTemplate.send("kafka.topic.test", payload);
     }
 
-    @KafkaListener(topics = "kafka/topic/test")
+    @KafkaListener(topics = "kafka.topic.test")
     public void receive(ConsumerRecord<?, ?> consumerRecord) {
       LOGGER.info("received payload='{}'", consumerRecord.toString());
     }

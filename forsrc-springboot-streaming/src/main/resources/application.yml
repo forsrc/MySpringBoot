@@ -1,7 +1,7 @@
 
 logging:
   pattern:
-    level: DEBUG
+    level: INFO
 
 server:
   port: 9081
@@ -27,18 +27,20 @@ spring:
             min-partition-count: 1
         bindings:
           output:
-            destination: springboot-streaming
+            destination: springboot.streaming
             content-type: text/plain
             producer:
               partitionCount: 1
           input:
-            destination: springboot-streaming
+            destination: springboot.streaming
             group: s1
             consumer:
               #autoCommitOffset: false
               concurrency: 1
               partitioned: false
+  kafka:
+    url: localhost:9092
+    consumer:
+      group-id: test
 
-kafka:
-  url: localhost:9092
-              
+

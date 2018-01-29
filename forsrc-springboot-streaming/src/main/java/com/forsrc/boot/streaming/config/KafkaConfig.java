@@ -15,7 +15,7 @@ import org.springframework.kafka.core.ProducerFactory;
 @Configuration
 public class KafkaConfig {
 
-  @Value("${kafka.url}")
+  @Value("${spring.kafka.url}")
   private String bootstrapServers;
 
   @Bean
