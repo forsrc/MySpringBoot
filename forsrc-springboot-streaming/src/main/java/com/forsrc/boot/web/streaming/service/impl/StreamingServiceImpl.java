@@ -3,9 +3,12 @@ package com.forsrc.boot.web.streaming.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.forsrc.boot.web.streaming.service.StreamingService;
@@ -22,7 +25,20 @@ public class StreamingServiceImpl implements StreamingService {
 
     @Autowired
     private SinkService sinkService;
-    
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Override
+    public void send(String payload) {
+      LOGGER.info("sending payload='{}' to topic='kafka/topic/test'", payload);
+      kafkaTemplate.send("kafka/topic/test", payload);
+    }
+
+    @KafkaListener(topics = "kafka/topic/test")
+    public void receive(ConsumerRecord<?, ?> consumerRecord) {
+      LOGGER.info("received payload='{}'", consumerRecord.toString());
+    }
 
     @Override
     public List<String> in() {
