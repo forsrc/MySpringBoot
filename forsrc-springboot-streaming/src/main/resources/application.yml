@@ -15,31 +15,31 @@ spring:
   application:
     name: springboot-streaming
   cloud:
-     instance-count: 1
-     instance-index: 0
-     stream:
-        kafka:
-          binder:
-            brokers: localhost:9092
-            zk-nodes: localhost:2182
-            auto-add-partitions: true
-            auto-create-topics: true
-            min-partition-count: 1
-        bindings:
-          output:
-            destination: springboot.streaming
-            content-type: text/plain
-            producer:
-              partitionCount: 1
-          input:
-            destination: springboot.streaming
-            group: s1
-            consumer:
-              #autoCommitOffset: false
-              concurrency: 1
-              partitioned: false
+    instance-count: 1
+    instance-index: 0
+    stream:
+      kafka:
+        binder:
+          brokers:  127.0.0.1:9092
+          zk-nodes: 127.0.0.1:2182
+          auto-add-partitions: true
+          auto-create-topics: true
+          min-partition-count: 1
+      bindings:
+        output:
+          destination: springboot.streaming
+          content-type: text/plain
+          producer:
+            partitionCount: 1
+        input:
+          destination: springboot.streaming
+          group: s1
+          consumer:
+            #autoCommitOffset: false
+            concurrency: 1
+            partitioned: false
   kafka:
-    url: localhost:9092
+    url: 127.0.0.1:9092
     consumer:
       group-id: test
 
