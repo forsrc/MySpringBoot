@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface StreamingService {
 
+    public void send(String payload);
+
     public List<String> in();
 
     public void out(List<String> list);
