@@ -13,7 +13,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
-public class SenderConfig {
+public class KafkaConfig {
 
   @Value("${kafka.url}")
   private String bootstrapServers;
