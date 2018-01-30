@@ -20,10 +20,10 @@ public class StreamingServiceImpl implements StreamingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StreamingServiceImpl.class);
 
-    //@Autowired
+    @Autowired
     private SourceService sourceService;
 
-    //@Autowired
+    @Autowired
     private SinkService sinkService;
 
     @Autowired
@@ -36,8 +36,9 @@ public class StreamingServiceImpl implements StreamingService {
     }
 
     @KafkaListener(topics = "kafka.topic.test")
-    public void receive(ConsumerRecord<?, ?> consumerRecord) {
+    public void receive(ConsumerRecord<String, String> consumerRecord) {
       LOGGER.info("received payload='{}'", consumerRecord.toString());
+      System.out.println("--> " + consumerRecord.value());
     }
 
     @Override
